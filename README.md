@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EcoVault – Sustainable E-Commerce Platform
 
-## Getting Started
+![EcoVault Banner](public/images/banner.jpg)
 
-First, run the development server:
+> **A modern, sustainable e-commerce platform built with Next.js 14, TypeScript, Tailwind CSS, and API-driven architecture. Designed for eco-conscious consumers and businesses.**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Live Demo: [https://ecovault.vercel.app](https://ecovault.vercel.app)  
+GitHub: [github.com/afraz-saeed1986/ecovault](https://github.com/afraz-saeed1986/ecovault.git)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Feature | Description |
+|--------|-------------|
+| **Advanced Search & Filtering** | Fuzzy search with autocomplete + multi-layer filters (price, category, sustainability score) using **Fuse.js** |
+| **Dynamic Product Pages** | Server-side rendered product details with reviews, related items, and image gallery |
+| **Shopping Cart (Client-Side)** | Persistent cart using `localStorage` – no backend required |
+| **API-Driven CRUD Simulation** | Full **REST-like API** using **Next.js API Routes** + **Axios** for Create, Read, Update, Delete |
+| **PWA Ready** | Installable on mobile & desktop with offline support |
+| **Multilingual Support** | English & Persian (Farsi) – easily extensible |
+| **Responsive Design** | Mobile-first, pixel-perfect UI with **Tailwind CSS** |
+| **Smooth Animations** | Micro-interactions and hover effects using **Framer Motion** |
+| **Static Site Generation (SSG)** | SEO-optimized product pages for better discoverability |
+| **Blog Section** | Sustainability articles loaded from JSON |
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```text
+Next.js 14 (App Router) + TypeScript
+Tailwind CSS + Headless UI
+Framer Motion (Animations)
+Fuse.js (Fuzzy Search)
+Axios (API Client)
+React Hook Form (Form Management)
+Next/Image (Image Optimization)
+Turbopack (Blazing Fast Dev Server)
