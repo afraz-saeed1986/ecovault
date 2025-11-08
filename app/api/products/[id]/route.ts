@@ -5,8 +5,9 @@ export async function GET(
     request: Request,
     {params}: {params: {id: string}}
 ) {
-    const id = parseInt(params.id);
-    const product = productsData.find(p => p.id === id);
+    const {id} = await params;
+    const productId = parseInt(id);
+    const product = productsData.find(p => p.id === productId);
 
     if(!product) {
         return new NextResponse("Product Not Found", {status: 404});
