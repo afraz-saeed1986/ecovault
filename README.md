@@ -1,39 +1,38 @@
 # EcoVault – Sustainable E-Commerce Platform
 
-![EcoVault Banner](public/images/banner.jpg)
+[![Next.js](https://img.shields.io/badge/Next.js-15-blue?style=for-the-badge&logo=next.js)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.4-green?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com)
+[![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel)](https://vercel.com)
 
-> **A modern, sustainable e-commerce platform built with Next.js 14, TypeScript, Tailwind CSS, and API-driven architecture. Designed for eco-conscious consumers and businesses.**
+> **A full-stack sustainable e-commerce platform built with Next.js 15, TypeScript, Tailwind CSS, and API-driven architecture. Features advanced search, persistent cart, PWA support, and eco-friendly product data.**
 
-Live Demo: [https://ecovault.vercel.app](https://ecovault.vercel.app)  
-GitHub: [github.com/afraz-saeed1986/ecovault](https://github.com/afraz-saeed1986/ecovault.git)
+**Live Demo**: [https://ecovault-afraz.vercel.app](https://ecovault-afraz.vercel.app)  
+**GitHub**: [github.com/afraz-saeed1986/ecovault](https://github.com/afraz-saeed1986/ecovault)
 
 ---
 
 ## Features
 
 | Feature | Description |
-|--------|-------------|
-| **Advanced Search & Filtering** | Fuzzy search with autocomplete + multi-layer filters (price, category, sustainability score) using **Fuse.js** |
-| **Dynamic Product Pages** | Server-side rendered product details with reviews, related items, and image gallery |
-| **Shopping Cart (Client-Side)** | Persistent cart using `localStorage` – no backend required |
-| **API-Driven CRUD Simulation** | Full **REST-like API** using **Next.js API Routes** + **Axios** for Create, Read, Update, Delete |
-| **PWA Ready** | Installable on mobile & desktop with offline support |
-| **Multilingual Support** | English & Persian (Farsi) – easily extensible |
-| **Responsive Design** | Mobile-first, pixel-perfect UI with **Tailwind CSS** |
-| **Smooth Animations** | Micro-interactions and hover effects using **Framer Motion** |
-| **Static Site Generation (SSG)** | SEO-optimized product pages for better discoverability |
-| **Blog Section** | Sustainability articles loaded from JSON |
+|---------|-------------|
+| **Fuzzy Search** | Powered by Fuse.js (e.g., search "bamboo" → only toothbrush) |
+| **Category Filters** | Multi-select (organic, zero waste, clothing, etc.) |
+| **Product Details** | Image gallery, full reviews, sustainability score, related products |
+| **Shopping Cart** | Add/remove, quantity, total price, persists via localStorage |
+| **API-Driven** | Axios client + Next.js API Routes (`/api/products`, `/api/products/[id]`) |
+| **PWA Ready** | Installable, offline support, `manifest.json` |
+| **Responsive UI** | Mobile-first, smooth animations with Framer Motion |
+| **SEO & Performance** | SSG, Next/Image, optimized Pexels CDN |
 
 ---
 
 ## Tech Stack
 
 ```text
-Next.js 14 (App Router) + TypeScript
-Tailwind CSS + Headless UI
-Framer Motion (Animations)
-Fuse.js (Fuzzy Search)
-Axios (API Client)
+Next.js 15 (App Router) • TypeScript • Tailwind CSS • Axios • Fuse.js
+React Context • localStorage • Framer Motion • Lucide Icons
+Vercel (CI/CD) • PWA • JSON Mock DB
+Turbopack (Blazing Fast Dev Server)
 React Hook Form (Form Management)
 Next/Image (Image Optimization)
-Turbopack (Blazing Fast Dev Server)
