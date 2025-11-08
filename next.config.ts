@@ -12,9 +12,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  experimental: {
-    appDocumentPreloading: false,
-  },
 }
 
 export default nextConfig
