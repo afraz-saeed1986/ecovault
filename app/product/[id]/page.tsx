@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import ProductGallery from "@/components/ProductGallery";
 import RelatedProducts from "@/components/RelatedProducts";
 import productsData from "@/data/products.json";
-import {Star,Package, Recycle, Leaf } from "lucide-react";
+import {Star, Recycle, Leaf } from "lucide-react";
 
 
 export default async function ProductPage({params}:{ params: Promise<{ id: string }> }) {

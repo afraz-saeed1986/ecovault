@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Star, Users } from "lucide-react";
 import Link from "next/link";
+import { useCart } from "@/components/CartContext";
 
 interface Review {
   user: string;
@@ -23,6 +24,7 @@ interface Product {
 }
 
 export default function ProductCard({ product }: { product: Product }) {
+  const {addToCart} = useCart();
   const avgRating = product.reviews.length > 0
     ? (product.reviews.reduce((a, r) => a + r.rating, 0) / product.reviews.length).toFixed(1)
     : "—";
@@ -66,12 +68,20 @@ export default function ProductCard({ product }: { product: Product }) {
 
         <div className="flex items-center justify-between mt-3">
           <span className="text-2xl font-bold text-eco-dark">${product.price}</span>
-          <button className="bg-eco-green text-white px-4 py-2 rounded-lg hover:bg-eco-dark transition-colors text-sm font-medium">
-            Add to Cart
-          </button>
         </div>
       </div>
         </Link>
+        <div className="p-4 pt-0">
+          <button 
+           onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            addToCart(product);
+           }}
+           className="bg-eco-green text-white px-4 py-2 rounded-lg hover:bg-eco-dark transition-colors text-sm font-medium">
+            Add to Cart
+          </button>
+        </div>
     </motion.div>
   );
 }

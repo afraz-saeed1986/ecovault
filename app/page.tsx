@@ -2,20 +2,20 @@
 import { useState, useMemo, useEffect } from "react";
 import Fuse from "fuse.js";
 import ProductCard from "@/components/ProductCard";
-import productsData from "@/data/products.json";
 import categoriesData from "@/data/categories.json";
 import { getProducts } from "@/lib/api";
+import { useCart } from "@/components/CartContext";
+import { ShoppingCart } from "lucide-react";
+import Link from "next/link";
 
-// const fuse = new Fuse(productsData, {
-//   keys: ["name", "description", "categories"],
-//   threshold: 0.3,
-// });
+
 
 export default function Home() {
   const [products, setProducts] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [loading, setLoading] = useState(true);
+  const {totalItems} = useCart();
 
  useEffect(() => {
   getProducts()
@@ -65,6 +65,16 @@ const filteredProducts = useMemo(() => {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-96 px-4 py-2 rounded-lg text-eco-dark placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-eco-accent"
             />
+            <div className="relative">
+              <Link href="/cart">
+                <ShoppingCart className="w-6 h-6 cursor-pointer" />
+                {totalItems> 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      {totalItems}
+                  </span>
+                )}
+              </Link>
+            </div>
           </div>
         </div>
       </header>
