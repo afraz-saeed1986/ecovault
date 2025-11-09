@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState, useMemo, useEffect } from "react";
 import Fuse from "fuse.js";
 import ProductCard from "@/components/ProductCard";
@@ -7,83 +7,64 @@ import { getProducts } from "@/lib/api";
 import { useCart } from "@/components/CartContext";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
-
-
+import CartDropdown from "@/components/cartDropdown";
 
 export default function Home() {
   const [products, setProducts] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [loading, setLoading] = useState(true);
-  const {totalItems} = useCart();
+  const { totalItems } = useCart();
+  const [cartOpen, setCartOpen] = useState(false);
 
- useEffect(() => {
-  getProducts()
-   .then(data => {
-    setProducts(data);
-    setLoading(false);
-   })
-   .catch(() => setLoading(false));
- }, []);
+  useEffect(() => {
+    getProducts()
+      .then((data) => {
+        setProducts(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
 
- const fuse = useMemo(() => new Fuse(products, {
-  keys: ["name", "description", "categories"],
-  threshold: 0.3,
- }), [products]);
+  const fuse = useMemo(
+    () =>
+      new Fuse(products, {
+        keys: ["name", "description", "categories"],
+        threshold: 0.3,
+      }),
+    [products]
+  );
 
-const filteredProducts = useMemo(() => {
+  const filteredProducts = useMemo(() => {
     let results: any[] = products;
 
     if (selectedCategory !== "all") {
-      results = results.filter(p => p.categories.includes(selectedCategory));
+      results = results.filter((p) => p.categories.includes(selectedCategory));
     }
 
     if (searchTerm.trim()) {
       const searchResults = fuse.search(searchTerm);
-      results = searchResults.map(r => r.item);
+      results = searchResults.map((r) => r.item);
     }
 
     return results;
   }, [products, searchTerm, selectedCategory, fuse]);
 
   if (loading) {
-    return <div className="flex justify-center items-center h-64">Loading products...</div>;
+    return (
+      <div className="flex justify-center items-center h-64">
+        Loading products...
+      </div>
+    );
   }
 
   return (
     <>
-      <header className="bg-eco-green text-white sticky top-0 z-10 shadow-md">
-        <div className="max-w-7xl mx-auto px-4 py-5">
-          <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold flex items-center gap-2">
-              EcoVault
-            </h1>
-            <input
-              type="text"
-              placeholder="Search products, categories, or sustainability..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-96 px-4 py-2 rounded-lg text-eco-dark placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-eco-accent"
-            />
-            <div className="relative">
-              <Link href="/cart">
-                <ShoppingCart className="w-6 h-6 cursor-pointer" />
-                {totalItems> 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      {totalItems}
-                  </span>
-                )}
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
-
       <div className="max-w-7xl mx-auto px-4 py-8 flex gap-8">
         <aside className="w-64">
           <h3 className="font-semibold text-lg mb-4">Filter by Category</h3>
           <ul className="space-y-2">
-            {categoriesData.map(cat => (
+            {categoriesData.map((cat) => (
               <li key={cat.id}>
                 <button
                   onClick={() => setSelectedCategory(cat.id)}
@@ -103,16 +84,19 @@ const filteredProducts = useMemo(() => {
 
         <main className="flex-1">
           {filteredProducts.length === 0 ? (
-            <p className="text-center text-gray-500 py-10">No products found.</p>
+            <p className="text-center text-gray-500 py-10">
+              No products found.
+            </p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProducts.map(product => (
+              {filteredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
           )}
         </main>
       </div>
+      <CartDropdown isOpen={cartOpen} onClose={() => setCartOpen(false)} />
     </>
   );
 }
