@@ -6,10 +6,9 @@ import CartDropdown from "@/components/cartDropdown";
 import { ShoppingCart, Search } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { div, span } from "framer-motion/client";
 
 export default function Navbar() {
-    const [searchTerm, setSearchTerm] = useState("");
+    // const [searchTerm, setSearchTerm] = useState("");
     const [cartOpen, setCartOpen] = useState(false);
     const {totalItems} = useCart();
     const pathname = usePathname();
@@ -32,8 +31,8 @@ export default function Navbar() {
                                     <input 
                                       type="text" 
                                       placeholder="Search products..."
-                                      value={searchTerm}
-                                      onChange={(e) => setSearchTerm(e.target.value)}
+                                    //   value={searchTerm}
+                                    //   onChange={(e) => setSearchTerm(e.target.value)}
                                       className="w-full pl-10 pr-4 py-2 rounded-lg text-eco-dark placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-eco-accent"
                                       />
                                 </div>

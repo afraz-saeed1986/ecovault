@@ -4,9 +4,6 @@ import Fuse from "fuse.js";
 import ProductCard from "@/components/ProductCard";
 import categoriesData from "@/data/categories.json";
 import { getProducts } from "@/lib/api";
-import { useCart } from "@/components/CartContext";
-import { ShoppingCart } from "lucide-react";
-import Link from "next/link";
 import CartDropdown from "@/components/cartDropdown";
 
 export default function Home() {
@@ -14,7 +11,6 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [loading, setLoading] = useState(true);
-  const { totalItems } = useCart();
   const [cartOpen, setCartOpen] = useState(false);
 
   useEffect(() => {
@@ -50,6 +46,16 @@ export default function Home() {
     return results;
   }, [products, searchTerm, selectedCategory, fuse]);
 
+  useEffect(() => {
+    const input = document.querySelector('input[placeholder="Search products..."]') as HTMLInputElement;
+    if(input){
+      input.value = searchTerm;
+      input.addEventListener('input', (e) => {
+        setSearchTerm((e.target as HTMLInputElement).value)
+      })
+    }
+  }, [searchTerm])
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -59,7 +65,6 @@ export default function Home() {
   }
 
   return (
-    <>
       <div className="max-w-7xl mx-auto px-4 py-8 flex gap-8">
         <aside className="w-64">
           <h3 className="font-semibold text-lg mb-4">Filter by Category</h3>
@@ -96,7 +101,5 @@ export default function Home() {
           )}
         </main>
       </div>
-      <CartDropdown isOpen={cartOpen} onClose={() => setCartOpen(false)} />
-    </>
   );
 }
