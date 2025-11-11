@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
-    "@next/font": "^14.2.15",
     "axios": "^1.13.2",
     "framer-motion": "^12.23.24",
     "fuse.js": "^7.1.0",

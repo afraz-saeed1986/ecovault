@@ -18,6 +18,16 @@ export default function Navbar() {
 
   const showSearch = pathname === "/";
 
+  const handleLogout = async () => {
+    await signOut({
+      redirect: false,
+    });
+
+    document.cookie =
+      "next-auth.session-token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT; secure; samesite=lax";
+    window.location.href = "/";
+  };
+
   return (
     <>
       <header className="bg-eco-green text-white sticky top-0 z-40 shadow-md">
@@ -83,7 +93,7 @@ export default function Navbar() {
                   </Link>
                   {/* خروج */}
                   <button
-                    onClick={() => signOut({ callbackUrl: "/" })}
+                    onClick={handleLogout}
                     className="text-sm hover:underline"
                   >
                     Logout
@@ -91,14 +101,25 @@ export default function Navbar() {
                 </div>
               ) : (
                 /* دکمه ورود */
-                <button
-                  onClick={() =>
-                    signIn("google", { callbackUrl: "/dashboard" })
-                  }
-                  className="text-sm hover:underline"
-                >
-                  Sign In
-                </button>
+                // <button
+                //   onClick={() =>
+                //     signIn("google", { callbackUrl: "/dashboard" })
+                //   }
+                //   className="text-sm hover:underline"
+                // >
+                //   Sign In
+                // </button>
+                <div className="flex items-center gap-4">
+                  <Link href="/auth/signin" className="text-sm hover:underline">
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/auth/signup"
+                    className="text-sm bg-white text-eco-green px-3 py-1 rounded-lg hover:bg-eco-light"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
               )}
             </div>
           </div>
