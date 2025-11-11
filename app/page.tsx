@@ -4,14 +4,12 @@ import Fuse from "fuse.js";
 import ProductCard from "@/components/ProductCard";
 import categoriesData from "@/data/categories.json";
 import { getProducts } from "@/lib/api";
-import CartDropdown from "@/components/cartDropdown";
 
 export default function Home() {
   const [products, setProducts] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [loading, setLoading] = useState(true);
-  const [cartOpen, setCartOpen] = useState(false);
 
   useEffect(() => {
     getProducts()

@@ -1,12 +1,18 @@
+"use client"
+
 import { notFound } from "next/navigation";
 import ProductGallery from "@/components/ProductGallery";
 import RelatedProducts from "@/components/RelatedProducts";
 import productsData from "@/data/products.json";
 import {Star, Recycle, Leaf } from "lucide-react";
+import { useCart } from "@/components/CartContext";
+import { use } from "react";
 
 
-export default async function ProductPage({params}:{ params: Promise<{ id: string }> }) {
-    const {id} = await params;
+export default function ProductPage({params}:{ params: Promise<{ id: string }> }) {
+    const { addToCart } = useCart();
+
+    const {id} = use(params);
     const productId = parseInt(id);
 
     const product = productsData.find(p => p.id === productId);
@@ -59,7 +65,9 @@ export default async function ProductPage({params}:{ params: Promise<{ id: strin
                     </div>
 
                     {/* BY Button */}
-                    <button className="w-full bg-eco-green text-white py-3 rounded-lg font-semibold hover:bg-eco-dark transition-colors text-lg">
+                    <button 
+                      onClick={() => addToCart(product)}
+                      className="w-full bg-eco-green text-white py-3 rounded-lg font-semibold hover:bg-eco-dark transition-colors text-lg">
                         Add to cart
                     </button>
 
