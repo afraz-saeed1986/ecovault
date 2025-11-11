@@ -13,6 +13,15 @@ export const getProducts = async () => {
 
 // Get One Product
 export const getProductById = async (id: number) => {
-    const res = await api.get(`/products/${id}`);
-    return res.data;
+   try {
+    const res = await fetch(`${process.env.NEXTAUTH_URL || "http://localhost:3000"}/api/products/${id}`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return null;
+  }
 }
