@@ -5,8 +5,8 @@ import ProductClient from "./ProductClient";
 
 
 // --- SEO Metadata ---
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
-const {id} = await params;
+export async function generateMetadata({ params }: { params: { id: string } }) {
+const {id} = params;
   const product = await getProductById(Number(id));
   if (!product) return { title: "Product Not Found" };
 
@@ -24,8 +24,8 @@ const {id} = await params;
 }
 
 // --- Server Component ---
-export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
-const {id } = await params;
+export default async function ProductPage({ params }: { params: { id: string } }) {
+const {id } = params;
 console.log("Product ID:" , id);
   const product = await getProductById(Number(id));
   console.log("Product:", product);
