@@ -29,27 +29,27 @@ export default function Dashboard() {
         <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-eco-green to-eco-dark text-white">
-        <div className="max-w-7xl mx-auto px-4 py-12">
-          <div className="flex items-center gap-6">
+        <div className="max-w-7xl mx-auto px-4 py-8 sm:py-12">
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
             <img
               src={session.user?.image || "/default-avatar.png"}
               alt={session.user?.name || "User"}
               width={80}
               height={80}
-              className="w-20 h-20 rounded-full border-4 border-white shadow-lg"
+              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-4 border-white shadow-lg flex-shrink-0"
               referrerPolicy="no-referrer"
             />
-            <div>
-              <h1 className="text-3xl font-bold">Welcome back, {session.user?.name?.split(" ")[0]}!</h1>
-              <p className="text-eco-light mt-1">Manage your eco-friendly journey</p>
+            <div className="text-center sm:text-left">
+              <h1 className="text-2xl sm:text-3xl font-bold">Welcome back, {session.user?.name?.split(" ")[0]}!</h1>
+              <p className="text-eco-light mt-1 text-sm sm:text-base">Manage your eco-friendly journey</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Dashboard Cards */}
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="max-w-7xl mx-auto px-4 py-8 sm:py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Orders */}
           <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
             <div className="flex items-center justify-between mb-4">
@@ -58,7 +58,7 @@ export default function Dashboard() {
               </div>
               <span className="text-2xl font-bold text-eco-dark">0</span>
             </div>
-            <h3 className="font-semibold text-gray-800">Total Orders</h3>
+            <h3 className="font-semibold text-gray-800 text-base sm:text-lg">Total Orders</h3>
             <p className="text-sm text-gray-500 mt-1">Start shopping to see orders</p>
           </div>
 
@@ -70,7 +70,7 @@ export default function Dashboard() {
               </div>
               <span className="text-2xl font-bold text-blue-600">10+</span>
             </div>
-            <h3 className="font-semibold text-gray-800">Eco Products</h3>
+            <h3 className="font-semibold text-gray-800 text-base sm:text-lg">Eco Products</h3>
             <p className="text-sm text-gray-500 mt-1">Available in store</p>
           </div>
 
@@ -81,18 +81,18 @@ export default function Dashboard() {
                 <Settings className="w-6 h-6 text-purple-600" />
               </div>
             </div>
-            <h3 className="font-semibold text-gray-800">Account Settings</h3>
+            <h3 className="font-semibold text-gray-800 text-base sm:text-lg">Account Settings</h3>
             <button className="mt-3 text-sm text-purple-600 hover:underline font-medium">
-              Edit Profile →
+              Edit Profile
             </button>
           </div>
         </div>
 
         {/* Logout Button */}
-        <div className="mt-12 text-center">
+        <div className="mt-10 sm:mt-12 text-center">
           <button
             onClick={() => signOut({ callbackUrl: "/" })}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-red-500 text-white rounded-xl hover:bg-red-600 transition-colors font-medium shadow-lg"
+            className="inline-flex items-center gap-2 px-5 sm:px-6 py-3 bg-red-500 text-white rounded-xl hover:bg-red-600 transition-colors font-medium shadow-lg text-sm sm:text-base"
           >
             <LogOut className="w-5 h-5" />
             Sign Out

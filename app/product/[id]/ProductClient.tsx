@@ -26,7 +26,7 @@ export default function ProductClient({product} : {product: Product}){
 
     return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
         <ProductGallery images={product.images} name={product.name} />
 
         {/* Informaitions */}
@@ -35,7 +35,7 @@ export default function ProductClient({product} : {product: Product}){
             <p className="text-sm text-eco-blue uppercase font-medium">
               {product.categories.join(" . ")}
             </p>
-            <h1 className="text-3xl font-bold text-eco-dark mt-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-eco-dark mt-1">
               {product.name}
             </h1>
           </div>
@@ -51,7 +51,7 @@ export default function ProductClient({product} : {product: Product}){
           </div>
 
           {/* Price */}
-          <div className="text-4xl font-bold text-eco-dark">
+          <div className="text-3xl sm:text-4xl font-bold text-eco-dark">
             ${product.price}
           </div>
 
@@ -64,7 +64,7 @@ export default function ProductClient({product} : {product: Product}){
           </div>
 
           {/* Green Features */}
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex items-center gap-2 text-eco-green">
               <Leaf className="w-5 h-5" />
               <span className="text-sm">Eco-Friendly</span>
@@ -78,7 +78,7 @@ export default function ProductClient({product} : {product: Product}){
           {/* BY Button */}
           <button
             onClick={() => addToCart(product)}
-            className="w-full bg-eco-green text-white py-3 rounded-lg font-semibold hover:bg-eco-dark transition-colors text-lg"
+            className="w-full bg-eco-green text-white py-3 rounded-lg font-semibold hover:bg-eco-dark transition-colors text-base sm:text-lg"
             aria-label={`Add ${product.name} to cart`}
           >
             Add to cart
@@ -86,11 +86,11 @@ export default function ProductClient({product} : {product: Product}){
 
           {/* Sustainability Score */}
           <div className="bg-eco-light/20 p-5 rounded-xl border border-eco-light/50">
-            <div className="flex justify-between items-center mb-2">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2">
               <span className="font-semibold text-eco-dark">
                 Sustainability Score
               </span>
-              <span className="text-3xl font-bold text-eco-green">
+              <span className="text-2xl sm:text-3xl font-bold text-eco-green">
                 {product.sustainabilityScore}%
               </span>
             </div>
@@ -104,17 +104,17 @@ export default function ProductClient({product} : {product: Product}){
         </div>
       </div>
       {/* Comments */}
-      <div className="mt-16">
-        <h2 className="text-2xl md:text-3xl font-bold text-eco-dark mb-6">
+      <div className="mt-12 sm:mt-16">
+        <h2 className="text-2xl sm:text-3xl font-bold text-eco-dark mb-6">
           Customer Reviews
         </h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {product.reviews.map((review: any, i: number) => (
             <div
               key={i}
               className="bg-white p-5 rounded-xl shadow-sm border hover:shadow-md transition-shadow"
             >
-              <div className="flex justify-between items-start mb-2">
+              <div className="flex flex-col sm:flex-row justify-between items-start mb-2 gap-3">
                 <div>
                   <p className="font-semibold text-eco-dark">{review.user}</p>
                   <div className="flex items-center gap-1 mt-1">
@@ -143,7 +143,7 @@ export default function ProductClient({product} : {product: Product}){
       </div>
 
       {/* Related products */}
-      <section className="mt-16">
+      <section className="mt-12 sm:mt-16">
         <RelatedProducts relatedIds={product.relatedProducts} />
       </section>
     </div>

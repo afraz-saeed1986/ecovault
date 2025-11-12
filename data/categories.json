@@ -1,5 +1,4 @@
 [
-  { "id": "all", "name": "All Products", "icon": "All" },
   { "id": "clothing", "name": "Clothing", "icon": "Shirt" },
   { "id": "personal care", "name": "Personal Care", "icon": "Toothbrush" },
   { "id": "electronics", "name": "Electronics", "icon": "Charger" },
