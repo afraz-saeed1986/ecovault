@@ -7,8 +7,20 @@ import { getProducts } from "@/lib/api";
 import ProductSkeleton from "@/components/skeleton/ProductSkeleton";
 import { Filter, X } from "lucide-react";
 
+interface Product {
+    id: number;
+    name: string;
+    price: number;
+    description: string;
+    categories: string[];
+    images: string[];
+    reviews: {user: string; rating: number; comment: string}[];
+    sustainabilityScore: number;
+    relatedProducts: number[];
+}
+
 export default function Home() {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [loading, setLoading] = useState(true);
@@ -33,7 +45,7 @@ export default function Home() {
   );
 
   const filteredProducts = useMemo(() => {
-    let results: any[] = products;
+    let results: Product[] = products;
 
     if (selectedCategory !== "all") {
       results = results.filter((p) => p.categories.includes(selectedCategory));

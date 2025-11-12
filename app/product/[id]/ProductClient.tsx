@@ -5,6 +5,12 @@ import ProductGallery from "@/components/ProductGallery";
 import RelatedProducts from "@/components/RelatedProducts";
 import { useCart } from "@/components/CartContext";
 
+interface Review {
+  user: string; 
+  rating: number; 
+  comment: string
+}
+
 interface Product {
     id: number;
     name: string;
@@ -12,16 +18,18 @@ interface Product {
     description: string;
     categories: string[];
     images: string[];
-    reviews: {user: string; rating: number; comment: string}[];
+    reviews: Review[];
     sustainabilityScore: number;
     relatedProducts: number[];
 }
+
+
 
 export default function ProductClient({product} : {product: Product}){
   const { addToCart } = useCart();
 
    const avgRating =
-    product.reviews.reduce((a: number, r: any) => a + r.rating, 0) /
+    product.reviews.reduce((a: number, r: Review) => a + r.rating, 0) /
     product.reviews.length;
 
     return (
@@ -109,7 +117,7 @@ export default function ProductClient({product} : {product: Product}){
           Customer Reviews
         </h2>
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {product.reviews.map((review: any, i: number) => (
+          {product.reviews.map((review: Review, i: number) => (
             <div
               key={i}
               className="bg-white p-5 rounded-xl shadow-sm border hover:shadow-md transition-shadow"
