@@ -2,6 +2,25 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode, useLayoutEffect } from "react";
 
+
+interface Review {
+  user: string; 
+  rating: number; 
+  comment: string
+}
+
+interface Product {
+    id: number;
+    name: string;
+    price: number;
+    description: string;
+    categories: string[];
+    images: string[];
+    reviews: Review[];
+    sustainabilityScore: number;
+    relatedProducts: number[];
+}
+
 interface CartItem {
     id: number;
     name: string;
@@ -12,13 +31,16 @@ interface CartItem {
 
 interface CartContextType {
     cart: CartItem[];
-    addToCart: (product: any) => void;
+    addToCart: (product: Product) => void;
     removeFromCart: (id: number) => void;
     updateQuantity: (id: number, quantity: number) => void;
     clearCart: () => void;
     totalItems: number;
     totalPrice: number;
 }
+
+
+
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
@@ -45,7 +67,7 @@ export function CartProvider({children}:{children: ReactNode}){
         localStorage.setItem("ecovault-cart", JSON.stringify(cart));
     }, [cart]);
 
-    const addToCart = (product: any) => {
+    const addToCart = (product: Product) => {
         setCart(prev => {
             const existing = prev.find(item => item.id === product.id);
             if(existing){
