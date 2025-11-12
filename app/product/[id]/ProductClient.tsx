@@ -28,9 +28,9 @@ interface Product {
 export default function ProductClient({product} : {product: Product}){
   const { addToCart } = useCart();
 
-   const avgRating =
-    product.reviews.reduce((a: number, r: Review) => a + r.rating, 0) /
-    product.reviews.length;
+   const avgRating = product.reviews.length > 0
+  ? (product.reviews.reduce((a: number, r: Review) => a + r.rating, 0) / product.reviews.length).toFixed(1)
+  : "—";
 
     return (
     <div className="max-w-7xl mx-auto px-4 py-8">
