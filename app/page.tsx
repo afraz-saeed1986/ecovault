@@ -4,6 +4,7 @@ import Fuse from "fuse.js";
 import ProductCard from "@/components/ProductCard";
 import categoriesData from "@/data/categories.json";
 import { getProducts } from "@/lib/api";
+import ProductSkeleton from "@/components/skeleton/ProductSkeleton";
 
 export default function Home() {
   const [products, setProducts] = useState<any[]>([]);
@@ -54,13 +55,7 @@ export default function Home() {
     }
   }, [searchTerm])
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        Loading products...
-      </div>
-    );
-  }
+
 
   return (
       <div className="max-w-7xl mx-auto px-4 py-8 flex gap-8">
@@ -86,17 +81,24 @@ export default function Home() {
         </aside>
 
         <main className="flex-1">
-          {filteredProducts.length === 0 ? (
-            <p className="text-center text-gray-500 py-10">
-              No products found.
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          )}
+        {/* Loading Skeleton */}
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array(6).fill(0).map((_, i) => (
+              <ProductSkeleton key={i} />
+            ))}
+          </div>
+        ) : filteredProducts.length === 0 ? (
+          <p className="text-center text-gray-500 py-10">
+            No products found.
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
         </main>
       </div>
   );

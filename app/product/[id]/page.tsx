@@ -2,7 +2,6 @@
 import { notFound } from "next/navigation";
 import { getProductById } from "@/lib/api";
 import ProductClient from "./ProductClient";
-import { log } from "console";
 
 
 // --- SEO Metadata ---
