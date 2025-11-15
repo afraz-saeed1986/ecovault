@@ -21,7 +21,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     const savedTheme = localStorage.getItem("theme");
     const isDark = savedTheme === "dark";
 
-    
+    // eslint-disable-next-line
     setDarkMode(isDark);
     if (isDark) {
       document.documentElement.classList.add("dark");
