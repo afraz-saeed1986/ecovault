@@ -28,7 +28,7 @@ export default function Dashboard() {
     return (
         <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-eco-green to-eco-dark text-white">
+      <div className="bg-gradient-to-r from-eco-green to-eco-dark text-white  dark:text-eco-light dark:bg-gradient-to-l">
         <div className="max-w-7xl mx-auto px-4 py-8 sm:py-12">
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
             <img

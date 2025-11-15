@@ -38,7 +38,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-eco-green text-white mt-10">
+    <footer className="bg-eco-green dark:bg-eco-dark text-white dark:text-eco-light mt-10">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col items-center gap-10">
           
