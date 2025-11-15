@@ -51,7 +51,7 @@ export default function ProductClient({product} : {product: Product}){
           <div className="flex items-center gap-4">
             <div className="flex items-center">
               <Star className="w-5 h-5 fill-eco-accent text-eco-accent" />
-              <span className="ml-1 font-semibold">{avgRating.toFixed(1)}</span>
+              <span className="ml-1 font-semibold">{avgRating}</span>
               <span className="ml-1 text-gray-600">
                 ({product.reviews.length} reviews)
               </span>
