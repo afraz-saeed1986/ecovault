@@ -26,12 +26,18 @@ export default function CartPage() {
                 <div className="lg:col-span-2 space-y-4">
                     {cart.map(item => (
                         <div key={item.id} className="bg-white p-4 rounded-lg shadow flex flex-col sm:flex-row gap-4">
-                            <div className="relative w-full sm:w-24 h-48 sm:h-24">
+                             <Link href={`/product/${item.id}`} >
+                                <div className="relative w-full sm:w-24 h-48 sm:h-24">
                                 <Image src={item.image} alt={item.name} fill className="object-cover rounded" />
                             </div>
+                             </Link>
+                         
                             <div className="flex-1 flex flex-col justify-between">
                                 <div>
-                                    <h3 className="font-semibold text-base sm:text-lg">{item.name}</h3>
+                                     <Link href={`/product/${item.id}`} >
+                                        <h3 className="font-semibold text-base sm:text-lg">{item.name}</h3>
+                                     </Link>
+                                  
                                     <p className="text-eco-green font-medium text-sm sm:text-base">${item.price}</p>
                                 </div>
                                 <div className="flex items-center gap-2 mt-3 sm:mt-0">

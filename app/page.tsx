@@ -6,6 +6,7 @@ import categoriesData from "@/data/categories.json";
 import { getProducts } from "@/lib/api";
 import ProductSkeleton from "@/components/skeleton/ProductSkeleton";
 import { Filter, X } from "lucide-react";
+import { useSearch } from "@/components/SearchContext";
 
 interface Product {
     id: number;
@@ -21,7 +22,7 @@ interface Product {
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const {searchTerm} = useSearch();
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [loading, setLoading] = useState(true);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
@@ -59,15 +60,6 @@ export default function Home() {
     return results;
   }, [products, searchTerm, selectedCategory, fuse]);
 
-  useEffect(() => {
-    const input = document.querySelector('input[placeholder="Search products..."]') as HTMLInputElement;
-    if (input) {
-      input.value = searchTerm;
-      input.addEventListener('input', (e) => {
-        setSearchTerm((e.target as HTMLInputElement).value);
-      });
-    }
-  }, [searchTerm]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">

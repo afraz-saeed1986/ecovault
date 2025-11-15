@@ -2,8 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+    box-sizing: border-box;
+}
+
 .animate-slide-in-right {
     animation: slideInRight 0.3s ease-out;
+}
+
+.scrollbar-custom::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: #e5e7eb; /* gray-200 */
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: #10b981; /* eco-green */
+  border-radius: 9999px;
+}
+
+.scrollbar-custom {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #11845d #e5e7eb; /* Firefox */
 }
 
 @keyframes slideInRight {
