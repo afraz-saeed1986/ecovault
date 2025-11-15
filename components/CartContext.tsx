@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState, useEffect, ReactNode, useLayoutEffect } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 
 interface Review {
@@ -40,32 +40,30 @@ interface CartContextType {
 }
 
 
-
+const STORAGE_KEY = "ecovault-cart";
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({children}:{children: ReactNode}){
-    const [cart, setCart] = useState<CartItem[]>([]);
+    const [cart, setCart] = useState<CartItem[]>(() => {
+        if (typeof window === "undefined") return [];
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+    });
 
-    //load from localstorage
-        useLayoutEffect(() => {
-            const saved = localStorage.getItem("ecovault-cart");
-            if(saved){
-                try{
-                    const data = JSON.parse(saved);
-                    requestAnimationFrame(() => {
-                        setCart(data);
-                    });
-                } catch (e) {
-                    console.error("Failed to parse cart from localStorage", e);
-                }
-            }
-        }, []);
 
     //save in localstorage
-    useEffect(() => {
-        localStorage.setItem("ecovault-cart", JSON.stringify(cart));
-    }, [cart]);
+   useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+    } catch (e) {
+      console.error("Saving cart failed:", e);
+    }
+  }, [cart]);
 
     const addToCart = (product: Product) => {
         setCart(prev => {

@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Providers from "@/components/Providers";
 import { SearchProvider } from "@/components/SearchContext";
 import Footer from "@/components/Footer";
+import { ThemeProvider } from "@/components/ThemeContext";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,13 +25,15 @@ export default function RootLayout({
         className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}
       >
         <Providers>
-          <SearchProvider>
-            <CartProvider>
-              <Navbar />
-              <main className="pt-20">{children}</main>
-              <Footer />
-            </CartProvider>
-          </SearchProvider>
+          <ThemeProvider>
+            <SearchProvider>
+              <CartProvider>
+                <Navbar />
+                <main className="pt-20">{children}</main>
+                <Footer />
+              </CartProvider>
+            </SearchProvider>
+          </ThemeProvider>
         </Providers>
       </body>
     </html>
