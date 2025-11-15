@@ -5,6 +5,14 @@ const api = axios.create({
     timeout: 5000,
 });
 
+const getBaseUrl = () => {
+  if(process.env.NEXT_PUBLIC_BASE_URL) return process.env.NEXT_PUBLIC_BASE_URL;
+
+  if(process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+
+  return "http://localhost:3000";
+}
+
 //Get All Products
 export const getProducts = async () => {
     const res = await api.get("/products");
@@ -14,7 +22,8 @@ export const getProducts = async () => {
 // Get One Product
 export const getProductById = async (id: number) => {
    try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL || "http://localhost:3000"}/api/products/${id}`, {
+    const base = getBaseUrl();
+    const res = await fetch(`${base}/api/products/${id}`, {
       cache: "no-store",
     });
 
