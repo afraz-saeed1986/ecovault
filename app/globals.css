@@ -6,6 +6,13 @@
     box-sizing: border-box;
 }
 
+/* html, body {
+  overflow-x: hidden;
+} */
+/* * {
+  outline: 1px solid red;
+} */
+
 .animate-slide-in-right {
     animation: slideInRight 0.3s ease-out;
 }
