@@ -3,17 +3,19 @@
 import { useState } from "react";
 import { useCart } from "@/components/CartContext";
 import CartDropdown from "@/components/cartDropdown";
-import { ShoppingCart, Search, Menu, X, LogOut, Sun, Moon } from "lucide-react";
+import { ShoppingCart, Search, Menu, X, LogOut, Sun, Moon, Heart } from "lucide-react"; // Heart اضافه شد
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { useSearch } from "./SearchContext";
 import { useTheme } from "@/components/ThemeContext";
+import { useWishlist } from "@/components/WishList"; // جدید
 
 export default function Navbar() {
   const [cartOpen, setCartOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { totalItems } = useCart();
+  const { wishlist } = useWishlist(); // تعداد آیتم‌های wishlist
   const pathname = usePathname();
   const { data: session } = useSession();
   const { searchTerm, setSearchTerm } = useSearch();
@@ -48,7 +50,7 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* آیکن‌ها: Dark Mode + سبد خرید */}
+            {/* آیکن‌ها: Dark Mode + Wishlist + سبد خرید */}
             <div className="flex items-center gap-3">
               <button
                 onClick={toggleDarkMode}
@@ -57,6 +59,20 @@ export default function Navbar() {
                 {darkMode ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-gray-700" />}
               </button>
 
+              {/* Wishlist Icon - موبایل */}
+              <Link
+                href="/wishlist"
+                className="relative p-2 hover:bg-white/10 rounded-full transition-colors"
+              >
+                <Heart className="w-5 h-5 sm:w-6 sm:h-6" />
+                {wishlist.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+                    {wishlist.length > 99 ? "99+" : wishlist.length}
+                  </span>
+                )}
+              </Link>
+
+              {/* Cart Icon - موبایل */}
               <button
                 onClick={() => setCartOpen(true)}
                 className="relative p-2 hover:bg-white/10 rounded-full transition-colors"
@@ -104,6 +120,20 @@ export default function Navbar() {
 
             {/* آیکن‌ها و ورود/خروج دسکتاپ */}
             <div className="flex items-center gap-4">
+              {/* Wishlist Icon - دسکتاپ */}
+              <Link
+                href="/wishlist"
+                className="relative p-2 hover:bg-white/10 rounded-full transition-colors"
+              >
+                <Heart className="w-5 h-5 sm:w-6 sm:h-6" />
+                {wishlist.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+                    {wishlist.length > 99 ? "99+" : wishlist.length}
+                  </span>
+                )}
+              </Link>
+
+              {/* Cart Icon - دسکتاپ */}
               <button
                 onClick={() => setCartOpen(true)}
                 className="relative p-2 hover:bg-white/10 rounded-full transition-colors"
@@ -127,7 +157,6 @@ export default function Navbar() {
                       width={32}
                       height={32}
                     />
-                    {/* اصلاح: xl → lg */}
                     <span className="text-sm font-medium hidden lg:inline">{session.user?.name}</span>
                     <Link href="/dashboard" className="text-sm hover:underline hidden lg:inline">
                       Dashboard
@@ -236,12 +265,6 @@ export default function Navbar() {
 
 
 
-
-
-
-
-
-
 // "use client";
 
 // import { useState } from "react";
@@ -277,7 +300,7 @@ export default function Navbar() {
 //       <header className="bg-eco-green dark:bg-eco-dark text-white dark:text-eco-light sticky top-0 z-40 shadow-md transition-colors duration-300">
 //         <div className="max-w-7xl mx-auto px-4 py-3 sm:py-4">
 
-//           {/* --- موبایل: همبرگر + لوگو + آیکن‌ها --- */}
+//           {/* --- موبایل و تبلت: همبرگر + لوگو + آیکن‌ها --- */}
 //           <div className="flex items-center justify-between lg:hidden">
 //             {/* همبرگر + لوگو */}
 //             <div className="flex items-center gap-3">
@@ -371,8 +394,9 @@ export default function Navbar() {
 //                       width={32}
 //                       height={32}
 //                     />
-//                     <span className="text-sm font-medium hidden xl:inline">{session.user?.name}</span>
-//                     <Link href="/dashboard" className="text-sm hover:underline hidden xl:inline">
+//                     {/* اصلاح: xl → lg */}
+//                     <span className="text-sm font-medium hidden lg:inline">{session.user?.name}</span>
+//                     <Link href="/dashboard" className="text-sm hover:underline hidden lg:inline">
 //                       Dashboard
 //                     </Link>
 //                     <button onClick={handleLogout} className="text-sm hover:underline">
@@ -396,9 +420,9 @@ export default function Navbar() {
 //             </div>
 //           </div>
 
-//           {/* --- جستجوی موبایل --- */}
+//           {/* --- جستجوی موبایل و تبلت --- */}
 //           {showSearch && (
-//             <div className="md:hidden mt-3 px-4">
+//             <div className="lg:hidden mt-3 px-4">
 //               <div className="relative">
 //                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
 //                 <input
@@ -412,7 +436,7 @@ export default function Navbar() {
 //             </div>
 //           )}
 
-//           {/* --- منوی موبایل --- */}
+//           {/* --- منوی موبایل و تبلت --- */}
 //           {mobileMenuOpen && (
 //             <div className="lg:hidden bg-eco-green/95 dark:bg-eco-dark/95 backdrop-blur-sm border-t border-white/20">
 //               <div className="px-4 py-4 space-y-3">
@@ -473,3 +497,12 @@ export default function Navbar() {
 //     </>
 //   );
 // }
+
+
+
+
+
+
+
+
+

@@ -121,13 +121,13 @@ export default function Home() {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* === DESKTOP SIDEBAR (فقط در 1024px و بالاتر) === */}
         <aside className="hidden lg:block w-64 flex-shrink-0">
-          <h3 className="font-semibold text-lg mb-4">Filter by Category</h3>
+          <h3 className="font-semibold text-lg mb-4 dark:text-eco-light">Filter by Category</h3>
           <button
             onClick={() => setSelectedCategory("all")}
-            className={`w-full text-left px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all mb-2 ${
+            className={`w-full text-left px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all mb-2 dark:text-eco-light dark:hover:text-eco-darkest ${
               selectedCategory === "all"
                 ? "bg-eco-green text-white shadow-md"
-                : "hover:bg-eco-light"
+                : "hover:bg-eco-green hover:text-eco-light dark:hover:text-eco-light"
             }`}
           >
             All Products
@@ -137,10 +137,10 @@ export default function Home() {
               <li key={cat.id}>
                 <button
                   onClick={() => setSelectedCategory(cat.id)}
-                  className={`w-full text-left px-4 py-2 rounded-lg flex items-center gap-2 transition-all ${
+                  className={`w-full text-left px-4 py-2 rounded-lg flex items-center gap-2 transition-all dark:text-eco-light dark:hover:text-eco-darkest ${
                     selectedCategory === cat.id
                       ? "bg-eco-green text-white shadow-md"
-                      : "hover:bg-eco-light"
+                      : "hover:bg-eco-green hover:text-eco-light dark:hover:text-eco-light"
                   }`}
                 >
                   <span>{cat.icon}</span>

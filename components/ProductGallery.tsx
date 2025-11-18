@@ -1,11 +1,9 @@
 'use client'
 import Image from "next/image";
 import { useState } from "react";
+import { ProductGalleryProps } from "@/types";
 
-interface ProductGalleryProps {
-    images: string[];
-    name: string;
-}
+
 
 export default function ProductGallery({images, name}: ProductGalleryProps) {
     const [selected, setSelected] = useState(0);

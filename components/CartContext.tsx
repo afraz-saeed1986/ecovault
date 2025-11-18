@@ -1,43 +1,9 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { Product, CartItem, CartContextType } from "@/types"; 
 
 
-interface Review {
-  user: string; 
-  rating: number; 
-  comment: string
-}
-
-interface Product {
-    id: number;
-    name: string;
-    price: number;
-    description: string;
-    categories: string[];
-    images: string[];
-    reviews: Review[];
-    sustainabilityScore: number;
-    relatedProducts: number[];
-}
-
-interface CartItem {
-    id: number;
-    name: string;
-    price: number;
-    quantity: number;
-    image: string;
-}
-
-interface CartContextType {
-    cart: CartItem[];
-    addToCart: (product: Product) => void;
-    removeFromCart: (id: number) => void;
-    updateQuantity: (id: number, quantity: number) => void;
-    clearCart: () => void;
-    totalItems: number;
-    totalPrice: number;
-}
 
 
 const STORAGE_KEY = "ecovault-cart";

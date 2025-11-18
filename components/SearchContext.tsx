@@ -1,11 +1,8 @@
 "use client";
 import React, {createContext, useContext, useState} from "react";
+import { SearchContextType } from "@/types";
 
 
-interface SearchContextType{
-    searchTerm: string;
-    setSearchTerm: (value: string) => void;
-}
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined);
 

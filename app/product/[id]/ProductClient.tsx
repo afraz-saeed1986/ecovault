@@ -1,27 +1,10 @@
 "use client"
 
-import { Star, Recycle, Leaf, ShoppingCart } from "lucide-react";
+import { Star, Recycle, Leaf } from "lucide-react";
 import ProductGallery from "@/components/ProductGallery";
 import RelatedProducts from "@/components/RelatedProducts";
 import { useCart } from "@/components/CartContext";
-
-interface Review {
-  user: string; 
-  rating: number; 
-  comment: string
-}
-
-interface Product {
-    id: number;
-    name: string;
-    price: number;
-    description: string;
-    categories: string[];
-    images: string[];
-    reviews: Review[];
-    sustainabilityScore: number;
-    relatedProducts: number[];
-}
+import { Product, Review } from "@/types";
 
 
 
