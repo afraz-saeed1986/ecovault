@@ -9,11 +9,14 @@ export interface Product {
     name: string;
     price: number;
     description: string;
-    categories: string[];
+    categories: Category[];
     images: string[];
     reviews: Review[];
     sustainabilityScore: number;
     relatedProducts: number[];
+    stock: number;
+    unit: string;
+    createdAt: string;
 }
 
 export interface CartItem {
@@ -54,4 +57,10 @@ export interface WishlistContextType {
     toggleWishlist: (product: Product) => void;
     removeFromWishlist: (id: number) => void;
     isInWishlist: (id: number) => boolean;
+}
+
+export interface Category {
+id: string
+name: string,
+icon: string
 }

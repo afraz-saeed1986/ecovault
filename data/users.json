@@ -1,0 +1,309 @@
+[
+  {
+    "id": "1",
+    "user": {
+      "id": 1,
+      "user": "Alice Johnson",
+      "rating": 4.5,
+      "comment": "Great quality and fits perfectly. Love the eco-friendly aspect!"
+    },
+    "email": "alice@example.com",
+    "role": "admin",
+    "createdAt": "2025-11-01T10:00:00Z"
+  },
+  {
+    "id": "2",
+    "user": {
+      "id": 2,
+      "user": "Bob Smith",
+      "rating": 5,
+      "comment": "Sustainable and stylish. Worth every penny."
+    },
+    "email": "bob@example.com",
+    "role": "user",
+    "createdAt": "2025-11-10T10:00:00Z"
+  },
+  {
+    "id": "3",
+    "user": {
+      "id": 3,
+      "user": "Charlie Davis",
+      "rating": 4,
+      "comment": "Comfortable, but could have more color options."
+    },
+    "email": "charlie@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "4",
+    "user": {
+      "id": 4,
+      "user": "Dana Lee",
+      "rating": 4.8,
+      "comment": "Feels great and eco-friendly. My family loves them."
+    },
+    "email": "dana@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "5",
+    "user": {
+      "id": 5,
+      "user": "Evan Kim",
+      "rating": 5,
+      "comment": "Best switch from plastic. Highly recommend."
+    },
+    "email": "dana@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "6",
+    "user": {
+      "id": 6,
+      "user": "Fiona Green",
+      "rating": 4.2,
+      "comment": "Works well in sunlight, but slower in cloudy weather."
+    },
+    "email": "evan@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "7",
+    "user": {
+      "id": 7,
+      "user": "George Harris",
+      "rating": 4.7,
+      "comment": "Perfect for camping. Eco-conscious choice."
+    },
+    "email": "fiona@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "8",
+    "user": {
+      "id": 8,
+      "user": "Hannah Ivy",
+      "rating": 5,
+      "comment": "Reliable and sustainable power source."
+    },
+    "email": "george@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "9",
+    "user": {
+      "id": 9,
+      "user": "Ian Jackson",
+      "rating": 4.9,
+      "comment": "Sturdy and easy to clean. Great for on-the-go."
+    },
+    "email": "hannah@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "10",
+    "user": {
+      "id": 10,
+      "user": "Jenna King",
+      "rating": 5,
+      "comment": "Love reducing waste with these."
+    },
+    "email": "ian@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "11",
+    "user": {
+      "id": 11,
+      "user": "Kyle Lopez",
+      "rating": 4.6,
+      "comment": "Comfortable straps and lots of space."
+    },
+    "email": "jenna@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "12",
+    "user": {
+      "id": 12,
+      "user": "Laura Martinez",
+      "rating": 4.8,
+      "comment": "Eco-friendly and stylish for daily use."
+    },
+    "email": "jkyle@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "13",
+    "user": "Laura Martinez",
+    "email": "laura@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "14",
+    "user": {
+      "id": 13,
+      "user": "Mike Nolan",
+      "rating": 4,
+      "comment": "Good, but zipper could be smoother."
+    },
+    "email": "mike@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "15",
+    "user": {
+      "id": 14,
+      "user": "Nina Owens",
+      "rating": 4.7,
+      "comment": "Bright and saves on electricity bills."
+    },
+    "email": "nina@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "16",
+    "user": {
+      "id": 15,
+      "user": "Oscar Perez",
+      "rating": 5,
+      "comment": "Excellent for home sustainability."
+    },
+    "email": "oscar@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "17",
+    "user": {
+      "id": 16,
+      "user": "Paula Quinn",
+      "rating": 4.4,
+      "comment": "Tasty coffee without the guilt."
+    },
+    "email": "paula@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "18",
+    "user": {
+      "id": 17,
+      "user": "Quincy Reed",
+      "rating": 4.9,
+      "comment": "Eco-friendly and convenient."
+    },
+    "email": "quincy@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "19",
+    "user": {
+      "id": 18,
+      "user": "Rachel Stone",
+      "rating": 4.5,
+      "comment": "Good flavor, pods break down quickly."
+    },
+    "email": "rachel@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "20",
+    "user": {
+      "id": 19,
+      "user": "Sam Taylor",
+      "rating": 4.3,
+      "comment": "Smooth writing surface."
+    },
+    "email": "sam@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "21",
+    "user": {
+      "id": 20,
+      "user": "Tina Upton",
+      "rating": 5,
+      "comment": "Perfect for eco-conscious students."
+    },
+    "email": "tina@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "22",
+    "user": {
+      "id": 21,
+      "user": "Uma Vance",
+      "rating": 4.6,
+      "comment": "Durable and kind to knives."
+    },
+    "email": "uma@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "23",
+    "user": {
+      "id": 22,
+      "user": "Victor Wong",
+      "rating": 4.8,
+      "comment": "Sustainable kitchen essential."
+    },
+    "email": "victor@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "24",
+    "user": {
+      "id": 23,
+      "user": "Wendy Xu",
+      "rating": 4.2,
+      "comment": "Good size, but needs oiling."
+    },
+    "email": "wendy@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "25",
+    "user": {
+      "id": 24,
+      "user": "Xander Young",
+      "rating": 4.7,
+      "comment": "Grip is excellent during sessions."
+    },
+    "email": "xander@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  },
+  {
+    "id": "26",
+    "user": {
+      "id": 25,
+      "user": "Yara Zane",
+      "rating": 5,
+      "comment": "Comfortable and eco-friendly."
+    },
+    "email": "yara@example.com",
+    "role": "user",
+    "createdAt": "2025-11-29T10:00:00Z"
+  }
+]

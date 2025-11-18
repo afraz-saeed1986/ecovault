@@ -1,0 +1,152 @@
+[
+  {
+    "id": 1,
+    "user": "Alice Johnson",
+    "rating": 4.5,
+    "comment": "Great quality and fits perfectly. Love the eco-friendly aspect!"
+  },
+  {
+    "id": 2,
+    "user": "Bob Smith",
+    "rating": 5,
+    "comment": "Sustainable and stylish. Worth every penny."
+  },
+  {
+    "id": 3,
+    "user": "Charlie Davis",
+    "rating": 4,
+    "comment": "Comfortable, but could have more color options."
+  },
+  {
+    "id": 4,
+    "user": "Dana Lee",
+    "rating": 4.8,
+    "comment": "Feels great and eco-friendly. My family loves them."
+  },
+  {
+    "id": 5,
+    "user": "Evan Kim",
+    "rating": 5,
+    "comment": "Best switch from plastic. Highly recommend."
+  },
+  {
+    "id": 6,
+    "user": "Fiona Green",
+    "rating": 4.2,
+    "comment": "Works well in sunlight, but slower in cloudy weather."
+  },
+  {
+    "id": 7,
+    "user": "George Harris",
+    "rating": 4.7,
+    "comment": "Perfect for camping. Eco-conscious choice."
+  },
+  {
+    "id": 8,
+    "user": "Hannah Ivy",
+    "rating": 5,
+    "comment": "Reliable and sustainable power source."
+  },
+  {
+    "id": 9,
+    "user": "Ian Jackson",
+    "rating": 4.9,
+    "comment": "Sturdy and easy to clean. Great for on-the-go."
+  },
+  {
+    "id": 10,
+    "user": "Jenna King",
+    "rating": 5,
+    "comment": "Love reducing waste with these."
+  },
+  {
+    "id": 11,
+    "user": "Kyle Lopez",
+    "rating": 4.6,
+    "comment": "Comfortable straps and lots of space."
+  },
+  {
+    "id": 12,
+    "user": "Laura Martinez",
+    "rating": 4.8,
+    "comment": "Eco-friendly and stylish for daily use."
+  },
+  {
+    "id": 13,
+    "user": "Mike Nolan",
+    "rating": 4,
+    "comment": "Good, but zipper could be smoother."
+  },
+  {
+    "id": 14,
+    "user": "Nina Owens",
+    "rating": 4.7,
+    "comment": "Bright and saves on electricity bills."
+  },
+  {
+    "id": 15,
+    "user": "Oscar Perez",
+    "rating": 5,
+    "comment": "Excellent for home sustainability."
+  },
+  {
+    "id": 16,
+    "user": "Paula Quinn",
+    "rating": 4.4,
+    "comment": "Tasty coffee without the guilt."
+  },
+  {
+    "id": 17,
+    "user": "Quincy Reed",
+    "rating": 4.9,
+    "comment": "Eco-friendly and convenient."
+  },
+  {
+    "id": 18,
+    "user": "Rachel Stone",
+    "rating": 4.5,
+    "comment": "Good flavor, pods break down quickly."
+  },
+  {
+    "id": 19,
+    "user": "Sam Taylor",
+    "rating": 4.3,
+    "comment": "Smooth writing surface."
+  },
+  {
+    "id": 20,
+    "user": "Tina Upton",
+    "rating": 5,
+    "comment": "Perfect for eco-conscious students."
+  },
+  {
+    "id": 21,
+    "user": "Uma Vance",
+    "rating": 4.6,
+    "comment": "Durable and kind to knives."
+  },
+  {
+    "id": 22,
+    "user": "Victor Wong",
+    "rating": 4.8,
+    "comment": "Sustainable kitchen essential."
+  },
+  {
+    "id": 23,
+    "user": "Wendy Xu",
+    "rating": 4.2,
+    "comment": "Good size, but needs oiling."
+  },
+  {
+    "id": 24,
+    "user": "Xander Young",
+    "rating": 4.7,
+    "comment": "Grip is excellent during sessions."
+  },
+  {
+    "id": 25,
+    "user": "Yara Zane",
+    "rating": 5,
+    "comment": "Comfortable and eco-friendly."
+  }
+]

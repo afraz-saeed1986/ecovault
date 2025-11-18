@@ -7,18 +7,19 @@ import { getProducts } from "@/lib/api";
 import ProductSkeleton from "@/components/skeleton/ProductSkeleton";
 import { Filter, X } from "lucide-react";
 import { useSearch } from "@/components/SearchContext";
+import { Product } from "@/types";
 
-interface Product {
-    id: number;
-    name: string;
-    price: number;
-    description: string;
-    categories: string[];
-    images: string[];
-    reviews: {user: string; rating: number; comment: string}[];
-    sustainabilityScore: number;
-    relatedProducts: number[];
-}
+// interface Product {
+//     id: number;
+//     name: string;
+//     price: number;
+//     description: string;
+//     categories: string[];
+//     images: string[];
+//     reviews: {user: string; rating: number; comment: string}[];
+//     sustainabilityScore: number;
+//     relatedProducts: number[];
+// }
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -49,7 +50,7 @@ export default function Home() {
     let results: Product[] = products;
 
     if (selectedCategory !== "all") {
-      results = results.filter((p) => p.categories.includes(selectedCategory));
+      results = results.filter((p) => p.categories.some(c => c.name.toLowerCase().includes(selectedCategory.toLowerCase())));
     }
 
     if (searchTerm.trim()) {

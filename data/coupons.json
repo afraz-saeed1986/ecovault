@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "code": "ECO10",
+    "discountPercent": 10,
+    "expiresAt": "2025-12-01T00:00:00Z",
+    "usageLimit": 100
+  }
+]

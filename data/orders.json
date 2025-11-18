@@ -1,0 +1,109 @@
+
+[
+  {
+    "id": "1",
+    "userId": "1",
+    "products": [
+      {
+    "id": 1,
+    "name": "Organic Cotton T-Shirt",
+    "price": 29.99,
+    "categories": [
+      { "id": "clothing", "name": "Clothing", "icon": "Shirt" }, 
+      { "id": "organic", "name": "Organic", "icon": "Leaf" }],
+    "images": [
+      "/images/id1-1.jpeg",
+      "/images/id1-2.jpeg"
+    ],
+    "description": "This t-shirt is made from 100% organic cotton grown without pesticides. It's soft, breathable, and perfect for everyday wear. Certified by GOTS for sustainability.",
+    "reviews": [
+      { "id": 1, "user": "Alice Johnson", "rating": 4.5, "comment": "Great quality and fits perfectly. Love the eco-friendly aspect!" },
+      { "id": 2,"user": "Bob Smith", "rating": 5, "comment": "Sustainable and stylish. Worth every penny." },
+      { "id": 3,"user": "Charlie Davis", "rating": 4, "comment": "Comfortable, but could have more color options." }
+    ],
+    "sustainabilityScore": 90,
+    "relatedProducts": [2, 3, 5],
+    "stock": 20,
+    "unit": "kg",
+    "createdAt": "2025-11-10T08:00:00Z"
+  },
+     {
+    "id": 3,
+    "name": "Solar-Powered Charger",
+    "price": 45.00,
+    "categories": [
+      { "id": "electronics", "name": "Electronics", "icon": "Charger" }
+    ],
+    "images": [
+      "/images/id3-1.jpeg",
+      "/images/id3-2.jpeg"
+    ],
+    "description": "Portable solar charger with 10000mAh battery. Charges phones and tablets using renewable solar energy. Waterproof and durable for outdoor use.",
+    "reviews": [
+      { "id": 6,"user": "Fiona Green", "rating": 4.2, "comment": "Works well in sunlight, but slower in cloudy weather." },
+      { "id": 7,"user": "George Harris", "rating": 4.7, "comment": "Perfect for camping. Eco-conscious choice." },
+      { "id": 8,"user": "Hannah Ivy", "rating": 5, "comment": "Reliable and sustainable power source." }
+    ],
+    "sustainabilityScore": 85,
+    "relatedProducts": [1, 6, 7],
+     "stock": 20,
+    "unit": "kg",
+    "createdAt": "2025-11-10T08:00:00Z"
+  }
+    ],
+    "totalPrice": 125000,
+    "status": "pending",
+    "createdAt": "2025-11-17T14:30:00Z"
+  },
+    {
+    "id": "2",
+    "userId": "3",
+    "products": [
+        {
+    "id": 4,
+    "name": "Reusable Stainless Steel Straw Kit",
+    "price": 9.99,
+    "categories": [{ "id": "kitchen", "name": "Kitchen", "icon": "Utensils" }
+    , { "id": "zero waste", "name": "Zero Waste", "icon": "Recycle" }
+  ],
+    "images": [
+      "/images/id4-1.jpeg",
+      "/images/id4-2.jpeg"
+    ],
+    "description": "Set of 4 stainless steel straws with cleaning brush and carrying case. Dishwasher safe and eliminates single-use plastic.",
+    "reviews": [
+      { "id": 9,"user": "Ian Jackson", "rating": 4.9, "comment": "Sturdy and easy to clean. Great for on-the-go." },
+      { "id": 10,"user": "Jenna King", "rating": 5, "comment": "Love reducing waste with these." }
+    ],
+    "sustainabilityScore": 92,
+    "relatedProducts": [2, 5],
+     "stock": 20,
+    "unit": "kg",
+    "createdAt": "2025-11-10T08:00:00Z"
+  },
+     {
+    "id": 6,
+    "name": "LED Energy-Saving Bulbs Pack",
+    "price": 19.99,
+    "categories": [{ "id": "organic", "name": "Organic", "icon": "Leaf" }],
+    "images": [
+      "/images/id6-1.jpeg",
+      "/images/id6-2.jpeg"
+    ],
+    "description": "Pack of 6 LED bulbs that use 80% less energy than incandescent. Long-lasting up to 25,000 hours.",
+    "reviews": [
+      {"id": 14, "user": "Nina Owens", "rating": 4.7, "comment": "Bright and saves on electricity bills." },
+      { "id": 15,"user": "Oscar Perez", "rating": 5, "comment": "Excellent for home sustainability." }
+    ],
+    "sustainabilityScore": 87,
+    "relatedProducts": [3, 7],
+     "stock": 20,
+    "unit": "kg",
+    "createdAt": "2025-11-10T08:00:00Z"
+  }
+    ],
+    "totalPrice": 300000,
+    "status": "pending",
+    "createdAt": "2025-11-20T14:30:00Z"
+  }
+]
