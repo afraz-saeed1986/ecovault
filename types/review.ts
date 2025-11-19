@@ -4,7 +4,7 @@ import type { Product } from "./product";
 export interface Review {
   id: number;
   product: Product;
-  userId: User;
+  user: User;
   rating: number; // 1..5
   title?: string;
   comment?: string;

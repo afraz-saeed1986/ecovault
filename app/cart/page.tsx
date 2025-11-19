@@ -4,6 +4,7 @@ import { useCart } from "@/components/CartContext";
 import Image from "next/image";
 import Link from "next/link";
 import { Trash2, Plus, Minus, ArrowLeft } from "lucide-react";
+import { Product } from "@/types";
 
 export default function CartPage() {
   const { cart, updateQuantity, removeFromCart, totalPrice } = useCart();

@@ -1,11 +1,10 @@
 import ProductCard from "@/components/ProductCard";
-import productsData from "@/data/products.json";
+// import productsData from "@/data/products.json";
+import { getProducts } from "@/lib/api";
 
-interface RelatedProductsProps {
-    relatedIds: number[];
-}
 
-export default function RelatedProducts({relatedIds} : RelatedProductsProps) {
+export  default async function RelatedProducts({relatedIds} : { relatedIds: number[] }) {
+    const productsData = await getProducts();
     const related = productsData.filter(p => relatedIds.includes(p.id));
 
     if(related.length === 0) return null;

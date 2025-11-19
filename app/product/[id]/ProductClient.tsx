@@ -4,8 +4,8 @@ import { Star, Recycle, Leaf } from "lucide-react";
 import ProductGallery from "@/components/ProductGallery";
 import RelatedProducts from "@/components/RelatedProducts";
 import { useCart } from "@/components/CartContext";
-import { Category, Product, Review } from "@/types";
-import { log } from "console";
+import { Product, Review } from "@/types";
+
 
 export default function ProductClient({ product }: { product: Product }) {
   const { addToCart } = useCart();
@@ -120,7 +120,7 @@ export default function ProductClient({ product }: { product: Product }) {
               <div className="flex flex-col sm:flex-row justify-between items-start mb-2 gap-3">
                 <div>
                   <p className="font-semibold text-eco-dark dark:text-eco-light">
-                    {review.user}
+                    {review.user.name}
                   </p>
                   <div className="flex items-center gap-1 mt-1">
                     {[...Array(5)].map((_, j) => (

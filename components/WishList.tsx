@@ -13,6 +13,7 @@ export function Wishlistprovider ({children} : {children : ReactNode}) {
 
     useEffect(() => {
         const saved = localStorage.getItem("ecovault-wishlist");
+        // eslint-disable-next-line
         if(saved) setWishlist(JSON.parse(saved));
     }, []);
 

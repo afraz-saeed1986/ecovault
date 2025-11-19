@@ -14,7 +14,7 @@ export function createFileAdapter(): CollectionDataSource {
      * Read the full collection from the file store.
      * Returns an empty array if the file is missing.
      */
-    async read<T = any>(collection: string): Promise<T[]> {
+    async read<T>(collection: string): Promise<T[]> {
         return fileStore.readCollection<T>(collection);
     },
 
@@ -22,7 +22,7 @@ export function createFileAdapter(): CollectionDataSource {
      * Overwrite the collection file with the provided array.
      */
 
-        async write<T = any>(collection: string, items: T[]): Promise<void> {
+        async write<T>(collection: string, items: T[]): Promise<void> {
             await fileStore.writeCollection<T>(collection, items);
         },
 
@@ -30,7 +30,7 @@ export function createFileAdapter(): CollectionDataSource {
      * Get a single item by id. Returns null when not found.
      */
 
-       async get<T = any>(collection:string , id: ID): Promise<T | null> {
+       async get<T>(collection:string , id: ID): Promise<T | null> {
         return fileStore.getById<T>(collection, id as string | number);
        },
 
@@ -40,7 +40,7 @@ export function createFileAdapter(): CollectionDataSource {
      */
 
        async upsert<T extends {id?: ID}>(collection: string, item: T): Promise<T> {
-        return fileStore.upsert<T>(collection, item as any);
+        return fileStore.upsert<T>(collection, item);
        },
        
          /**

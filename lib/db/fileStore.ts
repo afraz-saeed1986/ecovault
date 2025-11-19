@@ -1,32 +1,21 @@
 // src/lib/db/fileStore.ts
-import fs from 'fs/promises';
-import path from 'path';
+import fs from "fs/promises";
+import path from "path";
 
-const DATA_DIR = path.resolve(process.cwd(), 'app', 'data');
+const DATA_DIR = path.resolve(process.cwd(), "app", "data");
 const JSON_SPACE = 2;
 
-// Simple in-process locks per filename to serialize writes within one Node process
 const locks: Record<string, Promise<void> | null> = {};
 
-/**
- * Ensure data directory exists
- */
 async function ensureDataDir() {
   await fs.mkdir(DATA_DIR, { recursive: true });
 }
 
-/**
- * Resolve file path for a collection name (collection -> collection.json)
- */
 function filePathFor(collectionName: string) {
   const filename = `${collectionName}.json`;
   return path.join(DATA_DIR, filename);
 }
 
-/**
- * Acquire a simple in-process lock for a key (file path).
- * Returns a release function that must be called when the caller is done.
- */
 async function acquireLock(key: string) {
   const previous = locks[key] ?? Promise.resolve();
   let release!: () => void;
@@ -38,50 +27,42 @@ async function acquireLock(key: string) {
   };
 }
 
-/**
- * Read raw file contents or return null if not exists
- */
 async function readRawFile(filePath: string): Promise<string | null> {
   try {
-    return await fs.readFile(filePath, 'utf-8');
-  } catch (err: any) {
-    if (err && err.code === 'ENOENT') return null;
+    return await fs.readFile(filePath, "utf-8");
+  } catch (err) {
+    if (err && typeof err === "object" && (err as { code?: string }).code === "ENOENT") {
+      return null;
+    }
     throw err;
   }
 }
 
-/**
- * Helper: convert snake_case keys to camelCase recursively
- */
 function snakeToCamel(s: string) {
   return s.replace(/_([a-zA-Z0-9])/g, (_, c) => c.toUpperCase());
 }
-function convertKeysToCamel<T>(obj: any): T {
-  if (Array.isArray(obj)) return obj.map(convertKeysToCamel) as any;
-  if (obj === null || typeof obj !== 'object') return obj;
-  const out: any = {};
-  for (const key of Object.keys(obj)) {
-    const camel = snakeToCamel(key);
-    out[camel] = convertKeysToCamel(obj[key]);
+
+function convertKeysToCamel<T>(obj: unknown): T {
+  if (Array.isArray(obj)) {
+    return obj.map((o) => convertKeysToCamel(o)) as unknown as T;
   }
-  return out;
+  if (obj === null || typeof obj !== "object") return obj as T;
+  const out: Record<string, unknown> = {};
+  for (const key of Object.keys(obj as Record<string, unknown>)) {
+    const camel = snakeToCamel(key);
+    out[camel] = convertKeysToCamel((obj as Record<string, unknown>)[key]);
+  }
+  return out as T;
 }
 
-/**
- * Normalize id for comparison (keep numbers as numbers, strings as strings)
- */
 function isNumericId(id: unknown): id is number {
-  return typeof id === 'number' && Number.isFinite(id);
+  return typeof id === "number" && Number.isFinite(id);
 }
 function normalizeId(id: string | number) {
   return isNumericId(id) ? id : String(id);
 }
 
-/**
- * Public: readCollection
- * Returns [] if file missing or empty.
- */
-export async function readCollection<T = any>(name: string): Promise<T[]> {
+export async function readCollection<T>(name: string): Promise<T[]> {
   await ensureDataDir();
   const file = filePathFor(name);
   const raw = await readRawFile(file);
@@ -94,100 +75,78 @@ export async function readCollection<T = any>(name: string): Promise<T[]> {
   }
 }
 
-/**
- * Public: writeCollection
- * Overwrites the collection file with provided array (pretty-printed).
- */
-export async function writeCollection<T = any>(name: string, data: T[]): Promise<void> {
+export async function writeCollection<T>(name: string, data: T[]): Promise<void> {
   await ensureDataDir();
   const file = filePathFor(name);
   const release = await acquireLock(file);
   try {
     const json = JSON.stringify(data, null, JSON_SPACE);
-    await fs.writeFile(file, json, 'utf-8');
+    await fs.writeFile(file, json, "utf-8");
   } finally {
     release();
   }
 }
 
-/**
- * Public: getById
- * Finds an item by id (loose string/number match). Returns null if not found.
- */
-export async function getById<T = any>(name: string, id: string | number): Promise<T | null> {
+export async function getById<T>(name: string, id: string | number): Promise<T | null> {
   const collection = await readCollection<T>(name);
   const nid = normalizeId(id);
   return (
-    collection.find((item: any) => item && (item.id === nid || String(item.id) === String(nid))) ?? null
+    collection.find((item) => {
+      const obj = item as Record<string, unknown>;
+      return obj && (obj["id"] === nid || String(obj["id"]) === String(nid));
+    }) ?? null
   );
 }
 
-/**
- * Public: upsert
- * Inserts or updates an item. If item.id is missing, generates an id.
- * Returns the stored item (with id).
- *
- * Note: id generation strategy:
- * - If existing string ids follow prefixNNN, it continues the numeric suffix.
- * - Otherwise falls back to numeric increment.
- */
 export async function upsert<T extends { id?: string | number }>(name: string, item: T): Promise<T> {
-  if (!item) throw new Error('upsert: item is required');
+  if (!item) throw new Error("upsert: item is required");
   await ensureDataDir();
   const file = filePathFor(name);
   const release = await acquireLock(file);
   try {
     const raw = await readRawFile(file);
-    const collectionRaw: any[] = raw ? JSON.parse(raw) : [];
-    // Use camel-case converted copy for logic, but persist items as-is
-    const existing = convertKeysToCamel<any[]>(collectionRaw);
-    let nid = item.id ? normalizeId(item.id) : undefined;
+    const collectionRaw: Record<string, unknown>[] = raw ? JSON.parse(raw) : [];
+    const existing = convertKeysToCamel<T[]>(collectionRaw);
 
-    if (nid === undefined || nid === null || nid === '') {
-      // generate id
-      const ids = existing.map((it) => it.id).filter(Boolean);
-      const stringIds = ids.filter((v) => typeof v === 'string') as string[];
+    let nid = item.id ? normalizeId(item.id) : undefined;
+    if (!nid) {
+      const ids = existing.map((it) => (it as Record<string, unknown>)["id"]).filter(Boolean);
+      const stringIds = ids.filter((v) => typeof v === "string") as string[];
       if (stringIds.length > 0) {
         const match = stringIds[0].match(/^([a-zA-Z]+[_-]?)/);
-        const prefix = match ? match[1] : 'id_';
+        const prefix = match ? match[1] : "id_";
         const numbers = stringIds
           .map((s) => {
             const m = s.match(/(\d+)$/);
             return m ? parseInt(m[1], 10) : NaN;
           })
           .filter((n) => !isNaN(n));
-        const next = (numbers.length ? Math.max(...numbers) + 1 : 1).toString().padStart(3, '0');
+        const next = (numbers.length ? Math.max(...numbers) + 1 : 1).toString().padStart(3, "0");
         nid = `${prefix}${next}`;
       } else {
-        const numeric = ids.filter((id) => typeof id === 'number') as number[];
+        const numeric = ids.filter((id) => typeof id === "number") as number[];
         nid = numeric.length ? Math.max(...numeric) + 1 : 1;
       }
-      item.id = nid as any;
+      item.id = nid;
     }
 
-    const idx = existing.findIndex((it) => String(it.id) === String(item.id));
+    const idx = existing.findIndex((it) => String((it as Record<string, unknown>)["id"]) === String(item.id));
     if (idx >= 0) {
-      // merge existing with provided (shallow)
-      const merged = { ...existing[idx], ...item };
-      existing[idx] = merged;
-      // replace in raw collection - keep original shapes where possible
+      const merged = { ...(existing[idx] as object), ...item };
+      existing[idx] = merged as T;
       collectionRaw[idx] = merged;
     } else {
       existing.push(item);
       collectionRaw.push(item);
     }
 
-    await fs.writeFile(file, JSON.stringify(collectionRaw, null, JSON_SPACE), 'utf-8');
+    await fs.writeFile(file, JSON.stringify(collectionRaw, null, JSON_SPACE), "utf-8");
     return item;
   } finally {
     release();
   }
 }
 
-/**
- * Public: deleteById
- * Removes item by id. Returns true if an item was removed.
- */
 export async function deleteById(name: string, id: string | number): Promise<boolean> {
   await ensureDataDir();
   const file = filePathFor(name);
@@ -195,11 +154,11 @@ export async function deleteById(name: string, id: string | number): Promise<boo
   try {
     const raw = await readRawFile(file);
     if (!raw) return false;
-    const collection = JSON.parse(raw) as any[];
+    const collection = JSON.parse(raw) as Record<string, unknown>[];
     const initialLen = collection.length;
-    const filtered = collection.filter((it) => String(it.id) !== String(id));
+    const filtered = collection.filter((it) => String(it["id"]) !== String(id));
     if (filtered.length === initialLen) return false;
-    await fs.writeFile(file, JSON.stringify(filtered, null, JSON_SPACE), 'utf-8');
+    await fs.writeFile(file, JSON.stringify(filtered, null, JSON_SPACE), "utf-8");
     return true;
   } finally {
     release();

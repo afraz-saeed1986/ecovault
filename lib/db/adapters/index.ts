@@ -11,21 +11,21 @@ export interface CollectionDataSource {
    * Read the entire collection (e.g. "products").
    * @param collection collection name
    */
-  read<T = any>(collection: string): Promise<T[]>;
+  read<T>(collection: string): Promise<T[]>;
 
   /**
    * Overwrite the collection with the provided items.
    * @param collection collection name
    * @param items full array to write
    */
-  write<T = any>(collection: string, items: T[]): Promise<void>;
+  write<T>(collection: string, items: T[]): Promise<void>;
 
   /**
    * Get a single item by id. Returns null when not found.
    * @param collection collection name
    * @param id item id
    */
-  get<T = any>(collection: string, id: ID): Promise<T | null>;
+  get<T>(collection: string, id: ID): Promise<T | null>;
 
   /**
    * Insert or update an item (upsert). Adapter should return the stored item,
