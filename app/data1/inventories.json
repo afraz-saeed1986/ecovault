@@ -1,0 +1,278 @@
+[
+  {
+    "id": 1,
+    "product": {
+      "id": 1,
+      "name": "Organic Cotton T-Shirt",
+      "price": 29.99,
+      "currency": "",
+      "categories": [
+        { "id": "clothing", "name": "Clothing", "icon": "Shirt" },
+        { "id": "organic", "name": "Organic", "icon": "Leaf" }
+      ],
+      "images": ["/images/id1-1.jpeg", "/images/id1-2.jpeg"],
+      "description": "This t-shirt is made from 100% organic cotton grown without pesticides. It's soft, breathable, and perfect for everyday wear. Certified by GOTS for sustainability.",
+      "shortDescription": "This t-shirt is made from 100% organic cotton grown without pesticides.",
+      "reviews": [
+        {
+          "id": 1,
+          "user": "Alice Johnson",
+          "rating": 4.5,
+          "comment": "Great quality and fits perfectly. Love the eco-friendly aspect!"
+        },
+        {
+          "id": 2,
+          "user": "Bob Smith",
+          "rating": 5,
+          "comment": "Sustainable and stylish. Worth every penny."
+        },
+        {
+          "id": 3,
+          "user": "Charlie Davis",
+          "rating": 4,
+          "comment": "Comfortable, but could have more color options."
+        }
+      ],
+      "sustainabilityScore": 90,
+      "relatedProducts": [2, 3, 5],
+      "stock": 20,
+      "unit": "kg",
+      "createdAt": "2025-11-10T08:00:00Z",
+      "updatedAt": "2025-11-10T08:00:00Z",
+      "coupon": {
+        "id": 1,
+        "code": "ECO10",
+        "description": "10% off on orders above 200000",
+        "discountPercent": 10,
+        "minOrderAmount": 200000,
+        "maxUsage": 100,
+        "usedCount": 12,
+        "expiresAt": "2025-12-31T23:59:59Z",
+        "enabled": true,
+        "createdAt": "2025-10-01T08:00:00Z"
+      },
+      "isActive": true
+    },
+    "stock": 120,
+    "reserved": 10,
+    "lowStockThreshold": 20,
+    "updatedAt": "2025-11-18T09:00:00Z"
+  },
+  {
+    "id": 2,
+    "product": {
+      "id": 2,
+      "name": "Bamboo Toothbrush Set",
+      "price": 12.5,
+      "currency": "",
+      "categories": [
+        {
+          "id": "personal care",
+          "name": "Personal Care",
+          "icon": "Toothbrush"
+        },
+        { "id": "bamboo", "name": "Bamboo", "icon": "Bamboo" },
+        { "id": "zero waste", "name": "Zero Waste", "icon": "Recycle" }
+      ],
+      "images": ["/images/id2-1.jpeg", "/images/id2-2.jpeg"],
+      "description": "Pack of 4 biodegradable bamboo toothbrushes with soft bristles. Reduces plastic waste and is compostable after use.",
+      "shortDescription": "Pack of 4 biodegradable bamboo toothbrushes with soft bristles.",
+      "reviews": [
+        {
+          "id": 4,
+          "user": "Dana Lee",
+          "rating": 4.8,
+          "comment": "Feels great and eco-friendly. My family loves them."
+        },
+        {
+          "id": 5,
+          "user": "Evan Kim",
+          "rating": 5,
+          "comment": "Best switch from plastic. Highly recommend."
+        }
+      ],
+      "sustainabilityScore": 95,
+      "relatedProducts": [1, 4],
+      "stock": 20,
+      "unit": "kg",
+      "createdAt": "2025-11-10T08:00:00Z",
+      "updatedAt": "2025-11-10T08:00:00Z",
+      "coupon": {},
+      "isActive": true
+    },
+    "stock": 45,
+    "reserved": 5,
+    "lowStockThreshold": 10,
+    "updatedAt": "2025-11-17T14:30:00Z"
+  },
+  {
+    "id": 3,
+    "product": {
+      "id": 3,
+      "name": "Solar-Powered Charger",
+      "price": 45.0,
+      "currency": "",
+      "categories": [
+        { "id": "electronics", "name": "Electronics", "icon": "Charger" }
+      ],
+      "images": ["/images/id3-1.jpeg", "/images/id3-2.jpeg"],
+      "description": "Portable solar charger with 10000mAh battery. Charges phones and tablets using renewable solar energy. Waterproof and durable for outdoor use.",
+      "shortDescription": "Portable solar charger with 10000mAh battery.",
+      "reviews": [
+        {
+          "id": 6,
+          "user": "Fiona Green",
+          "rating": 4.2,
+          "comment": "Works well in sunlight, but slower in cloudy weather."
+        },
+        {
+          "id": 7,
+          "user": "George Harris",
+          "rating": 4.7,
+          "comment": "Perfect for camping. Eco-conscious choice."
+        },
+        {
+          "id": 8,
+          "user": "Hannah Ivy",
+          "rating": 5,
+          "comment": "Reliable and sustainable power source."
+        }
+      ],
+      "sustainabilityScore": 85,
+      "relatedProducts": [1, 6, 7],
+      "stock": 20,
+      "unit": "kg",
+      "createdAt": "2025-11-10T08:00:00Z",
+      "updatedAt": "2025-11-10T08:00:00Z",
+      "coupon": {
+        "id": 2,
+        "code": "WELCOME50",
+        "description": "50 unit discount for new customers",
+        "discountAmount": 50000,
+        "minOrderAmount": 0,
+        "maxUsage": 1,
+        "usedCount": 0,
+        "expiresAt": "2026-01-31T23:59:59Z",
+        "enabled": true,
+        "createdAt": "2025-11-01T09:00:00Z"
+      },
+      "isActive": true
+    },
+    "stock": 0,
+    "reserved": 0,
+    "lowStockThreshold": 5,
+    "updatedAt": "2025-11-16T08:20:00Z"
+  },
+  {
+    "id": 4,
+    "product": {
+      "id": 4,
+      "name": "Reusable Stainless Steel Straw Kit",
+      "price": 9.99,
+      "currency": "",
+      "categories": [
+        { "id": "kitchen", "name": "Kitchen", "icon": "Utensils" },
+        { "id": "zero waste", "name": "Zero Waste", "icon": "Recycle" }
+      ],
+      "images": ["/images/id4-1.jpeg", "/images/id4-2.jpeg"],
+      "description": "Set of 4 stainless steel straws with cleaning brush and carrying case. Dishwasher safe and eliminates single-use plastic.",
+      "shortDescription": "Set of 4 stainless steel straws with cleaning brush and carrying case.",
+      "reviews": [
+        {
+          "id": 9,
+          "user": "Ian Jackson",
+          "rating": 4.9,
+          "comment": "Sturdy and easy to clean. Great for on-the-go."
+        },
+        {
+          "id": 10,
+          "user": "Jenna King",
+          "rating": 5,
+          "comment": "Love reducing waste with these."
+        }
+      ],
+      "sustainabilityScore": 92,
+      "relatedProducts": [2, 5],
+      "stock": 20,
+      "unit": "kg",
+      "createdAt": "2025-11-10T08:00:00Z",
+      "updatedAt": "2025-11-10T08:00:00Z",
+      "coupon": {
+        "id": 3,
+        "code": "FREESHIP",
+        "description": "Free shipping for orders over 150000",
+        "discountAmount": 0,
+        "minOrderAmount": 150000,
+        "maxUsage": 500,
+        "usedCount": 45,
+        "expiresAt": "2026-03-31T23:59:59Z",
+        "enabled": true,
+        "createdAt": "2025-09-15T12:00:00Z"
+      },
+      "isActive": true
+    },
+    "stock": 300,
+    "reserved": 25,
+    "lowStockThreshold": 50,
+    "updatedAt": "2025-11-15T11:10:00Z"
+  },
+  {
+    "id": 5,
+    "product": {
+      "id": 5,
+      "name": "Organic Hemp Backpack",
+      "price": 59.99,
+      "currency": "",
+      "categories": [
+        { "id": "bags", "name": "Bags", "icon": "Backpack" },
+        { "id": "organic", "name": "Organic", "icon": "Leaf" }
+      ],
+      "images": ["/images/id5-1.jpeg", "/images/id5-2.jpeg"],
+      "description": "Durable backpack made from organic hemp fabric. Spacious compartments, water-resistant, and ethically produced.",
+      "shortDescription": "Durable backpack made from organic hemp fabric.",
+      "reviews": [
+        {
+          "id": 11,
+          "user": "Kyle Lopez",
+          "rating": 4.6,
+          "comment": "Comfortable straps and lots of space."
+        },
+        {
+          "id": 12,
+          "user": "Laura Martinez",
+          "rating": 4.8,
+          "comment": "Eco-friendly and stylish for daily use."
+        },
+        {
+          "id": 13,
+          "user": "Mike Nolan",
+          "rating": 4,
+          "comment": "Good, but zipper could be smoother."
+        }
+      ],
+      "sustainabilityScore": 88,
+      "relatedProducts": [1, 3],
+      "stock": 20,
+      "unit": "kg",
+      "createdAt": "2025-11-10T08:00:00Z",
+      "updatedAt": "2025-11-10T08:00:00Z",
+      "coupon": {
+        "id": 4,
+        "code": "HALFOFF",
+        "description": "50% off single item (max 1 per order)",
+        "discountPercent": 50,
+        "minOrderAmount": 10000,
+        "maxUsage": 50,
+        "usedCount": 5,
+        "expiresAt": "2025-12-01T23:59:59Z",
+        "enabled": true,
+        "createdAt": "2025-11-10T10:30:00Z"
+      },
+      "isActive": true
+    },
+    "stock": 18,
+    "reserved": 2,
+    "lowStockThreshold": 10,
+    "updatedAt": "2025-11-18T07:45:00Z"
+  }
+]

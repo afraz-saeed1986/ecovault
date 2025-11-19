@@ -26,9 +26,7 @@ const {id} = await params;
 // --- Server Component ---
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
 const {id } = await params;
-console.log("Product ID:" , id);
   const product = await getProductById(Number(id));
-  console.log("Product:", product);
 
   if (!product) {
     console.log("Product not found → calling notFound()"); // دیباگ
