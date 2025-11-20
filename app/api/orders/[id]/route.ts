@@ -3,20 +3,19 @@ import { NextResponse } from "next/server";
 import { loadConfig } from "@/lib/config";
 import { createOrderService } from "@/lib/services/orderService";
 
-export async function GET(_: Request, {params}: {params: Promise<{id: string}>}) {
+export async function GET(_: Request, ctx: { params: { id: string } }) {
   try {
     const { adapter } = loadConfig();
     const service = createOrderService(adapter);
-    const {id} = await params;
 
-    const orderId = Number(id);
+    const id = Number(ctx.params.id);
 
     
-    if (Number.isNaN(orderId)) {
+    if (Number.isNaN(id)) {
       return NextResponse.json({ error: "Invalid order id" }, { status: 400 });
     }
 
-    const order = await service.getById(orderId);
+    const order = await service.getById(id);
     if (!order) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }

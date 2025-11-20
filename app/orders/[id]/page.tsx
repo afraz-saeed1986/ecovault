@@ -14,6 +14,8 @@ function formatCurrency(value: number, currency = "IRR") {
 
 // server fetch
 async function getOrder(id: string): Promise<Order> {
+
+  
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ""}/api/orders/${id}`, {
     cache: "no-store",
   });
@@ -21,8 +23,9 @@ async function getOrder(id: string): Promise<Order> {
   return res.json();
 }
 
-export default async function OrderPage({ params }: { params: { id: string } }) {
-  const order = await getOrder(params.id);
+export default async function OrderPage({ params }: { params: Promise<{ id: string }> }) {
+  const {id} = await params;
+  const order = await getOrder(id);
 
   return (
     <div className="container mx-auto max-w-5xl px-4 py-8">
