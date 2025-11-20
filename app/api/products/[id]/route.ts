@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import productsData from "@/data/products.json";
+import productsData from "@/app/data/products.json";
 
 export async function GET(
     request: Request,

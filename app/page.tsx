@@ -2,7 +2,7 @@
 import { useState, useMemo, useEffect } from "react";
 import Fuse from "fuse.js";
 import ProductCard from "@/components/ProductCard";
-import categoriesData from "@/data/categories.json";
+import categoriesData from "@/app/data/categories.json";
 import { getProducts } from "@/lib/api";
 import ProductSkeleton from "@/components/skeleton/ProductSkeleton";
 import { Filter, X } from "lucide-react";

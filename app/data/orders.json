@@ -19,10 +19,21 @@
           "price": 29.99,
           "currency": "",
           "categories": [
-            { "id": "clothing", "name": "Clothing", "icon": "Shirt" },
-            { "id": "organic", "name": "Organic", "icon": "Leaf" }
+            {
+              "id": "clothing",
+              "name": "Clothing",
+              "icon": "Shirt"
+            },
+            {
+              "id": "organic",
+              "name": "Organic",
+              "icon": "Leaf"
+            }
           ],
-          "images": ["/images/id1-1.jpeg", "/images/id1-2.jpeg"],
+          "images": [
+            "/images/id1-1.jpeg",
+            "/images/id1-2.jpeg"
+          ],
           "description": "This t-shirt is made from 100% organic cotton grown without pesticides. It's soft, breathable, and perfect for everyday wear. Certified by GOTS for sustainability.",
           "shortDescription": "This t-shirt is made from 100% organic cotton grown without pesticides.",
           "reviews": [
@@ -46,7 +57,11 @@
             }
           ],
           "sustainabilityScore": 90,
-          "relatedProducts": [2, 3, 5],
+          "relatedProducts": [
+            2,
+            3,
+            5
+          ],
           "stock": 20,
           "unit": "kg",
           "createdAt": "2025-11-10T08:00:00Z",
@@ -86,9 +101,7 @@
     "id": 2,
     "user": {
       "id": 2,
-
       "name": "Bob Smith",
-
       "email": "bob@example.com",
       "role": "user",
       "avatarUrl": "",
@@ -108,9 +121,16 @@
               "name": "Personal Care",
               "icon": "Toothbrush"
             },
-            { "id": "bamboo", "name": "Bamboo", "icon": "Bamboo" }
+            {
+              "id": "bamboo",
+              "name": "Bamboo",
+              "icon": "Bamboo"
+            }
           ],
-          "images": ["/images/id2-1.jpeg", "/images/id2-2.jpeg"],
+          "images": [
+            "/images/id2-1.jpeg",
+            "/images/id2-2.jpeg"
+          ],
           "description": "Pack of 4 biodegradable bamboo toothbrushes with soft bristles.",
           "shortDescription": "Pack of 4 biodegradable bamboo toothbrushes.",
           "reviews": [
@@ -122,7 +142,10 @@
             }
           ],
           "sustainabilityScore": 95,
-          "relatedProducts": [1, 4],
+          "relatedProducts": [
+            1,
+            4
+          ],
           "stock": 20,
           "unit": "set",
           "createdAt": "2025-11-10T08:00:00Z",
@@ -142,9 +165,15 @@
           "price": 9.99,
           "currency": "USD",
           "categories": [
-            { "id": "kitchen", "name": "Kitchen", "icon": "Utensils" }
+            {
+              "id": "kitchen",
+              "name": "Kitchen",
+              "icon": "Utensils"
+            }
           ],
-          "images": ["/images/id4-1.jpeg"],
+          "images": [
+            "/images/id4-1.jpeg"
+          ],
           "description": "Set of 4 stainless steel straws with cleaning brush and carrying case.",
           "shortDescription": "Set of 4 stainless steel straws.",
           "reviews": [
@@ -156,7 +185,10 @@
             }
           ],
           "sustainabilityScore": 92,
-          "relatedProducts": [2, 5],
+          "relatedProducts": [
+            2,
+            5
+          ],
           "stock": 20,
           "unit": "kit",
           "createdAt": "2025-11-10T08:00:00Z",
@@ -196,9 +228,7 @@
     "id": 3,
     "user": {
       "id": 3,
-
       "name": "Charlie Davis",
-
       "email": "charlie@example.com",
       "role": "user",
       "avatarUrl": "",
@@ -219,10 +249,21 @@
               "name": "Personal Care",
               "icon": "Toothbrush"
             },
-            { "id": "bamboo", "name": "Bamboo", "icon": "Bamboo" },
-            { "id": "zero waste", "name": "Zero Waste", "icon": "Recycle" }
+            {
+              "id": "bamboo",
+              "name": "Bamboo",
+              "icon": "Bamboo"
+            },
+            {
+              "id": "zero waste",
+              "name": "Zero Waste",
+              "icon": "Recycle"
+            }
           ],
-          "images": ["/images/id2-1.jpeg", "/images/id2-2.jpeg"],
+          "images": [
+            "/images/id2-1.jpeg",
+            "/images/id2-2.jpeg"
+          ],
           "description": "Pack of 4 biodegradable bamboo toothbrushes with soft bristles. Reduces plastic waste and is compostable after use.",
           "shortDescription": "Pack of 4 biodegradable bamboo toothbrushes with soft bristles.",
           "reviews": [
@@ -240,7 +281,10 @@
             }
           ],
           "sustainabilityScore": 95,
-          "relatedProducts": [1, 4],
+          "relatedProducts": [
+            1,
+            4
+          ],
           "stock": 20,
           "unit": "kg",
           "createdAt": "2025-11-10T08:00:00Z",
@@ -269,9 +313,7 @@
     "id": 4,
     "user": {
       "id": 6,
-
       "name": "Fiona Green",
-
       "email": "evan@example.com",
       "role": "user",
       "avatarUrl": "",
@@ -284,12 +326,19 @@
         "product": {
           "id": 3,
           "name": "Solar-Powered Charger",
-          "price": 45.0,
+          "price": 45,
           "currency": "",
           "categories": [
-            { "id": "electronics", "name": "Electronics", "icon": "Charger" }
+            {
+              "id": "electronics",
+              "name": "Electronics",
+              "icon": "Charger"
+            }
           ],
-          "images": ["/images/id3-1.jpeg", "/images/id3-2.jpeg"],
+          "images": [
+            "/images/id3-1.jpeg",
+            "/images/id3-2.jpeg"
+          ],
           "description": "Portable solar charger with 10000mAh battery. Charges phones and tablets using renewable solar energy. Waterproof and durable for outdoor use.",
           "shortDescription": "Portable solar charger with 10000mAh battery.",
           "reviews": [
@@ -313,7 +362,11 @@
             }
           ],
           "sustainabilityScore": 85,
-          "relatedProducts": [1, 6, 7],
+          "relatedProducts": [
+            1,
+            6,
+            7
+          ],
           "stock": 20,
           "unit": "kg",
           "createdAt": "2025-11-10T08:00:00Z",
@@ -353,9 +406,7 @@
     "id": 5,
     "user": {
       "id": 11,
-
       "name": "Kyle Lopez",
-
       "email": "jenna@example.com",
       "role": "user",
       "avatarUrl": "",
@@ -371,10 +422,21 @@
           "price": 9.99,
           "currency": "",
           "categories": [
-            { "id": "kitchen", "name": "Kitchen", "icon": "Utensils" },
-            { "id": "zero waste", "name": "Zero Waste", "icon": "Recycle" }
+            {
+              "id": "kitchen",
+              "name": "Kitchen",
+              "icon": "Utensils"
+            },
+            {
+              "id": "zero waste",
+              "name": "Zero Waste",
+              "icon": "Recycle"
+            }
           ],
-          "images": ["/images/id4-1.jpeg", "/images/id4-2.jpeg"],
+          "images": [
+            "/images/id4-1.jpeg",
+            "/images/id4-2.jpeg"
+          ],
           "description": "Set of 4 stainless steel straws with cleaning brush and carrying case. Dishwasher safe and eliminates single-use plastic.",
           "shortDescription": "Set of 4 stainless steel straws with cleaning brush and carrying case.",
           "reviews": [
@@ -392,7 +454,10 @@
             }
           ],
           "sustainabilityScore": 92,
-          "relatedProducts": [2, 5],
+          "relatedProducts": [
+            2,
+            5
+          ],
           "stock": 20,
           "unit": "kg",
           "createdAt": "2025-11-10T08:00:00Z",
@@ -427,5 +492,476 @@
     "status": "shipped",
     "createdAt": "2025-11-15T11:10:00Z",
     "updatedAt": "2025-11-15T11:10:00Z"
+  },
+  {
+    "userId": {
+      "id": 6,
+      "name": "Ali Rezaei",
+      "email": "ali@example.com",
+      "role": "customer",
+      "avatarUrl": "https://example.com/avatar1.png",
+      "phone": "+98-912-0000000",
+      "createdAt": "2025-11-19T20:00:00Z"
+    },
+    "items": [
+      {
+        "id": 1,
+        "product": {
+          "id": 101,
+          "name": "Eco-Friendly Laptop",
+          "price": 2000,
+          "currency": "IRR",
+          "categories": [
+            {
+              "id": "electronics",
+              "name": "Electronics",
+              "icon": "💻"
+            }
+          ],
+          "images": [
+            "https://example.com/products/laptop.png"
+          ],
+          "description": "A sustainable laptop with energy-efficient design.",
+          "shortDescription": "Eco laptop",
+          "reviews": [],
+          "sustainabilityScore": 85,
+          "relatedProducts": [
+            102,
+            103
+          ],
+          "stock": 10,
+          "unit": "pcs",
+          "createdAt": "2025-11-01T10:00:00Z",
+          "updatedAt": "2025-11-15T12:00:00Z",
+          "coupon": {
+            "id": 1,
+            "code": "OFF10",
+            "discountPercent": 10,
+            "enabled": true,
+            "createdAt": "2025-11-01T10:00:00Z"
+          },
+          "isActive": true
+        },
+        "quantity": 1,
+        "unitPrice": 2000,
+        "totalPrice": 2000,
+        "unit": "pcs"
+      },
+      {
+        "id": 2,
+        "product": {
+          "id": 202,
+          "name": "Wireless Mouse",
+          "price": 500,
+          "currency": "IRR",
+          "categories": [
+            {
+              "id": "accessories",
+              "name": "Accessories",
+              "icon": "🖱️"
+            }
+          ],
+          "images": [
+            "https://example.com/products/mouse.png"
+          ],
+          "description": "Ergonomic wireless mouse.",
+          "shortDescription": "Wireless mouse",
+          "reviews": [],
+          "sustainabilityScore": 70,
+          "relatedProducts": [
+            203
+          ],
+          "stock": 50,
+          "unit": "pcs",
+          "createdAt": "2025-11-05T09:00:00Z",
+          "updatedAt": "2025-11-15T12:00:00Z",
+          "coupon": {
+            "id": 2,
+            "code": "MOUSE5",
+            "discountAmount": 50,
+            "enabled": true,
+            "createdAt": "2025-11-05T09:00:00Z"
+          },
+          "isActive": true
+        },
+        "quantity": 2,
+        "unitPrice": 500,
+        "totalPrice": 1000,
+        "unit": "pcs"
+      }
+    ],
+    "shipping": 100,
+    "tax": 50,
+    "currency": "IRR",
+    "status": "pending",
+    "subtotal": 3000,
+    "discount": 300,
+    "totalPrice": 2850,
+    "couponCode": "OFF10",
+    "createdAt": "2025-11-19T19:40:04.408Z",
+    "updatedAt": "2025-11-19T19:40:04.408Z",
+    "id": 6
+  },
+  {
+    "userId": {
+      "id": 7,
+      "name": "Ali Rezaei",
+      "email": "ali@example.com",
+      "role": "customer",
+      "avatarUrl": "https://example.com/avatar1.png",
+      "phone": "+98-912-0000000",
+      "createdAt": "2025-11-19T20:00:00Z"
+    },
+    "items": [
+      {
+        "id": 1,
+        "product": {
+          "id": 101,
+          "name": "Eco-Friendly Laptop",
+          "price": 2000,
+          "currency": "IRR",
+          "categories": [
+            {
+              "id": "electronics",
+              "name": "Electronics",
+              "icon": "💻"
+            }
+          ],
+          "images": [
+            "https://example.com/products/laptop.png"
+          ],
+          "description": "A sustainable laptop with energy-efficient design.",
+          "shortDescription": "Eco laptop",
+          "reviews": [],
+          "sustainabilityScore": 85,
+          "relatedProducts": [
+            102,
+            103
+          ],
+          "stock": 10,
+          "unit": "pcs",
+          "createdAt": "2025-11-01T10:00:00Z",
+          "updatedAt": "2025-11-15T12:00:00Z",
+          "coupon": {
+            "id": 1,
+            "code": "OFF10",
+            "discountPercent": 10,
+            "enabled": true,
+            "createdAt": "2025-11-01T10:00:00Z"
+          },
+          "isActive": true
+        },
+        "quantity": 1,
+        "unitPrice": 2000,
+        "totalPrice": 2000,
+        "unit": "pcs"
+      },
+      {
+        "id": 2,
+        "product": {
+          "id": 202,
+          "name": "Wireless Mouse",
+          "price": 500,
+          "currency": "IRR",
+          "categories": [
+            {
+              "id": "accessories",
+              "name": "Accessories",
+              "icon": "🖱️"
+            }
+          ],
+          "images": [
+            "https://example.com/products/mouse.png"
+          ],
+          "description": "Ergonomic wireless mouse.",
+          "shortDescription": "Wireless mouse",
+          "reviews": [],
+          "sustainabilityScore": 70,
+          "relatedProducts": [
+            203
+          ],
+          "stock": 50,
+          "unit": "pcs",
+          "createdAt": "2025-11-05T09:00:00Z",
+          "updatedAt": "2025-11-15T12:00:00Z",
+          "coupon": {
+            "id": 2,
+            "code": "MOUSE5",
+            "discountAmount": 50,
+            "enabled": true,
+            "createdAt": "2025-11-05T09:00:00Z"
+          },
+          "isActive": true
+        },
+        "quantity": 2,
+        "unitPrice": 500,
+        "totalPrice": 1000,
+        "unit": "pcs"
+      }
+    ],
+    "shipping": 100,
+    "tax": 50,
+    "currency": "IRR",
+    "status": "pending",
+    "subtotal": 3000,
+    "discount": 300,
+    "totalPrice": 2850,
+    "couponCode": "OFF10",
+    "createdAt": "2025-11-19T19:40:25.186Z",
+    "updatedAt": "2025-11-19T19:40:25.186Z",
+    "id": 7
+  },
+  {
+    "user": {
+      "id": 100,
+      "name": "saeed afraz",
+      "email": "ali@example.com",
+      "role": "customer",
+      "avatarUrl": "https://example.com/avatar1.png",
+      "phone": "+98-912-0000000",
+      "createdAt": "2025-11-19T20:00:00Z"
+    },
+    "items": [
+      {
+        "id": 100,
+        "product": {
+          "id": 101,
+          "name": "Eco-Friendly Laptop",
+          "price": 2000,
+          "currency": "IRR",
+          "categories": [
+            {
+              "id": "electronics",
+              "name": "Electronics",
+              "icon": "💻"
+            }
+          ],
+          "images": [
+            "https://example.com/products/laptop.png"
+          ],
+          "description": "A sustainable laptop with energy-efficient design.",
+          "shortDescription": "Eco laptop",
+          "reviews": [],
+          "sustainabilityScore": 85,
+          "relatedProducts": [
+            102,
+            103
+          ],
+          "stock": 10,
+          "unit": "pcs",
+          "createdAt": "2025-11-01T10:00:00Z",
+          "updatedAt": "2025-11-15T12:00:00Z",
+          "coupon": {
+            "id": 10,
+            "code": "OFF10",
+            "discountPercent": 6,
+            "enabled": true,
+            "createdAt": "2025-11-01T10:00:00Z"
+          },
+          "isActive": true
+        },
+        "quantity": 1,
+        "unitPrice": 2000,
+        "totalPrice": 2000,
+        "unit": "pcs"
+      },
+      {
+        "id": 200,
+        "product": {
+          "id": 202,
+          "name": "Wireless Mouse",
+          "price": 500,
+          "currency": "IRR",
+          "categories": [
+            {
+              "id": "accessories",
+              "name": "Accessories",
+              "icon": "🖱️"
+            }
+          ],
+          "images": [
+            "https://example.com/products/mouse.png"
+          ],
+          "description": "Ergonomic wireless mouse.",
+          "shortDescription": "Wireless mouse",
+          "reviews": [],
+          "sustainabilityScore": 70,
+          "relatedProducts": [
+            203
+          ],
+          "stock": 50,
+          "unit": "pcs",
+          "createdAt": "2025-11-05T09:00:00Z",
+          "updatedAt": "2025-11-15T12:00:00Z",
+          "coupon": {
+            "id": 2,
+            "code": "MOUSE5",
+            "discountAmount": 50,
+            "enabled": true,
+            "createdAt": "2025-11-05T09:00:00Z"
+          },
+          "isActive": true
+        },
+        "quantity": 2,
+        "unitPrice": 500,
+        "totalPrice": 1000,
+        "unit": "pcs"
+      }
+    ],
+    "shipping": 100,
+    "tax": 50,
+    "currency": "IRR",
+    "status": "pending",
+    "subtotal": 3000,
+    "discount": 300,
+    "totalPrice": 2850,
+    "couponCode": "OFF10",
+    "createdAt": "2025-11-19T19:44:57.371Z",
+    "updatedAt": "2025-11-19T19:44:57.371Z",
+    "id": 8
+  },
+  {
+    "user": {
+      "id": 9,
+      "name": "Guest",
+      "email": "guest@example.com"
+    },
+    "items": [
+      {
+        "id": 10,
+        "product": {
+          "id": 10,
+          "name": "Eco-Friendly Yoga Mat",
+          "price": 39.99,
+          "currency": "",
+          "categories": [
+            {
+              "id": "organic",
+              "name": "Organic",
+              "icon": "Leaf"
+            }
+          ],
+          "images": [
+            "/images/id10-1.jpeg",
+            "/images/id10-2.jpeg"
+          ],
+          "description": "Non-slip yoga mat made from natural rubber and cork. Biodegradable and free from harmful chemicals.",
+          "shortDescription": "Non-slip yoga mat made from natural rubber and cork.",
+          "reviews": [
+            {
+              "id": 24,
+              "user": "Xander Young",
+              "rating": 4.7,
+              "comment": "Grip is excellent during sessions."
+            },
+            {
+              "id": 25,
+              "user": "Yara Zane",
+              "rating": 5,
+              "comment": "Comfortable and eco-friendly."
+            }
+          ],
+          "sustainabilityScore": 94,
+          "relatedProducts": [
+            1,
+            5
+          ],
+          "stock": 20,
+          "unit": "kg",
+          "createdAt": "2025-11-10T08:00:00Z",
+          "updatedAt": "2025-11-10T08:00:00Z",
+          "coupon": {},
+          "isActive": true
+        },
+        "quantity": 1,
+        "unitPrice": 39.99,
+        "totalPrice": 39.99,
+        "unit": "kg"
+      },
+      {
+        "id": 9,
+        "product": {
+          "id": 9,
+          "name": "Bamboo Cutting Board",
+          "price": 22.5,
+          "currency": "",
+          "categories": [
+            {
+              "id": "kitchen",
+              "name": "Kitchen",
+              "icon": "Utensils"
+            },
+            {
+              "id": "bamboo",
+              "name": "Bamboo",
+              "icon": "Bamboo"
+            }
+          ],
+          "images": [
+            "/images/id9-1.jpeg",
+            "/images/id9-2.jpeg"
+          ],
+          "description": "Large bamboo cutting board that's naturally antibacterial and easy to clean.",
+          "shortDescription": "Large bamboo cutting board.",
+          "reviews": [
+            {
+              "id": 21,
+              "user": "Uma Vance",
+              "rating": 4.6,
+              "comment": "Durable and kind to knives."
+            },
+            {
+              "id": 22,
+              "user": "Victor Wong",
+              "rating": 4.8,
+              "comment": "Sustainable kitchen essential."
+            },
+            {
+              "id": 23,
+              "user": "Wendy Xu",
+              "rating": 4.2,
+              "comment": "Good size, but needs oiling."
+            }
+          ],
+          "sustainabilityScore": 91,
+          "relatedProducts": [
+            4,
+            7
+          ],
+          "stock": 20,
+          "unit": "kg",
+          "createdAt": "2025-11-10T08:00:00Z",
+          "updatedAt": "2025-11-10T08:00:00Z",
+          "coupon": {
+            "id": 6,
+            "code": "BULK5",
+            "description": "5% off for bulk orders above 500000",
+            "discountPercent": 5,
+            "minOrderAmount": 500000,
+            "maxUsage": 200,
+            "usedCount": 10,
+            "expiresAt": "2026-06-30T23:59:59Z",
+            "enabled": true,
+            "createdAt": "2025-10-05T11:15:00Z"
+          },
+          "isActive": true
+        },
+        "quantity": 1,
+        "unitPrice": 22.5,
+        "totalPrice": 22.5,
+        "unit": "kg"
+      }
+    ],
+    "subtotal": 62.49,
+    "discount": 0,
+    "shipping": 0,
+    "tax": 0,
+    "totalPrice": 62.49,
+    "currency": "",
+    "couponCode": null,
+    "status": "pending",
+    "createdAt": "2025-11-20T11:09:36.029Z",
+    "updatedAt": "2025-11-20T11:09:36.029Z",
+    "id": 9
   }
 ]

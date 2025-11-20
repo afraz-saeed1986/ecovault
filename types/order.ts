@@ -5,7 +5,7 @@ export type OrderStatus = 'pending' | 'confirmed' | 'paid' | 'shipped' | 'delive
 
 export interface OrderItem {
   id: number;
-  productId: Product;
+  product: Product;
   quantity: number;
   unitPrice: number;
   totalPrice?: number;
@@ -14,7 +14,7 @@ export interface OrderItem {
 
 export interface Order {
   id: number;
-  userId: User;
+  user: User;
   items: OrderItem[];
   subtotal: number;
   discount?: number;
