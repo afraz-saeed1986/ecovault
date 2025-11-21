@@ -5,15 +5,22 @@ import { Star, Users, Heart } from "lucide-react"; // Heart اضافه شد
 import Link from "next/link";
 import { useCart } from "@/components/CartContext";
 import { useWishlist } from "@/components/WishList";
-import { Product } from "@/types";
+import type { Product, ProductWithRelations } from "@/types";
 
 
-export default function ProductCard({ product }: { product: Product }) {
+interface ProductCardProps {
+  product: ProductWithRelations   // <--- اینجا تغییر بده
+}
+
+export default function ProductCard({ product }: { product: ProductWithRelations }) {
+console.log("productWithRelations",product)
+
+ 
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist(); // جدید
   const inWishlist = isInWishlist(product.id); // وضعیت فعلی
 
-  const avgRating = product.reviews.length > 0
+  const avgRating = product.reviews?.length > 0
     ? (product.reviews.reduce((a, r) => a + r.rating, 0) / product.reviews.length).toFixed(1)
     : "—";
 
@@ -26,8 +33,9 @@ export default function ProductCard({ product }: { product: Product }) {
       <Link href={`/product/${product.id}`} className="block flex-1">
         <div className="relative h-40 sm:h-48 bg-gray-100">
           <Image
-            src={product.images[0]}
+            src={product.images && product.images.length > 0?  product.images[0] : "/images/fallback-product.jpg"}
             alt={product.name}
+            priority
             fill
             className="object-cover group-hover:scale-110 transition-transform duration-300"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -55,13 +63,13 @@ export default function ProductCard({ product }: { product: Product }) {
 
           {/* sustainability badge - همون قبلی، فقط left-2 شد */}
           <div className="absolute top-2 right-2 bg-eco-green text-white text-xs px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full font-medium text-center min-w-[32px]">
-            {product.sustainabilityScore}%
+            {product.sustainability_score}%
           </div>
         </div>
 
         <div className="p-3 sm:p-4 flex-1 flex flex-col">
           <p className="text-xs text-eco-blue uppercase font-medium truncate">
-            {product.categories.slice(0, 2).join(" • ")}
+            {product.categories?.slice(0, 2).join(" • ")}
           </p>
           <h3 className="font-semibold text-base sm:text-lg mt-1 line-clamp-2 flex-1">
             {product.name}
@@ -74,7 +82,7 @@ export default function ProductCard({ product }: { product: Product }) {
             </div>
             <div className="flex items-center text-gray-600">
               <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              <span className="text-xs sm:text-sm ml-0.5 sm:ml-1">({product.reviews.length})</span>
+              <span className="text-xs sm:text-sm ml-0.5 sm:ml-1">({product.reviews?.length})</span>
             </div>
           </div>
 

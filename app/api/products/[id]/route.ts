@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import productsData from "@/app/data/products.json";
+import { getProducts } from "@/lib/api";
 
 export async function GET(
     request: Request,
@@ -7,6 +7,8 @@ export async function GET(
 ) {
     const {id} = await params;
     const productId = parseInt(id);
+
+    const productsData = await getProducts();
     const product = productsData.find(p => p.id === productId);
 
     if(!product) {

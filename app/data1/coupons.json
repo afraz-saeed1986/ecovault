@@ -119,5 +119,30 @@
     "expiresAt": "2026-01-10T23:59:59Z",
     "enabled": true,
     "createdAt": "2025-12-01T00:00:00Z"
+  },
+  {
+    "id": 11,
+    "code": "BLACKFRIDAY2025",
+    "description": "Black Friday deal: 50% off up to 300k",
+    "discountPercent": 50,
+    "discountAmount": 300000,
+    "minOrderAmount": 100000,
+    "maxUsage": 500,
+    "usedCount": 0,
+    "expiresAt": "2025-11-30T23:59:59Z",
+    "enabled": true,
+    "createdAt": "2025-11-20T12:30:00Z"
+  },
+  {
+    "id": 12,
+    "code": "FIXED100K",
+    "description": "Flat discount: 100k off any order above 200k",
+    "discountAmount": 100000,
+    "minOrderAmount": 200000,
+    "maxUsage": 300,
+    "usedCount": 0,
+    "expiresAt": "2025-12-31T23:59:59Z",
+    "enabled": true,
+    "createdAt": "2025-11-20T12:40:00Z"
   }
 ]

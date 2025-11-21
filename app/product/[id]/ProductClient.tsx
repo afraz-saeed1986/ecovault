@@ -4,15 +4,15 @@ import { Star, Recycle, Leaf } from "lucide-react";
 import ProductGallery from "@/components/ProductGallery";
 import RelatedProducts from "@/components/RelatedProducts";
 import { useCart } from "@/components/CartContext";
-import { Product, Review } from "@/types";
+import type { ProductWithRelations, Review , ReviewWithRealations } from "@/types";
 
 
-export default function ProductClient({ product }: { product: Product }) {
+export default function ProductClient({ product }: { product: ProductWithRelations }) {
   const { addToCart } = useCart();
 
   const productCategoriesName = product.categories.map(c => c.name);
 
-
+console.log(product);
 
   const avgRating =
     product.reviews.length > 0
@@ -93,13 +93,13 @@ export default function ProductClient({ product }: { product: Product }) {
                 Sustainability Score
               </span>
               <span className="text-2xl sm:text-3xl font-bold text-eco-green dark:text-eco-accent">
-                {product.sustainabilityScore}%
+                {product.sustainability_score}%
               </span>
             </div>
             <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
               <div
                 className="bg-gradient-to-r from-eco-green to-eco-dark dark:from-eco-accent dark:to-eco-green h-full rounded-full transition-all duration-1000"
-                style={{ width: `${product.sustainabilityScore}%` }}
+                style={{ width: `${product.sustainability_score}%` }}
               />
             </div>
           </div>
@@ -112,7 +112,7 @@ export default function ProductClient({ product }: { product: Product }) {
           Customer Reviews
         </h2>
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {product.reviews.map((review: Review, i: number) => (
+          {product.reviews.map((review: ReviewWithRealations, i: number) => (
             <div
               key={i}
               className="bg-white dark:bg-eco-darkest p-5 rounded-xl shadow-sm border hover:shadow-md transition-shadow"
@@ -149,7 +149,7 @@ export default function ProductClient({ product }: { product: Product }) {
 
       {/* Related products */}
       <section className="mt-12 sm:mt-16">
-        <RelatedProducts relatedIds={product.relatedProducts} />
+        <RelatedProducts relatedIds={product.related_products} />
       </section>
     </div>
   );

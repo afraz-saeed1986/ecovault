@@ -1,4 +1,4 @@
-import { Product } from "@/types";
+import type { ProductWithRelations } from "@/types";
 import axios from "axios";
 
 const api = axios.create({
@@ -17,7 +17,7 @@ const getBaseUrl = () => {
 //Get All Products
 export const getProducts = async () => {
     const res = await api.get("/products");
-    return res.data as Product[];
+    return res.data as ProductWithRelations[];
 };
 
 // Get One Product

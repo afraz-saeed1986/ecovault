@@ -114,7 +114,7 @@ export default function WishlistPage() {
                       )}
                     </button>
 
-                    <ProductCard product={product} />
+                    <ProductCard productWithRelations={product} />
                   </motion.div>
                 ))}
               </AnimatePresence>

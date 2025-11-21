@@ -1,33 +1,31 @@
-import type { CollectionDataSource } from "./index";
-import { createFileAdapter } from "./fileAdapter";
+// src/lib/db/registry.ts
+import { createFileAdapter } from '@/lib/db/adapters/fileAdapter'
+import { createSupabaseAdapter } from '@/lib/db/adapters/supabaseAdapter' // این فایل رو بعداً می‌سازیم
+import type { CollectionDataSource } from './index'
 
-// Export the base types (re-export if you store the interface elsewhere)
-export type {CollectionDataSource} from './index';
+export type { CollectionDataSource } from './index'
 
-/**
- * Minimal registry / factory for adapters.
- * Add more branches (http, db, memory) as you implement them.
- */
 export function getAdapterFromEnv(): CollectionDataSource {
-    const adapter = (process.env.DATA_ADAPTER || 'file').toLowerCase();
+  const adapter = (process.env.DATA_ADAPTER || 'file').toLowerCase()
 
-    switch (adapter) {
-        case 'file':
-            return createFileAdapter();
-            // case 'memory':
-            //     return createMemoryAdapter() // implement later
-            // case 'http':
-            //     return createHttpAdapter() // implement later 
-             // case 'db':
-            //     return createDbAdapter() // implement later     
-    
-        default:
-            // fallback to file adapter to keep dev DX simple
-            return createFileAdapter();
-    }
+  switch (adapter) {
+    case 'file':
+      console.log('🔌 Adapter: File (JSON local)')
+      return createFileAdapter()
+
+    case 'supabase':
+      console.log('🔌 Adapter: Supabase (Live Database)')
+      return createSupabaseAdapter() // <--- اینو فعال کردیم
+
+    // بعداً اگر خواستی memory یا http هم اضافه کنی
+    // case 'memory':
+    //   return createMemoryAdapter()
+
+    default:
+      console.warn(`Unknown adapter "${adapter}", falling back to file`)
+      return createFileAdapter()
+  }
 }
 
-/**
- * Convenience named export for the file adapter factory.
- */
-export {createFileAdapter}
+// برای راحتی، یه export مستقیم هم داشته باشیم
+export const db = getAdapterFromEnv()

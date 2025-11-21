@@ -3,9 +3,9 @@ import ProductCard from "@/components/ProductCard";
 import { getProducts } from "@/lib/api";
 
 
-export  default async function RelatedProducts({relatedIds} : { relatedIds: number[] }) {
+export  default async function RelatedProducts({relatedIds} : { relatedIds: number[] |null }) {
     const productsData = await getProducts();
-    const related = productsData.filter(p => relatedIds.includes(p.id));
+    const related = productsData.filter(p => relatedIds?.includes(p.id));
 
     if(related.length === 0) return null;
 

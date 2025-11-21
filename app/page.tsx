@@ -2,12 +2,12 @@
 import { useState, useMemo, useEffect } from "react";
 import Fuse from "fuse.js";
 import ProductCard from "@/components/ProductCard";
-import categoriesData from "@/app/data/categories.json";
-import { getProducts } from "@/lib/api";
 import ProductSkeleton from "@/components/skeleton/ProductSkeleton";
 import { Filter, X } from "lucide-react";
 import { useSearch } from "@/components/SearchContext";
-import { Product } from "@/types";
+import type {Category, ProductWithRelations } from "@/types";
+import { getAllCategories } from "@/lib/db/queries/categoryQueries";
+import { getAllProducts } from "@/lib/db/queries/productQueries";
 
 // interface Product {
 //     id: number;
@@ -21,21 +21,32 @@ import { Product } from "@/types";
 //     relatedProducts: number[];
 // }
 
+
+
 export default function Home() {
-  const [products, setProducts] = useState<Product[]>([]);
+
+  const [products, setProducts] = useState<ProductWithRelations[]>([]);
   const {searchTerm} = useSearch();
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [loading, setLoading] = useState(true);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
-    getProducts()
+    getAllProducts()
       .then((data) => {
-        setProducts(data);
+        setProducts(data as ProductWithRelations[]);
+        console.log("products>>>>",products)
         setLoading(false);
       })
       .catch(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    getAllCategories().then(setCategories);
+  }, []);
+
+ console.log('products:', products);
 
   const fuse = useMemo(
     () =>
@@ -46,10 +57,12 @@ export default function Home() {
     [products]
   );
 
+  console.log('products after fuse:', products);
   const filteredProducts = useMemo(() => {
-    let results: Product[] = products;
+    let results: ProductWithRelations[] = products;
 
     if (selectedCategory !== "all") {
+      console.log('results>>',results)
       results = results.filter((p) => p.categories.some(c => c.name.toLowerCase().includes(selectedCategory.toLowerCase())));
     }
 
@@ -61,6 +74,7 @@ export default function Home() {
     return results;
   }, [products, searchTerm, selectedCategory, fuse]);
 
+  
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -77,7 +91,7 @@ export default function Home() {
           {mobileFilterOpen ? (
             <X className="w-5 h-5" />
           ) : (
-            <span className="text-sm text-gray-500">({categoriesData.length})</span>
+            <span className="text-sm text-gray-500">({categories.length})</span>
           )}
         </button>
 
@@ -97,7 +111,7 @@ export default function Home() {
             >
               All Products
             </button>
-            {categoriesData.map((cat) => (
+            {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => {
@@ -134,7 +148,7 @@ export default function Home() {
             All Products
           </button>
           <ul className="space-y-2">
-            {categoriesData.map((cat) => (
+            {categories.map((cat) => (
               <li key={cat.id}>
                 <button
                   onClick={() => setSelectedCategory(cat.id)}
@@ -167,7 +181,7 @@ export default function Home() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard key={product?.id} product={product} />
               ))}
             </div>
           )}

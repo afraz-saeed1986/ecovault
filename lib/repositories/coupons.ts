@@ -69,8 +69,8 @@ export function createCouponRepository(dataSoure: CollectionDataSource){
             const existing = await dataSoure.get<Coupon>(collection, id);
             if(!existing) throw new Error("Coupon not found");
 
-            const used = existing.usedCount ?? 0;
-            const max = existing.maxUsage ?? undefined;
+            const used = existing.used_count ?? 0;
+            const max = existing.max_usage ?? undefined;
 
             if(typeof max === "number" && used >= max){
                 throw new Error("Coupon usage limit reached");
@@ -78,7 +78,7 @@ export function createCouponRepository(dataSoure: CollectionDataSource){
 
             const updated: Coupon = {
                 ...existing,
-                usedCount: used + 1,
+                used_count: used + 1,
             };
 
             return dataSoure.upsert<Coupon>(collection, updated);

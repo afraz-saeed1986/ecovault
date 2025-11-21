@@ -1,5 +1,5 @@
-import { CartItem } from "./cartItem";
-import { Product } from "./product";
+import { CartItem } from "./index";
+import { Product } from "./index";
 
 export interface CartContextType {
   cart: CartItem[];

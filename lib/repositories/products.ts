@@ -1,5 +1,5 @@
 import type { CollectionDataSource, ID } from "../db/adapters";
-import {Product} from '@/types/index';
+import {Product} from '@/types';
 
 export function createProductRepository(dataSourse: CollectionDataSource) {
     const collection = 'products';
