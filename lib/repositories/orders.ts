@@ -1,4 +1,4 @@
-import type { CollectionDataSource, ID } from "../db/adapters";
+import type { CollectionDataSource, ID } from "@/lib/db/adapters";
 import type { Order } from "@/types";
 
 export function createOrderRepository(dataSource: CollectionDataSource){

@@ -1,5 +1,6 @@
 import type { ProductWithRelations } from "@/types";
 import axios from "axios";
+import { title } from "process";
 
 const api = axios.create({
     baseURL: "/api",
@@ -21,12 +22,12 @@ export const getProducts = async () => {
 };
 
 // Get One Product
-export const getProductById = async (id: number): Promise<ProductWithRelations | null> => {
-   try {
-    const res = await api.get(`/products/${id}`)  // درست: /api/products/1
-    return res.data as ProductWithRelations
-  } catch (error) {
-    console.error("Error fetching product by id:", error)
-    return null
-  }
+export async function getProductById(id: number) {
+  const url = `${getBaseUrl()}/api/products/${id}`;
+
+  const res = await axios.get(url);
+
+  console.log("Product Get Success: ", {id, status: res.status, data: res.data as ProductWithRelations})
+ 
+  return res.data as ProductWithRelations;
 }

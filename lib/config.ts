@@ -1,6 +1,6 @@
 import path from "path";
 import { getAdapterFromEnv } from "./db/adapters/registry";
-import type { CollectionDataSource } from "./db/adapters/registry";
+import type { CollectionDataSource } from "./db/adapters"; 
 
 const DEFAULT_DATA_DIR = path.resolve(process.cwd() , 'app', 'data');
 

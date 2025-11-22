@@ -1,4 +1,4 @@
-import type { CollectionDataSource, ID } from "./index";
+import type { CollectionDataSource, ID } from '@/lib/db/adapters'; 
 import * as fileStore from '../fileStore';
 
 /**

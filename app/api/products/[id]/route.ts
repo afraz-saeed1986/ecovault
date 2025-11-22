@@ -1,21 +1,32 @@
-import { NextResponse } from "next/server";
-import { getProducts } from "@/lib/api";
+// app/api/products/[id]/route.ts
+import { NextResponse } from 'next/server';
+import { loadConfig } from '@/lib/config';
+import { createProductRepository } from '@/lib/repositories/products';
+import { supabase } from '@/lib/supabaseClient';
 
 export async function GET(
-    request: Request,
-    {params}: {params: Promise<{id: string}>}
+  request: Request,
+  { params }: { params: { id: string } }
 ) {
-    const {id} = await params;
-    const productId = parseInt(id);
+  const id = parseInt(params.id);
+  if (!id) return NextResponse.json({ error: 'id required' }, { status: 400 });
 
-    console.log("%%%%%%%%%%%", productId);
+  try {
+    const { adapter } = loadConfig();
+    const repo = createProductRepository(adapter);
 
-    const productsData = await getProducts();
-    const product = productsData.find(p => p.id === productId);
+      const { data} = await supabase
+        .from('products_with_relations')
+        .select('*');
 
-    if(!product) {
-        return new NextResponse("Product Not Found", {status: 404});
-    }
+    const product = data?.filter(d => parseInt(d.id) === id);
 
-    return NextResponse.json(product);
+    if (!product)
+      return NextResponse.json({ message: 'Product not found' }, { status: 404 });
+
+    return NextResponse.json(product); // فقط داده خالص JSON
+  } catch (err: any) {
+    console.error('GET /api/products/[id] error:', err);
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
 }

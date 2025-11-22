@@ -1,9 +1,9 @@
 // src/lib/db/registry.ts
 import { createFileAdapter } from '@/lib/db/adapters/fileAdapter'
 import { createSupabaseAdapter } from '@/lib/db/adapters/supabaseAdapter' // این فایل رو بعداً می‌سازیم
-import type { CollectionDataSource } from './index'
+import type { CollectionDataSource } from '@/lib/db/adapters' 
 
-export type { CollectionDataSource } from './index'
+// export type { CollectionDataSource } from './index'
 
 export function getAdapterFromEnv(): CollectionDataSource {
   const adapter = (process.env.DATA_ADAPTER || 'file').toLowerCase()

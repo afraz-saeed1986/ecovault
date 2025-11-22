@@ -2,6 +2,8 @@
 import { notFound } from "next/navigation";
 import { getProductById } from "@/lib/api";
 import ProductClient from "./ProductClient";
+import { loadConfig } from "@/lib/config";
+import { createProductRepository } from "@/lib/repositories/products";
 
 
 // --- SEO Metadata ---
@@ -24,9 +26,28 @@ const {id} = await params;
 }
 
 // --- Server Component ---
+// export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+// const {id } = await params;
+//   const product = await getProductById(Number(id));
+
+//   console.log("id, product>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",id,  product)
+
+//   if (!product) {
+//     console.log("Product not found → calling notFound()"); // دیباگ
+//     notFound();
+//   }
+
+//   return <ProductClient product={product} />
+  
+// }
+
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
 const {id } = await params;
-  const product = await getProductById(Number(id));
+const { adapter } = loadConfig();
+const repo = createProductRepository(adapter);
+
+
+const product = await repo.getById(id);
 
   console.log("id, product>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",id,  product)
 
@@ -34,7 +55,7 @@ const {id } = await params;
     console.log("Product not found → calling notFound()"); // دیباگ
     notFound();
   }
-
+ 
   return <ProductClient product={product} />
   
 }
