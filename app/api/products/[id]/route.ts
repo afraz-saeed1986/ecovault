@@ -8,6 +8,8 @@ export async function GET(
     const {id} = await params;
     const productId = parseInt(id);
 
+    console.log("%%%%%%%%%%%", productId);
+
     const productsData = await getProducts();
     const product = productsData.find(p => p.id === productId);
 

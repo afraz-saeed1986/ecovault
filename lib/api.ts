@@ -21,17 +21,12 @@ export const getProducts = async () => {
 };
 
 // Get One Product
-export const getProductById = async (id: number) => {
+export const getProductById = async (id: number): Promise<ProductWithRelations | null> => {
    try {
-    const base = getBaseUrl();
-    const res = await fetch(`${base}/api/products/${id}`, {
-      cache: "no-store",
-    });
-
-    if (!res.ok) return null;
-    return await res.json();
+    const res = await api.get(`/products/${id}`)  // درست: /api/products/1
+    return res.data as ProductWithRelations
   } catch (error) {
-    console.error("Error fetching product:", error);
-    return null;
+    console.error("Error fetching product by id:", error)
+    return null
   }
 }

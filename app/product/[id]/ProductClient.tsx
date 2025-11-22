@@ -9,7 +9,7 @@ import type { ProductWithRelations, Review , ReviewWithRealations } from "@/type
 
 export default function ProductClient({ product }: { product: ProductWithRelations }) {
   const { addToCart } = useCart();
-
+  console.log("########################",product)
   const productCategoriesName = product.categories.map(c => c.name);
 
 console.log(product);

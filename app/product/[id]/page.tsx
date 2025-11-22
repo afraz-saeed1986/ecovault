@@ -28,6 +28,8 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
 const {id } = await params;
   const product = await getProductById(Number(id));
 
+  console.log("id, product>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",id,  product)
+
   if (!product) {
     console.log("Product not found → calling notFound()"); // دیباگ
     notFound();

@@ -18,13 +18,14 @@ export type Product = Tables['products']['Row']
 
 // محصول کامل با همه رابطه‌ها (برای ProductCard و صفحه جزئیات)
 export type ProductWithRelations = Product & {
-  categories: Tables['categories']['Row'][]
-  coupon: Tables['coupons']['Row'] | null
-  inventory?: Tables['inventory']['Row']
-  roductCategory?: Tables['product_categories']['Row']
-  reviews: ReviewWithRealations[]  // اینجا حتماً باشه، چون ProductCard ازش استفاده می‌کنه
+  inventory?: Tables['inventory']['Row'] | null
+  reviews: ReviewWithRealations[]
+  categories: Tables['categories']['Row'][]           // ← اینو حتماً داشته باش
+  product_categories?: Array<{                         // ساختار موقتی که Supabase برمی‌گردونه
+    category_id: string
+    categories: Tables['categories']['Row']
+  }>
 }
-
 
 
 // بقیه تایپ‌های داده‌ای (فقط alias — هیچ دستی ننوشته شده)
