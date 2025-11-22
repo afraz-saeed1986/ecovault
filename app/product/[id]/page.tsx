@@ -4,6 +4,7 @@ import { getProductById } from "@/lib/api";
 import ProductClient from "./ProductClient";
 import { loadConfig } from "@/lib/config";
 import { createProductRepository } from "@/lib/repositories/products";
+import { ProductWithRelations } from "@/types";
 
 
 // --- SEO Metadata ---
@@ -42,20 +43,17 @@ const {id} = await params;
 // }
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
-const {id } = await params;
-const { adapter } = loadConfig();
-const repo = createProductRepository(adapter);
+  let product: ProductWithRelations[] = [];
+  const {id} = await params;
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${id}`, {
+    cache: "no-store"
+  });
 
+  if (!res.ok) return <div>Product not found</div>;
 
-const product = await repo.getById(id);
-
-  console.log("id, product>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",id,  product)
-
-  if (!product) {
-    console.log("Product not found → calling notFound()"); // دیباگ
-    notFound();
-  }
+  product = await res.json();
+  console.log(typeof product);
  
-  return <ProductClient product={product} />
+  return <ProductClient product={product[0]} />
   
 }
