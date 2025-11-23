@@ -102,7 +102,7 @@ export default function WishlistPage() {
                   >
                     {/* Remove Button */}
                     <button
-                      onClick={() => handleRemove(product.id)}
+                      onClick={() => product.id && handleRemove(product.id)}
                       disabled={removingId === product.id}
                       className="absolute top-3 right-3 z-10 p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-all hover:scale-110 disabled:opacity-50 dark:bg-eco-dark/90 dark:text-gray-300"
                       aria-label="Remove from wishlist"
@@ -114,7 +114,7 @@ export default function WishlistPage() {
                       )}
                     </button>
 
-                    <ProductCard productWithRelations={product} />
+                    <ProductCard product={product} />
                   </motion.div>
                 ))}
               </AnimatePresence>

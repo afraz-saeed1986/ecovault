@@ -1,44 +1,125 @@
-// src/types/index.ts   ← این همون فایل قدیمیته، فقط آپدیتش کن
-import type { Database } from '@/types/database.types'
+import type { Database } from './database.types'
 
 // ──────────────────────────────────────────────────────────────
-// ۱. تایپ‌های دیتابیس (از Supabase — همیشه sync با دیتابیس واقعی)
+// Helperهای دقیق و ایمن برای جداول و Viewها
 // ──────────────────────────────────────────────────────────────
-type Tables = Database['public']['Tables']
+type Table<T extends keyof Database['public']['Tables']> =
+  Database['public']['Tables'][T]['Row']
 
-export type Review = Tables['reviews']['Row']
+type View<T extends keyof Database['public']['Views']> =
+  Database['public']['Views'][T]['Row']
 
-export type ReviewWithRealations = Review & {
-  user: Tables['profiles']['Row']
+// ──────────────────────────────────────────────────────────────
+// ۱. تایپ‌های پایه (Rowهای اصلی جداول)
+// ──────────────────────────────────────────────────────────────
+export type Product = Table<'products'>
+export type Category = Table<'categories'>
+export type Coupon = Table<'coupons'>
+export type Profile = Table<'profiles'>          // به جای User → دقیق‌تر و واضح‌تر
+export type Review = Table<'reviews'>
+export type Order = Table<'orders'>
+export type OrderItem = Table<'order_items'>
+export type Inventory = Table<'inventory'>
+
+// ──────────────────────────────────────────────────────────────
+// ۲. تایپ‌های ترکیبی و رابطه‌دار (بهترین روش!)
+// ──────────────────────────────────────────────────────────────
+
+// بهترین و تمیزترین راه: استفاده مستقیم از View آماده در دیتابیس
+export type ProductWithRelations = View<'products_with_relations'>
+
+export type CartItem = {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+};
+
+// اگر به هر دلیلی بخوای دستی بسازی (مثلاً برای کوئری‌های خاص)
+export type ProductWithRelationsManual = Product & {
+  inventory: Inventory | null
+  categories: Category[]
+  reviews: ReviewWithProfile[]
+  related_products?: Product[]
 }
 
-// Product با رابطه‌ها (دقیقاً همون شکلی که تو کدهایت استفاده می‌کنی)
-// تایپ پایه محصول (بدون رابطه)
-export type Product = Tables['products']['Row']
-
-// محصول کامل با همه رابطه‌ها (برای ProductCard و صفحه جزئیات)
-export type ProductWithRelations = Product & {
-  inventory?: Tables['inventory']['Row'] | null
-  reviews: ReviewWithRealations[]
-  categories: Tables['categories']['Row'][]           // ← اینو حتماً داشته باش
-  product_categories?: Array<{                         // ساختار موقتی که Supabase برمی‌گردونه
-    category_id: string
-    categories: Tables['categories']['Row']
-  }>
+// Review + اطلاعات نویسنده (profile)
+export type ReviewWithProfile = Review & {
+  profiles: Profile | null        // دقیقاً همون چیزی که supabase برمی‌گردونه
 }
 
-
-// بقیه تایپ‌های داده‌ای (فقط alias — هیچ دستی ننوشته شده)
-export type Category = Tables['categories']['Row']
-export type Coupon = Tables['coupons']['Row']
-export type Order = Tables['orders']['Row']
-export type OrderItem = Tables['order_items']['Row']
-export type InventoryItem = Tables['inventory']['Row']
-export type User = Tables['profiles']['Row']
-export type ProductCategory = Tables['product_categories']['Row']
+// اگر در کوئری از alias استفاده کردی (مثلاً user:profiles(*))
+export type ReviewWithUser = Review & {
+  user: Profile | null
+}
 
 // ──────────────────────────────────────────────────────────────
-// ۲. تایپ‌های UI و Context (دقیقاً همون قبلی‌ها — دست نخورده!)
+// ۳. تایپ‌های کاربردی برای UI و فرانت‌اند
+// ──────────────────────────────────────────────────────────────
+export type ProductCard = ProductWithRelations & {
+  mainImage?: string
+  avgRating?: number
+  reviewCount?: number
+  inStock?: boolean
+  isLowStock?: boolean
+}
+
+export type ProductDetailPage = ProductWithRelations & {
+  translatedName?: string
+  translatedDescription?: string
+  translatedShortDescription?: string
+}
+
+// برای وقتی که reviews رو جداگانه می‌گیری
+export type ReviewWithAuthor = Review & {
+  profiles: Profile | null
+}
+
+export type RelatedProductFromView = {
+  id: number;
+  name: string;
+  price: number | null;
+  images: string[] | null;
+  short_description: string | null;
+  is_active: boolean | null;
+};
+
+
+// ──────────────────────────────────────────────────────────────
+// ۵. تایپ نهایی محصول با تمام محاسبات (برای استفاده در سرویس)
+// ──────────────────────────────────────────────────────────────
+export type EnhancedProduct = ProductWithRelations & {
+  realStock: number
+  inStock: boolean
+  isLowStock: boolean
+  avgRating: number
+  reviewCount: number
+  mainImage: string | null
+  reviews: ReviewWithProfile[]// دقیقاً همون چیزی که از View میاد (profiles جوین شده)
+  related_products: RelatedProductFromView[] | null; 
+}
+
+export type WishlistItem = EnhancedProduct;
+
+export type WishlistContextType = {
+  wishlist: EnhancedProduct[];
+  toggleWishlist: (product: EnhancedProduct) => void;
+  removeFromWishlist: (id: number) => void;
+  isInWishlist: (id: number) => boolean;
+};
+
+export type CreateReviewInput = {
+  product_id: number;
+  rating: number;
+  comment?: string | null;
+  title?: string | null;
+};
+
+
+
+// ──────────────────────────────────────────────────────────────
+// ۴. اکسپورت‌های قبلی (Contextها و کامپوننت‌ها)
 // ──────────────────────────────────────────────────────────────
 export * from './cartContextType'
 export * from './wishlistContextType'
@@ -46,4 +127,3 @@ export * from './themeContextType'
 export * from './SearchContextType'
 export * from './productGalleryProps'
 export * from './cartItem'
-

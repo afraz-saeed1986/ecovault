@@ -1,59 +1,35 @@
-
+// app/product/[id]/page.tsx
 import { notFound } from "next/navigation";
-import { getProductById } from "@/lib/api";
+import { productService } from "@/services/product.service";
 import ProductClient from "./ProductClient";
-import { loadConfig } from "@/lib/config";
-import { createProductRepository } from "@/lib/repositories/products";
-import { ProductWithRelations } from "@/types";
+import type { EnhancedProduct } from "@/types";
 
-
-// --- SEO Metadata ---
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
-const {id} = await params;
-  const product = await getProductById(Number(id));
-  if (!product) return { title: "Product Not Found" };
-
-  return {
-    title: `${product.name} | EcoVault`,
-    description: product.description,
-    openGraph: {
-      title: product.name,
-      description: product.description,
-      images: [product.images[0]],
-      url: `https://ecovault-afraz.vercel.app/product/${id}`,
-      type: "website",
-    },
-  };
+interface Props {
+  params: Promise<{ id: string }>; // مهم: Promise!
 }
 
-// --- Server Component ---
-// export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
-// const {id } = await params;
-//   const product = await getProductById(Number(id));
+export async function generateMetadata({ params }: Props) {
+  const { id } = await params; // await لازم
+  try {
+    const product = await productService.getById(Number(id));
+    return {
+      title: `${product.name} | EcoShop`,
+      description: product.short_description || product.description?.slice(0, 160),
+    };
+  } catch {
+    return { title: "Product Not Found" };
+  }
+}
 
-//   console.log("id, product>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",id,  product)
+export default async function ProductPage({ params }: Props) {
+  const { id } = await params; // await اینجا
+  let product: EnhancedProduct;
 
-//   if (!product) {
-//     console.log("Product not found → calling notFound()"); // دیباگ
-//     notFound();
-//   }
+  try {
+    product = await productService.getById(Number(id));
+  } catch {
+    notFound();
+  }
 
-//   return <ProductClient product={product} />
-  
-// }
-
-export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
-  let product: ProductWithRelations[] = [];
-  const {id} = await params;
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${id}`, {
-    cache: "no-store"
-  });
-
-  if (!res.ok) return <div>Product not found</div>;
-
-  product = await res.json();
-  console.log(typeof product);
- 
-  return <ProductClient product={product[0]} />
-  
+  return <ProductClient product={product} />;
 }
