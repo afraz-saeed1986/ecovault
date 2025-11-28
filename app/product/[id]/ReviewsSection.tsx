@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import type { EnhancedProduct, ReviewWithProfile } from "@/types";
 import { supabase } from "@/lib/supabase/client";
 
+
 const reviewSchema = z.object({
   rating: z.number().min(1, "Rating is required").max(5),
   title: z.string().optional(),
@@ -28,6 +29,8 @@ interface ReviewsSectionProps {
 export default function ReviewsSection({ product, onReviewSubmitted }: ReviewsSectionProps) {
   const { data: session, status } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
+    
+
 
   const reviews = product.reviews as ReviewWithProfile[];
 
@@ -86,7 +89,7 @@ export default function ReviewsSection({ product, onReviewSubmitted }: ReviewsSe
         {/* فرم ارسال نظر */}
         <div className="lg:col-span-1">
           <div className="bg-white dark:bg-eco-darkest rounded-2xl shadow-lg p-6 border">
-            <h3 className="font-bold text-lg mb-4">Write a Review</h3>
+            <h3 className="font-bold text-lg mb-4 dark:text-eco-light">Write a Review</h3>
 
             {isLoading ? (
               <p className="text-center text-gray-500 py-8">Loading...</p>
@@ -94,7 +97,7 @@ export default function ReviewsSection({ product, onReviewSubmitted }: ReviewsSe
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                 {/* ستاره‌ها */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Your Rating</label>
+                  <label className="block text-sm font-medium mb-2 dark:text-eco-light">Your Rating</label>
                   <div className="flex gap-2">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <button
@@ -119,21 +122,21 @@ export default function ReviewsSection({ product, onReviewSubmitted }: ReviewsSe
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-1">Review Title</label>
+                  <label className="block text-sm font-medium mb-1 dark:text-eco-light">Review Title</label>
                   <input
                     {...register("title")}
                     placeholder="e.g. Great product!"
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-green dark:bg-gray-800"
+                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-green dark:bg-gray-800 dark:text-eco-light"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-1">Your Review</label>
+                  <label className="block text-sm font-medium mb-1 dark:text-eco-light">Your Review</label>
                   <textarea
                     {...register("comment")}
                     rows={4}
                     placeholder="Share your experience..."
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-green dark:bg-gray-800 resize-none"
+                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-green dark:bg-gray-800 resize-none dark:text-eco-light"
                   />
                   {errors.comment && (
                     <p className="text-red-500 text-sm mt-1">{errors.comment.message}</p>
@@ -182,6 +185,7 @@ export default function ReviewsSection({ product, onReviewSubmitted }: ReviewsSe
                   <div>
                     <p className="font-bold text-eco-dark dark:text-eco-light">
                       {review.profiles?.name || "Anonymous"}
+                      {/* {session?.user?.name || "Anonymous"} */}
                     </p>
                     <p className="text-sm text-gray-500">
                       {review.created_at
