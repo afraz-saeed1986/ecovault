@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { useCart } from "@/components/CartContext";
 import CartDropdown from "@/components/cartDropdown";
-import { ShoppingCart, Search, Menu, X, LogOut, Sun, Moon, Heart, LayoutDashboard } from "lucide-react"; // LayoutDashboard اضافه شد
+import { ShoppingCart, Search, Menu, X, LogOut, Sun, Moon, Heart, LayoutDashboard, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
@@ -12,13 +12,69 @@ import { useSearch } from "./SearchContext";
 import { useTheme } from "@/components/ThemeContext";
 import { useWishlist } from "@/components/WishList";
 
+// --- تابع کمکی: استخراج حروف اول اسم ---
+const getInitials = (name: string | null | undefined): string => {
+  if (!name) return "??";
+  
+  // سعی می‌کنیم دو حرف اول کلمات را بگیریم (برای سعید افراز -> SA)
+  const parts = name.split(/\s+/).filter(p => p.length > 0);
+  
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }
+  // اگر فقط یک کلمه بود یا اسم‌های پیچیده، یک حرف اول را برمی‌گردانیم
+  return parts.length > 0 ? parts[0][0].toUpperCase() : "??";
+};
+
+// --- کامپوننت کمکی: نمایش آواتار یا حروف اول ---
+interface AvatarProps {
+  image?: string | null;
+  name?: string | null;
+  size: 'small' | 'large'; // small: 8x8 (desktop), large: 12x12 (mobile)
+}
+
+const AvatarWithFallback: React.FC<AvatarProps> = ({ image, name, size }) => {
+  const initials = getInitials(name);
+  const sizeClasses = {
+    small: "w-8 h-8 text-xs",
+    large: "w-12 h-12 text-lg",
+  };
+  
+  const currentSizeClass = sizeClasses[size];
+
+  // شرط: اگر image داشتیم و خالی نبود، تصویر را نمایش می‌دهیم
+  if (image) {
+    return (
+      <img
+        src={image}
+        alt={name || "User"}
+        className={`${currentSizeClass.replace('text-xs', '').replace('text-lg', '')} rounded-full border border-white dark:border-eco-light shadow-md object-cover`}
+        referrerPolicy="no-referrer"
+        width={size === 'small' ? 32 : 48}
+        height={size === 'small' ? 32 : 48}
+      />
+    );
+  }
+
+  // اگر تصویر وجود نداشت یا آدرس آن خالی بود، حروف اول را نمایش می‌دهیم
+  return (
+    <div
+      className={`${currentSizeClass} rounded-full border border-white dark:border-eco-light shadow-md flex items-center justify-center bg-white/20 dark:bg-eco-light/10 font-bold`}
+      title={name || "User"}
+    >
+      {initials}
+    </div>
+  );
+};
+
+
 export default function Navbar() {
   const [cartOpen, setCartOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { totalItems } = useCart();
   const { wishlist } = useWishlist();
   const pathname = usePathname();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession(); 
   const { searchTerm, setSearchTerm } = useSearch();
   const { darkMode, toggleDarkMode } = useTheme();
 
@@ -26,10 +82,20 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     await signOut({ redirect: false });
+    // تمیز کردن کوکی سشن next-auth
     document.cookie =
       "next-auth.session-token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT; secure; samesite=lax";
     window.location.href = "/";
   };
+
+  // کامپوننت Placeholder برای حالت بارگذاری
+  const LoadingPlaceholder = ({ isMobile = false }) => (
+    <div 
+      className={`flex items-center justify-center ${isMobile ? 'h-10 w-full' : 'w-24 h-8'} bg-white/20 rounded-lg animate-pulse`}
+    >
+      {isMobile ? "Loading..." : ""}
+    </div>
+  );
 
   return (
     <>
@@ -148,55 +214,57 @@ export default function Navbar() {
               </button>
 
               <div className="flex items-center gap-3">
-                {session ? (
-                  // دکمه‌های Dashboard و Logout (زیباتر شده)
+                {/* منطق جدید: جلوگیری از نمایش دکمه‌های ورود در حالت loading */}
+                {status === "loading" ? (
+                  <LoadingPlaceholder />
+                ) : session ? (
+                  // دکمه‌های Dashboard و Logout 
                   <div className="flex items-center gap-3">
-                    <img
-                      src={session.user?.image || "/default-avatar.png"}
-                      alt={session.user?.name || "User"}
-                      className="w-8 h-8 rounded-full border border-white shadow-md"
-                      referrerPolicy="no-referrer"
-                      width={32}
-                      height={32}
+                    
+                    {/* 🔥 تغییر دسکتاپ: استفاده از AvatarWithFallback */}
+                    <AvatarWithFallback 
+                      image={session.user?.image} 
+                      name={session.user?.name} 
+                      size="small" 
                     />
                     
-                    {/* دکمه Dashboard (جدید و زیبا) */}
+                    {/* دکمه Dashboard (نیمه‌شفاف) */}
                     <Link 
                       href="/dashboard" 
-                      className="flex items-center gap-1.5 bg-white text-eco-green px-3 py-1.5 rounded-full text-sm font-semibold 
-                               hover:bg-eco-light/90 hover:text-eco-dark transition-all duration-300 shadow-sm hover:shadow-lg"
+                      className="flex items-center gap-1.5 bg-white/5 dark:bg-white/5 dark:hover:bg-white/20 text-white px-3 py-1.5 rounded-lg text-sm font-semibold 
+                                hover:bg-white/10 transition-all duration-300 shadow-sm hover:shadow-lg"
                     >
-                      <LayoutDashboard className="w-4 h-4" />
+                      <LayoutDashboard className="w-4 h-4" /> 
                       Dashboard
                     </Link>
 
-                    {/* دکمه Logout (زیبا) */}
+                    {/* دکمه Logout (نیمه‌شفاف) */}
                     <button 
                       onClick={handleLogout} 
-                      className="flex items-center gap-1.5 bg-red-500 text-white px-3 py-1.5 rounded-full text-sm font-semibold 
-                               hover:bg-red-600 transition-all duration-300 shadow-sm hover:shadow-lg"
+                      className="flex items-center gap-1.5 bg-red-500/40 text-white px-3 py-1.5 rounded-lg text-sm font-semibold 
+                                hover:bg-red-500/50 transition-all duration-300 shadow-sm hover:shadow-lg"
                     >
                       <LogOut className="w-4 h-4" />
                       Logout
                     </button>
                   </div>
                 ) : (
-                  // دکمه‌های Sign In و Sign Up (زیباتر شده)
+                  // دکمه‌های Sign In و Sign Up (شفاف شده)
                   <div className="flex items-center gap-3">
-                    {/* دکمه Sign In (زیبا) */}
+                    {/* دکمه Sign In (نیمه‌شفاف) */}
                     <Link 
                       href="/auth/signin" 
-                      className="bg-white text-eco-green px-4 py-1.5 rounded-full font-semibold text-sm 
-                               hover:bg-eco-light/90 hover:text-eco-dark transition-all duration-300 shadow-sm hover:shadow-md"
+                      className="bg-white/20 text-white px-4 py-1.5 rounded-lg font-semibold text-sm 
+                                hover:bg-white/30 transition-all duration-300 shadow-sm hover:shadow-md"
                     >
                       Sign In
                     </Link>
                     
-                    {/* دکمه Sign Up (زیبا) */}
+                    {/* دکمه Sign Up (نیمه‌شفاف با رنگ متمایز) */}
                     <Link
-                      href="/auth/signup"
-                      className="bg-eco-accent text-white px-4 py-1.5 rounded-full font-semibold text-sm 
-                               hover:bg-eco-accent/90 transition-all duration-300 shadow-md hover:shadow-lg"
+                      href="/auth/signin" // فرض بر این است که این صفحه هم Sign In و هم Sign Up را هندل می‌کند
+                      className="bg-eco-accent/40 text-white px-4 py-1.5 rounded-lg font-semibold text-sm 
+                                hover:bg-eco-accent/60 transition-all duration-300 shadow-md hover:shadow-lg"
                     >
                       Sign Up
                     </Link>
@@ -226,22 +294,30 @@ export default function Navbar() {
           {mobileMenuOpen && (
             <div className="lg:hidden bg-eco-green/95 dark:bg-eco-dark/95 backdrop-blur-sm border-t border-white/20">
               <div className="px-4 py-4 space-y-3">
-                {session ? (
+                {/* منطق جدید: جلوگیری از نمایش دکمه‌های ورود در حالت loading */}
+                {status === "loading" ? (
+                  <div className="h-20 flex items-center justify-center text-white/70">
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" /> Loading User...
+                  </div>
+                ) : session ? (
                   <>
                     <div className="flex items-center gap-3 pb-3 border-b border-white/20">
-                      <img
-                        src={session.user?.image || "/default-avatar.png"}
-                        alt={session.user?.name || "User"}
-                        className="w-12 h-12 rounded-full border-2 border-white shadow-md"
-                        referrerPolicy="no-referrer"
+                      {/* 🔥 تغییر موبایل: استفاده از AvatarWithFallback */}
+                      <AvatarWithFallback 
+                        image={session.user?.image} 
+                        name={session.user?.name} 
+                        size="large" 
                       />
+                      
                       <div className="flex-1">
                         <p className="font-semibold text-white text-sm truncate">{session.user?.name}</p>
                         
                         {/* دکمه Dashboard (موبایل) */}
                         <Link
                           href="/dashboard"
-                          className="text-xs text-eco-light hover:text-white transition-colors flex items-center gap-1"
+                          className="mt-2 flex items-center justify-center gap-1.5 
+                                    bg-white/10 text-white px-3 py-1 rounded-lg text-xs font-medium 
+                                    hover:bg-white/20 transition-all duration-300 w-fit" 
                           onClick={() => setMobileMenuOpen(false)}
                         >
                           <LayoutDashboard className="w-3 h-3" />
@@ -250,10 +326,11 @@ export default function Navbar() {
                       </div>
                     </div>
 
-                    {/* دکمه Logout (موبایل) */}
+                    {/* دکمه Logout (موبایل) - تغییر یافته برای زیبایی بیشتر */}
                     <button
                       onClick={handleLogout}
-                      className="w-full text-left text-white hover:text-red-300 transition-colors py-2 text-sm font-medium flex items-center gap-2"
+                      className="w-full text-left text-white px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-3 
+                                    bg-red-500/20 hover:bg-red-500/40 transition-colors"
                     >
                       <LogOut className="w-4 h-4" />
                       Logout
@@ -261,18 +338,18 @@ export default function Navbar() {
                   </>
                 ) : (
                   <div className="space-y-3">
-                    {/* دکمه Sign In (موبایل - زیبا) */}
+                    {/* دکمه Sign In (موبایل - شفاف) */}
                     <Link
                       href="/auth/signin"
-                      className="block w-full text-center bg-white text-eco-green py-2.5 rounded-xl font-semibold text-sm hover:bg-eco-light/90 transition-colors shadow-sm"
+                      className="block w-full text-center bg-white/20 text-white py-2.5 rounded-lg font-semibold text-sm hover:bg-white/30 transition-colors shadow-sm"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Sign In
                     </Link>
-                    {/* دکمه Sign Up (موبایل - زیبا) */}
+                    {/* دکمه Sign Up (موبایل - شفاف) */}
                     <Link
-                      href="/auth/signup"
-                      className="block w-full text-center bg-eco-accent text-white py-2.5 rounded-xl font-semibold text-sm hover:bg-eco-accent/90 transition-colors shadow-sm"
+                      href="/auth/signin"
+                      className="block w-full text-center bg-eco-accent/40 text-white py-2.5 rounded-lg font-semibold text-sm hover:bg-eco-accent/60 transition-colors shadow-sm"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Sign Up
@@ -294,35 +371,27 @@ export default function Navbar() {
 
 
 
-
-
-
-
-
-
-
-
-
 // "use client";
 
 // import { useState } from "react";
 // import { useCart } from "@/components/CartContext";
 // import CartDropdown from "@/components/cartDropdown";
-// import { ShoppingCart, Search, Menu, X, LogOut, Sun, Moon, Heart } from "lucide-react"; // Heart اضافه شد
+// import { ShoppingCart, Search, Menu, X, LogOut, Sun, Moon, Heart, LayoutDashboard, Loader2 } from "lucide-react";
 // import Link from "next/link";
 // import { usePathname } from "next/navigation";
 // import { useSession, signOut } from "next-auth/react";
 // import { useSearch } from "./SearchContext";
 // import { useTheme } from "@/components/ThemeContext";
-// import { useWishlist } from "@/components/WishList"; // جدید
+// import { useWishlist } from "@/components/WishList";
 
 // export default function Navbar() {
 //   const [cartOpen, setCartOpen] = useState(false);
 //   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 //   const { totalItems } = useCart();
-//   const { wishlist } = useWishlist(); // تعداد آیتم‌های wishlist
+//   const { wishlist } = useWishlist();
 //   const pathname = usePathname();
-//   const { data: session } = useSession();
+//   // تغییر اصلی: اضافه کردن status برای مدیریت وضعیت loading
+//   const { data: session, status } = useSession(); 
 //   const { searchTerm, setSearchTerm } = useSearch();
 //   const { darkMode, toggleDarkMode } = useTheme();
 
@@ -330,16 +399,26 @@ export default function Navbar() {
 
 //   const handleLogout = async () => {
 //     await signOut({ redirect: false });
+//     // تمیز کردن کوکی سشن next-auth
 //     document.cookie =
 //       "next-auth.session-token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT; secure; samesite=lax";
 //     window.location.href = "/";
 //   };
 
+//   // کامپوننت Placeholder برای حالت بارگذاری
+//   const LoadingPlaceholder = ({ isMobile = false }) => (
+//     <div 
+//       className={`flex items-center justify-center ${isMobile ? 'h-10 w-full' : 'w-24 h-8'} bg-white/20 rounded-lg animate-pulse`}
+//     >
+//       {isMobile ? "Loading..." : ""}
+//     </div>
+//   );
+
 //   return (
 //     <>
 //       <header className="bg-eco-green dark:bg-eco-dark text-white dark:text-eco-light sticky top-0 z-40 shadow-md transition-colors duration-300">
 //         <div className="max-w-7xl mx-auto px-4 py-3 sm:py-4">
-
+          
 //           {/* --- موبایل و تبلت: همبرگر + لوگو + آیکن‌ها --- */}
 //           <div className="flex items-center justify-between lg:hidden">
 //             {/* همبرگر + لوگو */}
@@ -452,36 +531,62 @@ export default function Navbar() {
 //               </button>
 
 //               <div className="flex items-center gap-3">
-//                 {session ? (
-//                   <>
+//                 {/* منطق جدید: جلوگیری از نمایش دکمه‌های ورود در حالت loading */}
+//                 {status === "loading" ? (
+//                   <LoadingPlaceholder />
+//                 ) : session ? (
+//                   // دکمه‌های Dashboard و Logout 
+//                   <div className="flex items-center gap-3">
 //                     <img
 //                       src={session.user?.image || "/default-avatar.png"}
 //                       alt={session.user?.name || "User"}
-//                       className="w-8 h-8 rounded-full border border-white"
+//                       className="w-8 h-8 rounded-full border border-white shadow-md"
 //                       referrerPolicy="no-referrer"
 //                       width={32}
 //                       height={32}
 //                     />
-//                     <span className="text-sm font-medium hidden lg:inline">{session.user?.name}</span>
-//                     <Link href="/dashboard" className="text-sm hover:underline hidden lg:inline">
+                    
+//                     {/* دکمه Dashboard (نیمه‌شفاف) */}
+//                     <Link 
+//                       href="/dashboard" 
+//                       className="flex items-center gap-1.5 bg-white/5 dark:bg-white/5 dark:hover:bg-white/20 text-white px-3 py-1.5 rounded-lg text-sm font-semibold 
+//                                  hover:bg-white/10 transition-all duration-300 shadow-sm hover:shadow-lg"
+//                     >
+//                       <LayoutDashboard className="w-4 h-4" /> 
 //                       Dashboard
 //                     </Link>
-//                     <button onClick={handleLogout} className="text-sm hover:underline">
+
+//                     {/* دکمه Logout (نیمه‌شفاف) */}
+//                     <button 
+//                       onClick={handleLogout} 
+//                       className="flex items-center gap-1.5 bg-red-500/40 text-white px-3 py-1.5 rounded-lg text-sm font-semibold 
+//                                  hover:bg-red-500/50 transition-all duration-300 shadow-sm hover:shadow-lg"
+//                     >
+//                       <LogOut className="w-4 h-4" />
 //                       Logout
 //                     </button>
-//                   </>
+//                   </div>
 //                 ) : (
-//                   <>
-//                     <Link href="/auth/signin" className="text-sm hover:underline">
+//                   // دکمه‌های Sign In و Sign Up (شفاف شده)
+//                   <div className="flex items-center gap-3">
+//                     {/* دکمه Sign In (نیمه‌شفاف) */}
+//                     <Link 
+//                       href="/auth/signin" 
+//                       className="bg-white/20 text-white px-4 py-1.5 rounded-lg font-semibold text-sm 
+//                                  hover:bg-white/30 transition-all duration-300 shadow-sm hover:shadow-md"
+//                     >
 //                       Sign In
 //                     </Link>
+                    
+//                     {/* دکمه Sign Up (نیمه‌شفاف با رنگ متمایز) */}
 //                     <Link
-//                       href="/auth/signup"
-//                       className="text-sm bg-white text-eco-green px-3 py-1 rounded-lg hover:bg-eco-light"
+//                       href="/auth/signin" // فرض بر این است که این صفحه هم Sign In و هم Sign Up را هندل می‌کند
+//                       className="bg-eco-accent/40 text-white px-4 py-1.5 rounded-lg font-semibold text-sm 
+//                                  hover:bg-eco-accent/60 transition-all duration-300 shadow-md hover:shadow-lg"
 //                     >
 //                       Sign Up
 //                     </Link>
-//                   </>
+//                   </div>
 //                 )}
 //               </div>
 //             </div>
@@ -507,7 +612,12 @@ export default function Navbar() {
 //           {mobileMenuOpen && (
 //             <div className="lg:hidden bg-eco-green/95 dark:bg-eco-dark/95 backdrop-blur-sm border-t border-white/20">
 //               <div className="px-4 py-4 space-y-3">
-//                 {session ? (
+//                 {/* منطق جدید: جلوگیری از نمایش دکمه‌های ورود در حالت loading */}
+//                 {status === "loading" ? (
+//                   <div className="h-20 flex items-center justify-center text-white/70">
+//                     <Loader2 className="w-5 h-5 mr-2 animate-spin" /> Loading User...
+//                   </div>
+//                 ) : session ? (
 //                   <>
 //                     <div className="flex items-center gap-3 pb-3 border-b border-white/20">
 //                       <img
@@ -518,19 +628,26 @@ export default function Navbar() {
 //                       />
 //                       <div className="flex-1">
 //                         <p className="font-semibold text-white text-sm truncate">{session.user?.name}</p>
+                        
+//                         {/* دکمه Dashboard (موبایل) */}
 //                         <Link
 //                           href="/dashboard"
-//                           className="text-xs text-eco-light hover:text-white transition-colors"
+//                           className="mt-2 flex items-center justify-center gap-1.5 
+//                                      bg-white/10 text-white px-3 py-1 rounded-lg text-xs font-medium 
+//                                      hover:bg-white/20 transition-all duration-300 w-fit" 
 //                           onClick={() => setMobileMenuOpen(false)}
 //                         >
+//                           <LayoutDashboard className="w-3 h-3" />
 //                           View Dashboard
 //                         </Link>
 //                       </div>
 //                     </div>
 
+//                     {/* دکمه Logout (موبایل) - تغییر یافته برای زیبایی بیشتر */}
 //                     <button
 //                       onClick={handleLogout}
-//                       className="w-full text-left text-white hover:text-eco-light transition-colors py-2 text-sm font-medium flex items-center gap-2"
+//                       className="w-full text-left text-white px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-3 
+//                                  bg-red-500/20 hover:bg-red-500/40 transition-colors"
 //                     >
 //                       <LogOut className="w-4 h-4" />
 //                       Logout
@@ -538,16 +655,18 @@ export default function Navbar() {
 //                   </>
 //                 ) : (
 //                   <div className="space-y-3">
+//                     {/* دکمه Sign In (موبایل - شفاف) */}
 //                     <Link
 //                       href="/auth/signin"
-//                       className="block w-full text-center bg-white text-eco-green py-2.5 rounded-xl font-semibold text-sm hover:bg-eco-light transition-colors shadow-sm"
+//                       className="block w-full text-center bg-white/20 text-white py-2.5 rounded-lg font-semibold text-sm hover:bg-white/30 transition-colors shadow-sm"
 //                       onClick={() => setMobileMenuOpen(false)}
 //                     >
 //                       Sign In
 //                     </Link>
+//                     {/* دکمه Sign Up (موبایل - شفاف) */}
 //                     <Link
-//                       href="/auth/signup"
-//                       className="block w-full text-center bg-white/10 text-white py-2.5 rounded-xl font-semibold text-sm hover:bg-white/20 transition-colors backdrop-blur-sm border border-white/20"
+//                       href="/auth/signin"
+//                       className="block w-full text-center bg-eco-accent/40 text-white py-2.5 rounded-lg font-semibold text-sm hover:bg-eco-accent/60 transition-colors shadow-sm"
 //                       onClick={() => setMobileMenuOpen(false)}
 //                     >
 //                       Sign Up
@@ -564,6 +683,8 @@ export default function Navbar() {
 //     </>
 //   );
 // }
+
+
 
 
 
