@@ -75,6 +75,16 @@ export default function Dashboard() {
     const {data: session, status} = useSession();
     const router = useRouter();
 
+
+  const handleLogout = async () => {
+    await signOut({ redirect: false });
+    // تمیز کردن کوکی سشن next-auth
+    document.cookie =
+      "next-auth.session-token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT; secure; samesite=lax";
+    window.location.href = "/";
+  };
+
+
     useEffect(() => {
         if(status === "unauthenticated"){
             router.push(`/auth/signin?callbackUrl=${encodeURIComponent("/dashboard")}`);
@@ -157,7 +167,8 @@ export default function Dashboard() {
         {/* Logout Button */}
         <div className="mt-10 sm:mt-12 text-center">
           <button
-            onClick={() => signOut({ callbackUrl: "/" })}
+            // onClick={() => signOut({ callbackUrl: "/" })}
+            onClick={handleLogout}
             className="inline-flex items-center gap-2 px-5 sm:px-6 py-3 bg-red-500 text-white rounded-xl hover:bg-red-600 transition-colors font-medium shadow-lg text-sm sm:text-base"
           >
             <LogOut className="w-5 h-5" />
