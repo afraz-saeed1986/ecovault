@@ -1,21 +1,22 @@
+
 "use client";
 
 import { useState } from "react";
 import { useCart } from "@/components/CartContext";
 import CartDropdown from "@/components/cartDropdown";
-import { ShoppingCart, Search, Menu, X, LogOut, Sun, Moon, Heart } from "lucide-react"; // Heart اضافه شد
+import { ShoppingCart, Search, Menu, X, LogOut, Sun, Moon, Heart, LayoutDashboard } from "lucide-react"; // LayoutDashboard اضافه شد
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { useSearch } from "./SearchContext";
 import { useTheme } from "@/components/ThemeContext";
-import { useWishlist } from "@/components/WishList"; // جدید
+import { useWishlist } from "@/components/WishList";
 
 export default function Navbar() {
   const [cartOpen, setCartOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { totalItems } = useCart();
-  const { wishlist } = useWishlist(); // تعداد آیتم‌های wishlist
+  const { wishlist } = useWishlist();
   const pathname = usePathname();
   const { data: session } = useSession();
   const { searchTerm, setSearchTerm } = useSearch();
@@ -34,7 +35,7 @@ export default function Navbar() {
     <>
       <header className="bg-eco-green dark:bg-eco-dark text-white dark:text-eco-light sticky top-0 z-40 shadow-md transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 py-3 sm:py-4">
-
+          
           {/* --- موبایل و تبلت: همبرگر + لوگو + آیکن‌ها --- */}
           <div className="flex items-center justify-between lg:hidden">
             {/* همبرگر + لوگو */}
@@ -148,35 +149,58 @@ export default function Navbar() {
 
               <div className="flex items-center gap-3">
                 {session ? (
-                  <>
+                  // دکمه‌های Dashboard و Logout (زیباتر شده)
+                  <div className="flex items-center gap-3">
                     <img
                       src={session.user?.image || "/default-avatar.png"}
                       alt={session.user?.name || "User"}
-                      className="w-8 h-8 rounded-full border border-white"
+                      className="w-8 h-8 rounded-full border border-white shadow-md"
                       referrerPolicy="no-referrer"
                       width={32}
                       height={32}
                     />
-                    <span className="text-sm font-medium hidden lg:inline">{session.user?.name}</span>
-                    <Link href="/dashboard" className="text-sm hover:underline hidden lg:inline">
+                    
+                    {/* دکمه Dashboard (جدید و زیبا) */}
+                    <Link 
+                      href="/dashboard" 
+                      className="flex items-center gap-1.5 bg-white text-eco-green px-3 py-1.5 rounded-full text-sm font-semibold 
+                               hover:bg-eco-light/90 hover:text-eco-dark transition-all duration-300 shadow-sm hover:shadow-lg"
+                    >
+                      <LayoutDashboard className="w-4 h-4" />
                       Dashboard
                     </Link>
-                    <button onClick={handleLogout} className="text-sm hover:underline">
+
+                    {/* دکمه Logout (زیبا) */}
+                    <button 
+                      onClick={handleLogout} 
+                      className="flex items-center gap-1.5 bg-red-500 text-white px-3 py-1.5 rounded-full text-sm font-semibold 
+                               hover:bg-red-600 transition-all duration-300 shadow-sm hover:shadow-lg"
+                    >
+                      <LogOut className="w-4 h-4" />
                       Logout
                     </button>
-                  </>
+                  </div>
                 ) : (
-                  <>
-                    <Link href="/auth/signin" className="text-sm hover:underline">
+                  // دکمه‌های Sign In و Sign Up (زیباتر شده)
+                  <div className="flex items-center gap-3">
+                    {/* دکمه Sign In (زیبا) */}
+                    <Link 
+                      href="/auth/signin" 
+                      className="bg-white text-eco-green px-4 py-1.5 rounded-full font-semibold text-sm 
+                               hover:bg-eco-light/90 hover:text-eco-dark transition-all duration-300 shadow-sm hover:shadow-md"
+                    >
                       Sign In
                     </Link>
+                    
+                    {/* دکمه Sign Up (زیبا) */}
                     <Link
                       href="/auth/signup"
-                      className="text-sm bg-white text-eco-green px-3 py-1 rounded-lg hover:bg-eco-light"
+                      className="bg-eco-accent text-white px-4 py-1.5 rounded-full font-semibold text-sm 
+                               hover:bg-eco-accent/90 transition-all duration-300 shadow-md hover:shadow-lg"
                     >
                       Sign Up
                     </Link>
-                  </>
+                  </div>
                 )}
               </div>
             </div>
@@ -213,19 +237,23 @@ export default function Navbar() {
                       />
                       <div className="flex-1">
                         <p className="font-semibold text-white text-sm truncate">{session.user?.name}</p>
+                        
+                        {/* دکمه Dashboard (موبایل) */}
                         <Link
                           href="/dashboard"
-                          className="text-xs text-eco-light hover:text-white transition-colors"
+                          className="text-xs text-eco-light hover:text-white transition-colors flex items-center gap-1"
                           onClick={() => setMobileMenuOpen(false)}
                         >
+                          <LayoutDashboard className="w-3 h-3" />
                           View Dashboard
                         </Link>
                       </div>
                     </div>
 
+                    {/* دکمه Logout (موبایل) */}
                     <button
                       onClick={handleLogout}
-                      className="w-full text-left text-white hover:text-eco-light transition-colors py-2 text-sm font-medium flex items-center gap-2"
+                      className="w-full text-left text-white hover:text-red-300 transition-colors py-2 text-sm font-medium flex items-center gap-2"
                     >
                       <LogOut className="w-4 h-4" />
                       Logout
@@ -233,16 +261,18 @@ export default function Navbar() {
                   </>
                 ) : (
                   <div className="space-y-3">
+                    {/* دکمه Sign In (موبایل - زیبا) */}
                     <Link
                       href="/auth/signin"
-                      className="block w-full text-center bg-white text-eco-green py-2.5 rounded-xl font-semibold text-sm hover:bg-eco-light transition-colors shadow-sm"
+                      className="block w-full text-center bg-white text-eco-green py-2.5 rounded-xl font-semibold text-sm hover:bg-eco-light/90 transition-colors shadow-sm"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Sign In
                     </Link>
+                    {/* دکمه Sign Up (موبایل - زیبا) */}
                     <Link
                       href="/auth/signup"
-                      className="block w-full text-center bg-white/10 text-white py-2.5 rounded-xl font-semibold text-sm hover:bg-white/20 transition-colors backdrop-blur-sm border border-white/20"
+                      className="block w-full text-center bg-eco-accent text-white py-2.5 rounded-xl font-semibold text-sm hover:bg-eco-accent/90 transition-colors shadow-sm"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Sign Up
@@ -265,22 +295,32 @@ export default function Navbar() {
 
 
 
+
+
+
+
+
+
+
+
 // "use client";
 
 // import { useState } from "react";
 // import { useCart } from "@/components/CartContext";
 // import CartDropdown from "@/components/cartDropdown";
-// import { ShoppingCart, Search, Menu, X, LogOut, Sun, Moon } from "lucide-react";
+// import { ShoppingCart, Search, Menu, X, LogOut, Sun, Moon, Heart } from "lucide-react"; // Heart اضافه شد
 // import Link from "next/link";
 // import { usePathname } from "next/navigation";
 // import { useSession, signOut } from "next-auth/react";
 // import { useSearch } from "./SearchContext";
 // import { useTheme } from "@/components/ThemeContext";
+// import { useWishlist } from "@/components/WishList"; // جدید
 
 // export default function Navbar() {
 //   const [cartOpen, setCartOpen] = useState(false);
 //   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 //   const { totalItems } = useCart();
+//   const { wishlist } = useWishlist(); // تعداد آیتم‌های wishlist
 //   const pathname = usePathname();
 //   const { data: session } = useSession();
 //   const { searchTerm, setSearchTerm } = useSearch();
@@ -315,7 +355,7 @@ export default function Navbar() {
 //               </Link>
 //             </div>
 
-//             {/* آیکن‌ها: Dark Mode + سبد خرید */}
+//             {/* آیکن‌ها: Dark Mode + Wishlist + سبد خرید */}
 //             <div className="flex items-center gap-3">
 //               <button
 //                 onClick={toggleDarkMode}
@@ -324,6 +364,20 @@ export default function Navbar() {
 //                 {darkMode ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-gray-700" />}
 //               </button>
 
+//               {/* Wishlist Icon - موبایل */}
+//               <Link
+//                 href="/wishlist"
+//                 className="relative p-2 hover:bg-white/10 rounded-full transition-colors"
+//               >
+//                 <Heart className="w-5 h-5 sm:w-6 sm:h-6" />
+//                 {wishlist.length > 0 && (
+//                   <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+//                     {wishlist.length > 99 ? "99+" : wishlist.length}
+//                   </span>
+//                 )}
+//               </Link>
+
+//               {/* Cart Icon - موبایل */}
 //               <button
 //                 onClick={() => setCartOpen(true)}
 //                 className="relative p-2 hover:bg-white/10 rounded-full transition-colors"
@@ -371,6 +425,20 @@ export default function Navbar() {
 
 //             {/* آیکن‌ها و ورود/خروج دسکتاپ */}
 //             <div className="flex items-center gap-4">
+//               {/* Wishlist Icon - دسکتاپ */}
+//               <Link
+//                 href="/wishlist"
+//                 className="relative p-2 hover:bg-white/10 rounded-full transition-colors"
+//               >
+//                 <Heart className="w-5 h-5 sm:w-6 sm:h-6" />
+//                 {wishlist.length > 0 && (
+//                   <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+//                     {wishlist.length > 99 ? "99+" : wishlist.length}
+//                   </span>
+//                 )}
+//               </Link>
+
+//               {/* Cart Icon - دسکتاپ */}
 //               <button
 //                 onClick={() => setCartOpen(true)}
 //                 className="relative p-2 hover:bg-white/10 rounded-full transition-colors"
@@ -394,7 +462,6 @@ export default function Navbar() {
 //                       width={32}
 //                       height={32}
 //                     />
-//                     {/* اصلاح: xl → lg */}
 //                     <span className="text-sm font-medium hidden lg:inline">{session.user?.name}</span>
 //                     <Link href="/dashboard" className="text-sm hover:underline hidden lg:inline">
 //                       Dashboard
@@ -497,12 +564,6 @@ export default function Navbar() {
 //     </>
 //   );
 // }
-
-
-
-
-
-
 
 
 

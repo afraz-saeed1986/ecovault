@@ -35,9 +35,10 @@ export default function RootLayout({
             <ThemeProvider>
             <SearchProvider>
               <CartProvider>
-                <Navbar />
-                <main className="pt-20 dark:bg-eco-darkest">{children}</main>
-                <Footer />
+                {/* <Navbar /> */}
+                {/* <main className="pt-20 dark:bg-eco-darkest">{children}</main> */}
+                {children}
+                {/* <Footer /> */}
               </CartProvider>
             </SearchProvider>
           </ThemeProvider>
