@@ -14,8 +14,8 @@ import { CustomUser } from "@/types/next-auth"; // 💡 ایمپورت کردن 
 // اطمینان حاصل کنید که متغیرهای محیطی در اینجا در دسترس هستند
 // توجه: در API Routes که Server-Side هستند، باید از متغیرهای بدون پیشوند NEXT_PUBLIC استفاده شود
 // اما چون شما از متغیرهای NEXT_PUBLIC استفاده می‌کنید، فرض می‌کنیم برای سازگاری در Vercel اینگونه تعریف شده‌اند.
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const SUPABASE_URL = process.env.SUPABASE_URL!
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY!
 
 
 const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY);
