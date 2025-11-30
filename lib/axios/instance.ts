@@ -2,7 +2,7 @@
 import axios from "axios"
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY!
 
 // نوع دقیق کوکی‌های Next.js
 type NextCookie = { name: string; value: string }
