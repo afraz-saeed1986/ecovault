@@ -11,6 +11,8 @@ import { useSession, signOut } from "next-auth/react";
 import { useSearch } from "./SearchContext";
 import { useTheme } from "@/components/ThemeContext";
 import { useWishlist } from "@/components/WishList";
+import type { AvatarProps } from "@/types";
+import Image from "next/image";
 
 // --- تابع کمکی: استخراج حروف اول اسم ---
 const getInitials = (name: string | null | undefined): string => {
@@ -27,20 +29,20 @@ const getInitials = (name: string | null | undefined): string => {
 };
 
 // --- کامپوننت کمکی: نمایش آواتار یا حروف اول ---
-interface AvatarProps {
-  image?: string | null;
-  name?: string | null;
-  size: 'small' | 'large'; // small: 8x8 (desktop), large: 12x12 (mobile)
-}
+// interface AvatarProps {
+//   image?: string | null;
+//   name?: string | null;
+//   size: 'small' | 'large'; // small: 8x8 (desktop), large: 12x12 (mobile)
+// }
 
-const AvatarWithFallback: React.FC<AvatarProps> = ({ image, name, size }) => {
+const AvatarWithFallback: React.FC<AvatarProps> = ({ image, name, size, scale }) => {
   const initials = getInitials(name);
   const sizeClasses = {
     small: "w-8 h-8 text-xs",
     large: "w-12 h-12 text-lg",
   };
   
-  const currentSizeClass = sizeClasses[size];
+  const currentSizeClass = sizeClasses[scale];
 
   // شرط: اگر image داشتیم و خالی نبود، تصویر را نمایش می‌دهیم
   if (image) {
@@ -50,8 +52,8 @@ const AvatarWithFallback: React.FC<AvatarProps> = ({ image, name, size }) => {
         alt={name || "User"}
         className={`${currentSizeClass.replace('text-xs', '').replace('text-lg', '')} rounded-full border border-white dark:border-eco-light shadow-md object-cover`}
         referrerPolicy="no-referrer"
-        width={size === 'small' ? 32 : 48}
-        height={size === 'small' ? 32 : 48}
+        width={scale === 'small' ? 32 : 48}
+        height={scale === 'small' ? 32 : 48}
       />
     );
   }
@@ -66,6 +68,16 @@ const AvatarWithFallback: React.FC<AvatarProps> = ({ image, name, size }) => {
     </div>
   );
 };
+
+
+  // کامپوننت Placeholder برای حالت بارگذاری
+  const LoadingPlaceholder = ({ isMobile = false }) => (
+    <div 
+      className={`flex items-center justify-center ${isMobile ? 'h-10 w-full' : 'w-24 h-8'} bg-white/20 rounded-lg animate-pulse`}
+    >
+      {isMobile ? "Loading..." : ""}
+    </div>
+  );
 
 
 export default function Navbar() {
@@ -88,15 +100,7 @@ export default function Navbar() {
     window.location.href = "/";
   };
 
-  // کامپوننت Placeholder برای حالت بارگذاری
-  const LoadingPlaceholder = ({ isMobile = false }) => (
-    <div 
-      className={`flex items-center justify-center ${isMobile ? 'h-10 w-full' : 'w-24 h-8'} bg-white/20 rounded-lg animate-pulse`}
-    >
-      {isMobile ? "Loading..." : ""}
-    </div>
-  );
-
+  
   return (
     <>
       <header className="bg-eco-green dark:bg-eco-dark text-white dark:text-eco-light sticky top-0 z-40 shadow-md transition-colors duration-300">
@@ -225,7 +229,8 @@ export default function Navbar() {
                     <AvatarWithFallback 
                       image={session.user?.image} 
                       name={session.user?.name} 
-                      size="small" 
+                      size="" 
+                      scale="small"
                     />
                     
                     {/* دکمه Dashboard (نیمه‌شفاف) */}
@@ -306,7 +311,8 @@ export default function Navbar() {
                       <AvatarWithFallback 
                         image={session.user?.image} 
                         name={session.user?.name} 
-                        size="large" 
+                        size=""
+                        scale="large"
                       />
                       
                       <div className="flex-1">

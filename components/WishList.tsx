@@ -34,7 +34,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
           // دوباره محصولات کامل رو از سرویس بگیر (تا فیلدهای محاسباتی مثل avgRating و mainImage داشته باشن)
           const result = await productService.getAll({ limit: 500 });
-          const fullProducts = result.products.filter((p) => ids.includes(p.id));
+          const fullProducts = result.products.filter((p) => ids.includes(p.id!));
 
           setWishlist(fullProducts);
         } else {

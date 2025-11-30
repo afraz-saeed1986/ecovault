@@ -1,4 +1,4 @@
-import type { Database } from './database.types'
+import type { Database, TablesInsert } from './database.types'
 
 // ──────────────────────────────────────────────────────────────
 // Helperهای دقیق و ایمن برای جداول و Viewها
@@ -117,6 +117,35 @@ export type CreateReviewInput = {
 };
 
 
+// OrderItem Input
+// این همان ساختاری است که شما برای هر آیتم در آرایه items در CartPage ساختید.
+export type OrderItemInput = {
+  product_id: number;
+  quantity: number;
+  unitPrice: number;
+  totalPrice: number;
+  unit: string | null;
+};
+
+// Order Input for API
+// این تایپ، فیلدهای اصلی جدول orders را دارد (با حذف فیلدهای تولیدشده توسط دیتابیس)
+// به علاوه، فیلد 'items' را که فقط برای انتقال داده به API است، اضافه می‌کند.
+export type CreateOrderInput = Omit<Order, "id" | "created_at" | "updated_at"> & {
+  items: OrderItemInput[]; // این فیلدی است که شما در CartPage اضافه کردید.
+};
+
+
+// تایپ استاندارد Insert برای جدول reviews
+// توجه: اسکیما شما profile_id را نشان می‌دهد، اما کد شما user_id را می‌فرستد. 
+// ما تایپ را طوری تنظیم می‌کنیم که user_id: string را بپذیرد، با فرض اینکه 
+// Supabase Auth ID به این نام درج می‌شود. اگر دیتابیس شما واقعاً profile_id (number) نیاز دارد، 
+// باید قبل از درج، profile_id را از user_id پیدا کنید.
+type StandardReviewInsert = TablesInsert<'reviews'>;
+
+export type ReviewInsert = Omit<StandardReviewInsert, 'profile_id'> & {
+    user_id: string; // ستون مورد انتظار شما برای Auth ID
+    profile_id?: number | null; // اگر profile_id هم نیاز باشد، آن را اختیاری می‌کنیم
+};
 
 // ──────────────────────────────────────────────────────────────
 // ۴. اکسپورت‌های قبلی (Contextها و کامپوننت‌ها)
@@ -128,3 +157,9 @@ export * from './SearchContextType'
 export * from './productGalleryProps'
 export * from './cartItem'
 export * from './ProductCategory'
+export * from './AvatarProps'
+export * from './ReviewsSectionProps'
+export * from './ProductsApiResponse'
+export * from './AvatarProps'
+export * from './ApiResponse'
+export * from './CategoryItem'

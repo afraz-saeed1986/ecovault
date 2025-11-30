@@ -6,21 +6,21 @@ import ProductSkeleton from "@/components/skeleton/ProductSkeleton";
 import { Filter, X } from "lucide-react";
 import { useSearch } from "@/components/SearchContext";
 import { useInView } from "react-intersection-observer";
-import type { EnhancedProduct, ProductCategory } from "@/types";
+import type { EnhancedProduct, ProductCategory, ApiResponse, CategoryItem } from "@/types";
 
-interface ApiResponse {
-  products: EnhancedProduct[];
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-}
+// interface ApiResponse {
+//   products: EnhancedProduct[];
+//   total: number;
+//   page: number;
+//   limit: number;
+//   totalPages: number;
+// }
 
-type CategoryItem = {
-  id: string;
-  name: string;
-  icon?: string | null;
-};
+// type CategoryItem = {
+//   id: string;
+//   name: string;
+//   icon?: string | null;
+// };
 
 export default function Home() {
   const { searchTerm } = useSearch();

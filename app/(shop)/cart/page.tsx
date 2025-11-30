@@ -4,10 +4,16 @@ import { useCart } from "@/components/CartContext";
 import Image from "next/image";
 import Link from "next/link";
 import { Trash2, Plus, Minus, ArrowLeft } from "lucide-react";
-import { Product, Order } from "@/types"; // import Product and Order types
+// 💡 اصلاح: تایپ‌های مورد نیاز را ایمپورت کنید
+import { Product, OrderItemInput, CreateOrderInput } from "@/types"; 
+import { useSession } from "next-auth/react"; 
 
 export default function CartPage() {
   const { cart, updateQuantity, removeFromCart, totalPrice } = useCart();
+  
+  // 💡 برای دسترسی به شناسه کاربری
+  const { data: session } = useSession(); 
+  const currentUserId = session?.user?.id ?? "guest-user-123";
 
   // create order and redirect to order detail page
   async function submitOrder() {
@@ -22,34 +28,42 @@ export default function CartPage() {
       );
 
       // build orderInput using authoritative product data
-      const orderInput: Omit<Order, "id"> = {
-        user: { id: 1, name: "Guest", email: "guest@example.com" }, // replace with real user if available
+      const orderInput: CreateOrderInput = {
+        
+        user_id: currentUserId, 
+        
         items: cart.map((ci, idx) => {
           const product = products[idx];
-          return {
-            id: ci.id,
-            product, // Product from API
+          
+          const itemInput: OrderItemInput = {
+            product_id: ci.id, 
             quantity: ci.quantity,
-            unitPrice: product.price,
-            totalPrice: product.price * ci.quantity,
+            // ✅ اصلاح Snake Case: unit_price
+            unitPrice: product.price, 
+            // ✅ اصلاح Snake Case: total_price
+            totalPrice: product.price * ci.quantity, 
             unit: product.unit ?? "pcs",
           };
-        }),
+          return itemInput;
+        }), 
+        
         subtotal: products.reduce((sum, p, idx) => sum + p.price * cart[idx].quantity, 0),
         discount: 0,
         shipping: 0,
         tax: 0,
-        totalPrice: products.reduce((sum, p, idx) => sum + p.price * cart[idx].quantity, 0),
+        // ✅ اصلاح Snake Case: total_price (رفع خطای شما)
+        total_price: products.reduce((sum, p, idx) => sum + p.price * cart[idx].quantity, 0),
         currency: products[0]?.currency ?? "USD",
-        couponCode: null,
+        
+        coupon_code: null, 
+        
         status: "pending",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
       };
 
       const res = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        // توجه: شیء شامل order و items را به API می‌فرستید
         body: JSON.stringify({ order: orderInput }),
       });
 
@@ -181,10 +195,67 @@ export default function CartPage() {
 // import Image from "next/image";
 // import Link from "next/link";
 // import { Trash2, Plus, Minus, ArrowLeft } from "lucide-react";
-// import { Product } from "@/types";
+// import { Product, Order } from "@/types"; // import Product and Order types
 
 // export default function CartPage() {
 //   const { cart, updateQuantity, removeFromCart, totalPrice } = useCart();
+
+//   // create order and redirect to order detail page
+//   async function submitOrder() {
+//     try {
+//       // fetch full product data for each cart item
+//       const products: Product[] = await Promise.all(
+//         cart.map(async (ci) => {
+//           const res = await fetch(`/api/products/${ci.id}`, { cache: "no-store" });
+//           if (!res.ok) throw new Error(`Failed to fetch product ${ci.id}`);
+//           return res.json();
+//         })
+//       );
+
+//       // build orderInput using authoritative product data
+//       const orderInput: Omit<Order, "id"> = {
+//         user: { id: 1, name: "Guest", email: "guest@example.com" }, // replace with real user if available
+//         items: cart.map((ci, idx) => {
+//           const product = products[idx];
+//           return {
+//             id: ci.id,
+//             product, // Product from API
+//             quantity: ci.quantity,
+//             unitPrice: product.price,
+//             totalPrice: product.price * ci.quantity,
+//             unit: product.unit ?? "pcs",
+//           };
+//         }),
+//         subtotal: products.reduce((sum, p, idx) => sum + p.price * cart[idx].quantity, 0),
+//         discount: 0,
+//         shipping: 0,
+//         tax: 0,
+//         totalPrice: products.reduce((sum, p, idx) => sum + p.price * cart[idx].quantity, 0),
+//         currency: products[0]?.currency ?? "USD",
+//         couponCode: null,
+//         status: "pending",
+//         createdAt: new Date().toISOString(),
+//         updatedAt: new Date().toISOString(),
+//       };
+
+//       const res = await fetch("/api/orders", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ order: orderInput }),
+//       });
+
+//       if (!res.ok) {
+//         const data = await res.json();
+//         alert(data.error || "Failed to create order");
+//         return;
+//       }
+
+//       const created = await res.json();
+//       window.location.href = `/orders/${created.id}`;
+//     } catch (err) {
+//       alert((err as Error).message);
+//     }
+//   }
 
 //   if (cart.length === 0) {
 //     return (
@@ -196,7 +267,7 @@ export default function CartPage() {
 //           href="/"
 //           className="text-eco-green hover:underline text-sm sm:text-base"
 //         >
-//           Continiue Shopping
+//           Continue Shopping
 //         </Link>
 //       </div>
 //     );
@@ -270,20 +341,23 @@ export default function CartPage() {
 //             <span>Total</span>
 //             <span className="font-bold">${totalPrice.toFixed(2)}</span>
 //           </div>
-//           <button className="w-full bg-eco-green text-white py-3 rounded-lg mt-4 font-semibold hover:bg-eco-dark text-sm sm:text-base">
+//           <button
+//             onClick={submitOrder}
+//             className="w-full bg-eco-green text-white py-3 rounded-lg mt-4 font-semibold hover:bg-eco-dark text-sm sm:text-base"
+//           >
 //             Checkout
 //           </button>
 //         </div>
 //       </div>
-//      <div className="mt-12 text-center">
-//               <Link
-//                 href="/"
-//                 className="inline-flex items-center gap-2 text-eco-green hover:text-eco-dark font-medium transition-colors dark:text-eco-accent dark:hover:text-eco-green"
-//               >
-//                 <ArrowLeft className="w-4 h-4" />
-//                 Continue Shopping
-//               </Link>
-//             </div>
+//       <div className="mt-12 text-center">
+//         <Link
+//           href="/"
+//           className="inline-flex items-center gap-2 text-eco-green hover:text-eco-dark font-medium transition-colors dark:text-eco-accent dark:hover:text-eco-green"
+//         >
+//           <ArrowLeft className="w-4 h-4" />
+//           Continue Shopping
+//         </Link>
+//       </div>
 //     </div>
 //   );
 // }

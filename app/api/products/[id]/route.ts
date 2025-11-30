@@ -1,15 +1,15 @@
 // app/api/products/route.ts
 import { NextResponse } from "next/server";
 import { productService } from "@/services/product.service";
-import type { EnhancedProduct } from "@/types";
+import type {ProductsApiResponse } from "@/types";
 
-interface ProductsApiResponse {
-  products: EnhancedProduct[];
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-}
+// interface ProductsApiResponse {
+//   products: EnhancedProduct[];
+//   total: number;
+//   page: number;
+//   limit: number;
+//   totalPages: number;
+// }
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

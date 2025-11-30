@@ -18,7 +18,7 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
-  const inWishlist = isInWishlist(product.id);
+  const inWishlist = isInWishlist(product.id!);
 
   const avgRating = product.reviewCount > 0
     ? product.avgRating.toFixed(1)

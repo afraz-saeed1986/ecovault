@@ -1,9 +1,8 @@
-import { CartItem } from "./index";
-import { Product } from "./index";
+import { CartItem, EnhancedProduct } from "./";
 
 export interface CartContextType {
   cart: CartItem[];
-  addToCart: (product: Product) => void;
+  addToCart: (product: EnhancedProduct) => void;
   removeFromCart: (id: number) => void;
   updateQuantity: (id: number, quantity: number) => void;
   clearCart: () => void;

@@ -21,7 +21,10 @@ console.log("relatedIds>>>>>>>>>>>>",relatedIds);
 
   useEffect(() => {
     if (!relatedIds || relatedIds.length === 0) {
-      setLoading(false);
+      (function(){
+         setLoading(false);
+      })()
+     
       return;
     }
 
@@ -29,7 +32,7 @@ console.log("relatedIds>>>>>>>>>>>>",relatedIds);
       .getAll({ limit: 500 })
       .then((result) => {
         const filtered = result.products.filter((p): p is EnhancedProduct =>
-          relatedIds.includes(p.id)
+          relatedIds.includes(p.id!)
         );
         setRelatedProducts(filtered);
       })

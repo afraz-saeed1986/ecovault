@@ -49,8 +49,29 @@ export class ProductRepository {
         limit,
         totalPages: Math.ceil(total / limit) || 1,
       };
-    } catch (error: any) {
-      console.error("Supabase error:", error.message);
+    } catch (error: unknown) {
+      // 1. تغییر 'any' به 'unknown': این استاندارد مدرن مدیریت خطا در TypeScript است.
+      // 2. استفاده از Type Guard برای دسترسی ایمن به 'message'
+
+      let errorMessage = "An unknown error occurred.";
+
+      if (error instanceof Error) {
+        // این برای خطاهای استاندارد جاوااسکریپت (مانند ReferenceError، TypeError و غیره)
+        errorMessage = error.message;
+      } else if (
+        // این بلوک برای مدیریت خطاهای سفارشی یا خطاهای Postgrest Supabase است
+        // که ممکن است شیء باشند و دارای ویژگی 'message'
+        typeof error === 'object' &&
+        error !== null &&
+        'message' in error
+      ) {
+        // با اطمینان آن را به یک نوع با ویژگی message تبدیل می کنیم.
+        const customError = error as { message: string }; 
+        errorMessage = customError.message;
+      }
+      
+      console.error("Supabase error:", errorMessage);
+
       return {
         products: [],
         total: 0,
