@@ -8,6 +8,8 @@ import type { Profile as DbProfile } from "@/types/index"; // Type for the profi
 
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions);
+  console.log("DEBUG SESSION:", session?.user)
+
   if (!session || !session.user) {
     return (
       <div className="max-w-3xl mx-auto p-4">
