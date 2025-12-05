@@ -8,7 +8,7 @@ import Providers from "@/components/Providers";
 import { SearchProvider } from "@/components/SearchContext";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeContext";
-import { Wishlistprovider } from "@/components/WishList";
+import { WishlistProvider } from "@/components/WishList";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -31,17 +31,18 @@ export default function RootLayout({
         className={`${GeistSans.variable} ${GeistMono.variable} antialiased overflow-x-hidden dark:bg-eco-darkest`}
       >
         <Providers>
-          <Wishlistprovider>
+          <WishlistProvider>
             <ThemeProvider>
             <SearchProvider>
               <CartProvider>
-                <Navbar />
-                <main className="pt-20 dark:bg-eco-darkest">{children}</main>
-                <Footer />
+                {/* <Navbar /> */}
+                {/* <main className="pt-20 dark:bg-eco-darkest">{children}</main> */}
+                {children}
+                {/* <Footer /> */}
               </CartProvider>
             </SearchProvider>
           </ThemeProvider>
-          </Wishlistprovider>
+          </WishlistProvider>
         </Providers>
       </body>
     </html>
