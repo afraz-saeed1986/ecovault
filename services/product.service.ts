@@ -9,7 +9,8 @@ import type {
 
 export class ProductService {
   private calculateStock(product: ProductWithRelations) {
-    const stock = (product.inventory_stock ?? 0) - (product.inventory_reserved ?? 0);
+    const stock =
+      (product.inventory_stock ?? 0) - (product.inventory_reserved ?? 0);
     const threshold = product.low_stock_threshold ?? 5;
     return {
       realStock: stock,
@@ -54,6 +55,7 @@ export class ProductService {
 
   async getAll(params = {}) {
     const result = await productRepository.getAll(params);
+    console.log("Result>>>>>>>>>>>>>>>>", result);
     return {
       ...result,
       products: result.products.map((p) => this.enhance(p)),

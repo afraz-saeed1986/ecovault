@@ -40,7 +40,10 @@ export class ProductRepository {
 
     try {
       const response = await api.get<ProductWithRelations[]>(url, { headers });
-      const total = Number(response.headers["content-range"]?.split("/")[1] ?? "0");
+
+      const total = Number(
+        response.headers["content-range"]?.split("/")[1] ?? "0"
+      );
 
       return {
         products: response.data || [],
@@ -61,15 +64,15 @@ export class ProductRepository {
       } else if (
         // این بلوک برای مدیریت خطاهای سفارشی یا خطاهای Postgrest Supabase است
         // که ممکن است شیء باشند و دارای ویژگی 'message'
-        typeof error === 'object' &&
+        typeof error === "object" &&
         error !== null &&
-        'message' in error
+        "message" in error
       ) {
         // با اطمینان آن را به یک نوع با ویژگی message تبدیل می کنیم.
-        const customError = error as { message: string }; 
+        const customError = error as { message: string };
         errorMessage = customError.message;
       }
-      
+
       console.error("Supabase error:", errorMessage);
 
       return {
@@ -99,7 +102,6 @@ export class ProductRepository {
 }
 
 export const productRepository = new ProductRepository();
-
 
 // // repositories/product.repository.ts
 // import { api } from "@/lib/axios/instance"
