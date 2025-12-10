@@ -5,15 +5,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { Trash2, Plus, Minus, ArrowLeft } from "lucide-react";
 // 💡 اصلاح: تایپ‌های مورد نیاز را ایمپورت کنید
-import { Product, OrderItemInput, CreateOrderInput } from "@/types"; 
-import { useSession } from "next-auth/react"; 
+import { Product, OrderItemInput, CreateOrderInput } from "@/types";
+// import { useSession } from "next-auth/react";
+import { useSupabaseSession } from "@/lib/supabase/hooks/use-supabase-session";
 
 export default function CartPage() {
   const { cart, updateQuantity, removeFromCart, totalPrice } = useCart();
-  
+
   // 💡 برای دسترسی به شناسه کاربری
-  const { data: session } = useSession(); 
-  const currentUserId = session?.user?.id ?? "guest-user-123";
+  // const { data: session } = useSession();
+  const { user, loading } = useSupabaseSession();
+  const currentUserId = user?.id ?? "guest-user-123";
 
   // create order and redirect to order detail page
   async function submitOrder() {
@@ -21,7 +23,9 @@ export default function CartPage() {
       // fetch full product data for each cart item
       const products: Product[] = await Promise.all(
         cart.map(async (ci) => {
-          const res = await fetch(`/api/products/${ci.id}`, { cache: "no-store" });
+          const res = await fetch(`/api/products/${ci.id}`, {
+            cache: "no-store",
+          });
           if (!res.ok) throw new Error(`Failed to fetch product ${ci.id}`);
           return res.json();
         })
@@ -29,34 +33,39 @@ export default function CartPage() {
 
       // build orderInput using authoritative product data
       const orderInput: CreateOrderInput = {
-        
-        user_id: currentUserId, 
-        
+        user_id: currentUserId,
+
         items: cart.map((ci, idx) => {
           const product = products[idx];
-          
+
           const itemInput: OrderItemInput = {
-            product_id: ci.id, 
+            product_id: ci.id,
             quantity: ci.quantity,
             // ✅ اصلاح Snake Case: unit_price
-            unitPrice: product.price, 
+            unitPrice: product.price,
             // ✅ اصلاح Snake Case: total_price
-            totalPrice: product.price * ci.quantity, 
+            totalPrice: product.price * ci.quantity,
             unit: product.unit ?? "pcs",
           };
           return itemInput;
-        }), 
-        
-        subtotal: products.reduce((sum, p, idx) => sum + p.price * cart[idx].quantity, 0),
+        }),
+
+        subtotal: products.reduce(
+          (sum, p, idx) => sum + p.price * cart[idx].quantity,
+          0
+        ),
         discount: 0,
         shipping: 0,
         tax: 0,
         // ✅ اصلاح Snake Case: total_price (رفع خطای شما)
-        total_price: products.reduce((sum, p, idx) => sum + p.price * cart[idx].quantity, 0),
+        total_price: products.reduce(
+          (sum, p, idx) => sum + p.price * cart[idx].quantity,
+          0
+        ),
         currency: products[0]?.currency ?? "USD",
-        
-        coupon_code: null, 
-        
+
+        coupon_code: null,
+
         status: "pending",
       };
 
@@ -184,10 +193,6 @@ export default function CartPage() {
     </div>
   );
 }
-
-
-
-
 
 // "use client";
 

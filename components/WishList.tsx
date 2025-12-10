@@ -1,11 +1,19 @@
 // components/WishlistProvider.tsx
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 import type { EnhancedProduct, WishlistContextType } from "@/types";
 import { productService } from "@/services/product.service";
 
-const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
+const WishlistContext = createContext<WishlistContextType | undefined>(
+  undefined
+);
 
 export function WishlistProvider({ children }: { children: ReactNode }) {
   const [wishlist, setWishlist] = useState<EnhancedProduct[]>([]);
@@ -15,6 +23,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
     const loadWishlist = async () => {
       try {
         const saved = localStorage.getItem("ecovault-wishlist");
+
         if (!saved) {
           setWishlist([]);
           return;
@@ -24,7 +33,10 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
         if (Array.isArray(parsed) && parsed.length > 0) {
           const ids = parsed
-            .filter((item): item is { id: number } => item && typeof item.id === "number")
+            .filter(
+              (item): item is { id: number } =>
+                item && typeof item.id === "number"
+            )
             .map((item) => item.id);
 
           if (ids.length === 0) {
@@ -34,7 +46,9 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
           // دوباره محصولات کامل رو از سرویس بگیر (تا فیلدهای محاسباتی مثل avgRating و mainImage داشته باشن)
           const result = await productService.getAll({ limit: 500 });
-          const fullProducts = result.products.filter((p) => ids.includes(p.id!));
+          const fullProducts = result.products.filter((p) =>
+            ids.includes(p.id!)
+          );
 
           setWishlist(fullProducts);
         } else {
@@ -76,7 +90,9 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   const isInWishlist = (id: number) => wishlist.some((p) => p.id === id);
 
   return (
-    <WishlistContext.Provider value={{ wishlist, toggleWishlist, isInWishlist, removeFromWishlist }}>
+    <WishlistContext.Provider
+      value={{ wishlist, toggleWishlist, isInWishlist, removeFromWishlist }}
+    >
       {children}
     </WishlistContext.Provider>
   );
@@ -84,6 +100,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
 export const useWishlist = () => {
   const context = useContext(WishlistContext);
-  if (!context) throw new Error("useWishlist must be used within WishlistProvider");
+  if (!context)
+    throw new Error("useWishlist must be used within WishlistProvider");
   return context;
 };
