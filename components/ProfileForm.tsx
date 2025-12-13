@@ -15,8 +15,6 @@ function getErrorMessage(err: unknown): string {
 }
 
 export default function ProfileForm({ initialData }: Props) {
-  console.log("initialData>>>>>>>>", initialData);
-
   const [phone, setPhone] = useState<string>(initialData?.phone ?? "");
   const [avatarUrl, setAvatarUrl] = useState<string | null>(
     initialData?.avatar_url ?? null
@@ -33,9 +31,16 @@ export default function ProfileForm({ initialData }: Props) {
     setUploading(true);
     setMessage(null);
     try {
-      const fileExt = file.name.split(".").pop()?.toLowerCase() || "png";
-      const filePath = `avatars/${Date.now()}.${fileExt}`;
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) throw new Error("You must be logged in");
 
+      const fileExt = file.name.split(".").pop()?.toLowerCase() || "png";
+      const fileName = `${Date.now()}-${crypto.randomUUID()}.${fileExt}`;
+
+      // فقط این خط مهم بود!
+      const filePath = `${user.id}/${fileName}`;
       const { error: uploadError } = await supabase.storage
         .from("avatars")
         .upload(filePath, file, { upsert: true });

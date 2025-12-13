@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { User, Mail, Lock, Loader2, LogIn, UserPlus } from "lucide-react";
+import { User, Mail, Lock, LogIn, UserPlus } from "lucide-react";
 import GoogleIcon from "@/components/icons/GoogleIcon";
 import GitHubIcon from "@/components/icons/GitHubIcon";
 import { supabase } from "@/lib/supabase/client";
@@ -66,7 +66,6 @@ export default function AuthPage() {
 
     try {
       if (isSignIn) {
-        // Sign In with Email/Password
         const { error } = await supabase.auth.signInWithPassword({
           email,
           password,
@@ -76,7 +75,6 @@ export default function AuthPage() {
 
         window.location.href = "/";
       } else {
-        // Sign Up
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
@@ -88,9 +86,7 @@ export default function AuthPage() {
 
         if (error) throw error;
 
-        // If email confirmation is disabled or user is auto-confirmed
         if (data.user && data.session) {
-          // Create profile
           const { error: profileError } = await supabase
             .from("profiles")
             .insert({
@@ -122,7 +118,7 @@ export default function AuthPage() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: "http://localhost:3000/auth/callback", // دقیقاً این
+        redirectTo: "http://localhost:3000/auth/callback",
       },
     });
 
@@ -189,7 +185,7 @@ export default function AuthPage() {
           <button
             onClick={() => handleSocialLogin("google")}
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-2 sm:gap-3 py-3 sm:py-3.css5 px-3 sm:px-4 border border-gray-300 rounded-xl hover:border-eco-green hover:bg-eco-light/50 transition-all duration-200 font-medium text-sm sm:text-base text-gray-700 shadow-sm hover:shadow-md"
+            className="w-full flex items-center justify-center gap-2 sm:gap-3 py-3 sm:py-3.5 px-3 sm:px-4 border border-gray-300 rounded-xl hover:border-eco-green hover:bg-eco-light/50 transition-all duration-200 font-medium text-sm sm:text-base text-gray-700 shadow-sm hover:shadow-md"
           >
             <GoogleIcon />
             Continue with Google
@@ -296,26 +292,58 @@ export default function AuthPage() {
             )}
           </div>
 
-          {/* Messages */}
+          {/* Messages — دقیقاً مثل صفحه پروفایل */}
           {error && (
-            <p className="text-red-500 text-sm text-center font-medium">
-              Error: {error}
-            </p>
-          )}
-          {successMessage && (
-            <p className="text-eco-green text-sm text-center font-medium">
-              {successMessage}
-            </p>
+            <div className="mt-6 p-4 rounded-xl flex items-center gap-3 bg-red-50 dark:bg-red-900/30 text-red-800 dark:text-white-200 border border-red-200 dark:border-red-800">
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <span className="font-medium">Error: {error}</span>
+            </div>
           )}
 
-          {/* Submit Button */}
+          {successMessage && (
+            <div className="mt-6 p-4 rounded-xl flex items-center gap-3 bg-green-50 dark:bg-green-900/30 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800">
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <span className="font-medium">{successMessage}</span>
+            </div>
+          )}
+
+          {/* Submit Button — حالا spinner کوچک و بدون آیکون وقتی لودینگ هست */}
           <button
             type="submit"
             disabled={isLoading}
             className="w-full bg-eco-green text-white py-3 sm:py-3.5 rounded-xl font-semibold text-sm sm:text-base hover:bg-eco-green/90 transition-all duration-300 flex items-center justify-center shadow-lg"
           >
             {isLoading ? (
-              <Loader2 className="w-5 h-5 animate-spin mr-2" />
+              <>
+                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8z"
+                  />
+                </svg>
+              </>
             ) : isSignIn ? (
               <>
                 <LogIn className="w-5 h-5 mr-2" /> Sign In
@@ -357,29 +385,16 @@ export default function AuthPage() {
   );
 }
 
-// //
 // "use client";
 
 // import React, { useState } from "react";
 // import { User, Mail, Lock, Loader2, LogIn, UserPlus } from "lucide-react";
 // import GoogleIcon from "@/components/icons/GoogleIcon";
 // import GitHubIcon from "@/components/icons/GitHubIcon";
-// // import { supabase } from "@/lib/supabase/client";
 // import { supabase } from "@/lib/supabase/client";
 // import { z } from "zod";
-// // import { createClient } from "@supabase/supabase-js";
-// // import { Database } from "@/types/database.types";
 
-// // Placeholder - Please replace these with your actual Supabase values
-// // const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-// // const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-
-// // Initialize Supabase Client (only for operations not covered by NextAuth: Sign Up and Social Redirect)
-// // const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY);
-// // const supabase = createClient();
-// // --- 2. Define Validation Schema with Zod (Step 2) ---
 // const AuthSchema = z.object({
-//   // name is REQUIRED in the base schema. It will be excluded for sign-in via .pick()
 //   name: z
 //     .string()
 //     .min(3, { message: "Full name must be at least 3 characters." })
@@ -391,88 +406,8 @@ export default function AuthPage() {
 //     .max(100, { message: "Password cannot exceed 100 characters." }),
 // });
 
-// // --- 3. Authentication Handler Function with Profile Creation Logic ---
-// const handleEmailAuth = async (
-//   isSignIn: boolean,
-//   email: string,
-//   password: string,
-//   name: string | undefined,
-//   callbackUrl: string
-// ) => {
-//   if (!isSignIn) {
-//     // --- Sign Up Flow (using Supabase for profile creation) ---
-//     if (!name) {
-//       throw new Error("Name is required for sign up.");
-//     }
-
-//     // 1. Supabase: Create user in auth.users
-//     const { data: authData, error: authError } = await supabase.auth.signUp({
-//       email: email,
-//       password: password,
-//       options: {
-//         data: {
-//           full_name: name,
-//         },
-//         emailRedirectTo: `${window.location.origin}/`,
-//       },
-//     });
-
-//     if (authError) {
-//       throw new Error(authError.message);
-//     }
-
-//     // 2. If the user was created immediately (session exists, no email confirmation required)
-//     if (authData.user) {
-//       // 3. Insert record into the profiles table
-//       const { error: profileError } = await supabase.from("profiles").insert({
-//         user_id: authData.user.id,
-//         name: name,
-//         email: email,
-//       });
-
-//       if (profileError) {
-//         console.error("Failed to create user profile:", profileError);
-//       }
-
-//       // 🔥 After successful registration and profile creation, we directly sign in via NextAuth.
-//       const result = await signIn("credentials", {
-//         email,
-//         password,
-//         redirect: false, // Prevent automatic redirect
-//       });
-
-//       if (result?.error) {
-//         throw new Error(result.error);
-//       }
-
-//       return "SIGNIN_SUCCESS"; // Now the flow acts like a successful Sign In
-//     }
-
-//     // 4. If no session was returned, email confirmation is required.
-//     return "SIGNUP_PENDING_CONFIRMATION";
-//   } else {
-//     // --- Sign In Flow (Main change: using NextAuth) ---
-
-//     const result = await signIn("credentials", {
-//       email,
-//       password,
-//       redirect: false, // Prevent automatic redirect
-//     });
-
-//     if (result?.error) {
-//       // NextAuth/Supabase error
-//       throw new Error(result.error);
-//     }
-
-//     return "SIGNIN_SUCCESS";
-//   }
-// };
-
 // export default function AuthPage() {
-//   const callbackUrl = "/";
-
-//   // --- State for unified component state ---
-//   const [isSignIn, setIsSignIn] = useState(true); // true = Sign In, false = Sign Up
+//   const [isSignIn, setIsSignIn] = useState(true);
 //   const [email, setEmail] = useState("");
 //   const [password, setPassword] = useState("");
 //   const [name, setName] = useState("");
@@ -480,12 +415,10 @@ export default function AuthPage() {
 //   const [error, setError] = useState<string | null>(null);
 //   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-//   // 💡 Step 3: New states for field validation errors
 //   const [nameError, setNameError] = useState<string | null>(null);
 //   const [emailError, setEmailError] = useState<string | null>(null);
 //   const [passwordError, setPasswordError] = useState<string | null>(null);
 
-//   // Function to clear all field errors
 //   const clearFieldErrors = () => {
 //     setNameError(null);
 //     setEmailError(null);
@@ -493,150 +426,81 @@ export default function AuthPage() {
 //   };
 
 //   const handleSubmit = async (e: React.FormEvent) => {
-//     // 🔥 CORRECTION 1: Prevent default form submission to let Zod run first.
 //     e.preventDefault();
-
 //     setError(null);
 //     setSuccessMessage(null);
-//     clearFieldErrors(); // Clear previous errors
+//     clearFieldErrors();
 
-//     // 💡 Step 4: Execute Zod validation before submission
-//     const validationData = {
-//       email,
-//       password,
-//       name: isSignIn ? undefined : name, // Name is only included for sign up
-//     };
+//     const schema = isSignIn
+//       ? AuthSchema.pick({ email: true, password: true })
+//       : AuthSchema;
 
-//     // This is the correct way to conditionally require fields based on mode.
-//     // For Sign In: only 'email' and 'password' are required from the base schema.
-//     // For Sign Up: 'name', 'email', and 'password' are required.
-//     const schema = AuthSchema.pick(
-//       isSignIn
-//         ? { email: true, password: true }
-//         : { name: true, email: true, password: true }
+//     const result = schema.safeParse(
+//       isSignIn ? { email, password } : { name, email, password }
 //     );
 
-//     const result = schema.safeParse(validationData);
-
 //     if (!result.success) {
-//       // Client-side validation failed
-
-//       // Map Zod errors to dedicated states
 //       result.error.issues.forEach((issue) => {
-//         if (issue.path[0] === "name") {
-//           setNameError(issue.message);
-//         }
-//         if (issue.path[0] === "email") {
-//           setEmailError(issue.message);
-//         }
-//         if (issue.path[0] === "password") {
-//           setPasswordError(issue.message);
-//         }
+//         if (issue.path[0] === "name") setNameError(issue.message);
+//         if (issue.path[0] === "email") setEmailError(issue.message);
+//         if (issue.path[0] === "password") setPasswordError(issue.message);
 //       });
-
-//       // Display error in public message (optional)
 //       setError("Please correct the form errors.");
-//       return; // Stop form submission
+//       return;
 //     }
 
-//     // If validation passed, continue:
 //     setIsLoading(true);
 
 //     try {
-//       // Pass callbackUrl to the function
-//       const authResult = await handleEmailAuth(
-//         isSignIn,
-//         email,
-//         password,
-//         name,
-//         callbackUrl
-//       );
+//       if (isSignIn) {
+//         // Sign In with Email/Password
+//         const { error } = await supabase.auth.signInWithPassword({
+//           email,
+//           password,
+//         });
 
-//       if (authResult === "SIGNIN_SUCCESS") {
-//         setSuccessMessage("Authentication successful. Redirecting to app...");
+//         if (error) throw error;
 
-//         // The final redirect is usually handled by NextAuth (if we hadn't set redirect: false)
-//         // Since we set redirect: false, we must redirect manually.
-//         setTimeout(() => {
-//           window.location.href = callbackUrl;
-//         }, 500);
-//       } else if (authResult === "SIGNUP_PENDING_CONFIRMATION") {
-//         setSuccessMessage(
-//           "Sign up successful! Please check your email to confirm your account."
-//         );
-//       }
-//     } catch (e) {
-//       // 1. Check if e is an Error object (most common case)
-//       if (e instanceof Error) {
-//         const errorMessage =
-//           e.message ||
-//           "Authentication failed. Please check your details and try again.";
-//         setError(errorMessage);
-//       }
-//       // 2. If it was a simple object or another type (since e has type unknown)
-//       else if (
-//         typeof e === "object" &&
-//         e !== null &&
-//         "message" in e &&
-//         typeof (e as { message: unknown }).message === "string"
-//       ) {
-//         // This case is for objects that have a message but are not Error objects.
-//         setError((e as { message: string }).message);
-//       }
-//       // 3. Default case (if we could not determine the type)
-//       else {
-//         setError(
-//           "An unknown error occurred during authentication. Please try again."
-//         );
-//       }
+//         window.location.href = "/";
+//       } else {
+//         // Sign Up
+//         const { data, error } = await supabase.auth.signUp({
+//           email,
+//           password,
+//           options: {
+//             data: { full_name: name },
+//             emailRedirectTo: window.location.origin,
+//           },
+//         });
 
-//       setSuccessMessage(null);
+//         if (error) throw error;
+
+//         // If email confirmation is disabled or user is auto-confirmed
+//         if (data.user && data.session) {
+//           // Create profile
+//           const { error: profileError } = await supabase
+//             .from("profiles")
+//             .insert({
+//               user_id: data.user.id,
+//               name,
+//               email,
+//             });
+
+//           if (profileError) console.error("Profile error:", profileError);
+
+//           window.location.href = "/";
+//         } else {
+//           setSuccessMessage(
+//             "Sign up successful! Please check your email to confirm your account."
+//           );
+//         }
+//       }
+//     } catch (err: any) {
+//       setError(err.message || "An error occurred. Please try again.");
 //     } finally {
-//       // Only set isLoading to false if redirect hasn't started
-//       if (!successMessage || successMessage.indexOf("Redirecting") === -1) {
-//         setIsLoading(false);
-//       }
+//       setIsLoading(false);
 //     }
 //   };
-
-//   // 🔥 Replacing Supabase OAuth with NextAuth signIn
-//   //   const handleSocialLogin = (provider: string) => {
-//   //     setError(null);
-//   //     setSuccessMessage(null);
-//   //     clearFieldErrors();
-//   //     setIsLoading(true); // Display loading before OAuth redirect
-//   //     try {
-//   //       // Use NextAuth signIn instead of Supabase
-//   //       // NextAuth directly redirects the user to the OAuth Provider page
-//   //       signIn(provider.toLowerCase(), {
-//   //         callbackUrl: callbackUrl, // Redirect to the main route after successful login
-//   //       });
-//   //       // Note: NextAuth performs the redirect immediately, so isLoading is cleared by the next page load.
-//   //     } catch (e) {
-//   //       let errorMessage = `Error starting ${provider} login: An unknown error occurred.`;
-
-//   //       // 1. Check if e is a standard Error object
-//   //       if (e instanceof Error) {
-//   //         errorMessage = `Error starting ${provider} login: ${e.message}`;
-//   //       }
-//   //       // 2. If it was an object with a message property (like some API responses)
-//   //       else if (
-//   //         typeof e === "object" &&
-//   //         e !== null &&
-//   //         "message" in e &&
-//   //         typeof (e as { message: unknown }).message === "string"
-//   //       ) {
-//   //         errorMessage = `Error starting ${provider} login: ${
-//   //           (e as { message: string }).message
-//   //         }`;
-//   //       }
-
-//   //       setError(errorMessage);
-//   //       setIsLoading(false);
-//   //     }
-//   //   };
-
-//   //   const supabase = createClient();
 
 //   const handleSocialLogin = async (provider: "github" | "google") => {
 //     setIsLoading(true);
@@ -645,22 +509,20 @@ export default function AuthPage() {
 //     const { error } = await supabase.auth.signInWithOAuth({
 //       provider,
 //       options: {
-//         redirectTo: `${window.location.origin}/auth/callback`,
+//         redirectTo: "http://localhost:3000/auth/callback", // دقیقاً این
 //       },
 //     });
 
 //     if (error) {
-//       console.error("OAuth Error:", error);
 //       setError(error.message);
 //       setIsLoading(false);
 //     }
-//     // اگر موفق باشه، Supabase ریدایرکت می‌کنه
 //   };
 
 //   return (
 //     <div className="min-h-screen bg-gradient-to-br from-eco-light to-eco-green/20 flex items-center justify-center px-4 py-8 sm:py-12 font-sans">
 //       <div className="max-w-sm sm:max-w-md w-full bg-white rounded-2xl shadow-xl sm:shadow-2xl p-6 sm:p-8 space-y-6 sm:space-y-8 transform transition-all">
-//         {/* --- Logo and Title --- */}
+//         {/* Logo and Title */}
 //         <div className="text-center">
 //           <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-eco-green rounded-full mb-3 sm:mb-4">
 //             <span className="text-xl sm:text-2xl font-bold text-white">EV</span>
@@ -675,14 +537,14 @@ export default function AuthPage() {
 //           </p>
 //         </div>
 
-//         {/* --- Sign In/Sign Up Switch --- */}
+//         {/* Sign In / Sign Up Toggle */}
 //         <div className="flex justify-center -mt-4 mb-6">
 //           <button
 //             onClick={() => {
 //               setIsSignIn(true);
 //               setError(null);
 //               setSuccessMessage(null);
-//               clearFieldErrors(); // Clear errors when switching mode
+//               clearFieldErrors();
 //             }}
 //             className={`px-4 py-2 text-sm font-semibold rounded-l-xl transition-all duration-300 border-2 border-eco-green ${
 //               isSignIn
@@ -697,7 +559,7 @@ export default function AuthPage() {
 //               setIsSignIn(false);
 //               setError(null);
 //               setSuccessMessage(null);
-//               clearFieldErrors(); // Clear errors when switching mode
+//               clearFieldErrors();
 //             }}
 //             className={`px-4 py-2 text-sm font-semibold rounded-r-xl transition-all duration-300 border-2 border-eco-green ${
 //               !isSignIn
@@ -709,12 +571,12 @@ export default function AuthPage() {
 //           </button>
 //         </div>
 
-//         {/* --- OAuth Buttons (Social Login) --- */}
+//         {/* Social Login Buttons */}
 //         <div className="space-y-3 sm:space-y-4">
 //           <button
 //             onClick={() => handleSocialLogin("google")}
-//             className="w-full flex items-center justify-center gap-2 sm:gap-3 py-3 sm:py-3.5 px-3 sm:px-4 border border-gray-300 rounded-xl hover:border-eco-green hover:bg-eco-light/50 transition-all duration-200 font-medium text-sm sm:text-base text-gray-700 shadow-sm hover:shadow-md"
 //             disabled={isLoading}
+//             className="w-full flex items-center justify-center gap-2 sm:gap-3 py-3 sm:py-3.css5 px-3 sm:px-4 border border-gray-300 rounded-xl hover:border-eco-green hover:bg-eco-light/50 transition-all duration-200 font-medium text-sm sm:text-base text-gray-700 shadow-sm hover:shadow-md"
 //           >
 //             <GoogleIcon />
 //             Continue with Google
@@ -722,15 +584,15 @@ export default function AuthPage() {
 
 //           <button
 //             onClick={() => handleSocialLogin("github")}
-//             className="w-full flex items-center justify-center gap-2 sm:gap-3 py-3 sm:py-3.5 px-3 sm:px-4 border border-gray-300 rounded-xl hover:border-gray-800 hover:bg-gray-50 transition-all duration-200 font-medium text-sm sm:text-base text-gray-700 shadow-sm hover:shadow-md"
 //             disabled={isLoading}
+//             className="w-full flex items-center justify-center gap-2 sm:gap-3 py-3 sm:py-3.5 px-3 sm:px-4 border border-gray-300 rounded-xl hover:border-gray-800 hover:bg-gray-50 transition-all duration-200 font-medium text-sm sm:text-base text-gray-700 shadow-sm hover:shadow-md"
 //           >
 //             <GitHubIcon />
 //             Continue with GitHub
 //           </button>
 //         </div>
 
-//         {/* --- Separator --- */}
+//         {/* Separator */}
 //         <div className="flex items-center my-6">
 //           <div className="flex-grow border-t border-gray-200"></div>
 //           <span className="flex-shrink mx-4 text-gray-500 text-xs sm:text-sm">
@@ -739,14 +601,13 @@ export default function AuthPage() {
 //           <div className="flex-grow border-t border-gray-200"></div>
 //         </div>
 
-//         {/* --- Email/Password Form --- */}
-//         {/* 🔥 CORRECTION 2: Added noValidate to disable browser's built-in validation */}
+//         {/* Email/Password Form */}
 //         <form
 //           onSubmit={handleSubmit}
 //           className="space-y-3 sm:space-y-4"
 //           noValidate
 //         >
-//           {/* Name Field (Sign Up only) */}
+//           {/* Name Field - Only on Sign Up */}
 //           {!isSignIn && (
 //             <div className="relative">
 //               <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -756,10 +617,8 @@ export default function AuthPage() {
 //                 value={name}
 //                 onChange={(e) => {
 //                   setName(e.target.value);
-//                   setNameError(null); // Clear error on typing
+//                   setNameError(null);
 //                 }}
-//                 // 🔥 CORRECTION 3: Removed 'required' attribute
-//                 // required={!isSignIn}
 //                 className={`w-full pl-10 pr-4 py-3 sm:py-3.5 border ${
 //                   nameError ? "border-red-500 ring-red-100" : "border-gray-300"
 //                 } rounded-xl focus:ring-2 focus:ring-eco-green focus:border-eco-green transition-shadow shadow-sm text-sm sm:text-base text-left`}
@@ -783,14 +642,12 @@ export default function AuthPage() {
 //               value={email}
 //               onChange={(e) => {
 //                 setEmail(e.target.value);
-//                 setEmailError(null); // Clear error on typing
+//                 setEmailError(null);
 //               }}
-//               // 🔥 CORRECTION 3: Removed 'required' attribute
-//               // required
 //               className={`w-full pl-10 pr-4 py-3 sm:py-3.5 border ${
 //                 emailError ? "border-red-500 ring-red-100" : "border-gray-300"
 //               } rounded-xl focus:ring-2 focus:ring-eco-green focus:border-eco-green transition-shadow shadow-sm text-sm sm:text-base text-left`}
-//               dir="ltr" // Email is usually LTR
+//               dir="ltr"
 //               disabled={isLoading}
 //             />
 //             {emailError && (
@@ -809,16 +666,14 @@ export default function AuthPage() {
 //               value={password}
 //               onChange={(e) => {
 //                 setPassword(e.target.value);
-//                 setPasswordError(null); // Clear error on typing
+//                 setPasswordError(null);
 //               }}
-//               // 🔥 CORRECTION 3: Removed 'required' attribute
-//               // required
 //               className={`w-full pl-10 pr-4 py-3 sm:py-3.5 border ${
 //                 passwordError
 //                   ? "border-red-500 ring-red-100"
 //                   : "border-gray-300"
 //               } rounded-xl focus:ring-2 focus:ring-eco-green focus:border-eco-green transition-shadow shadow-sm text-sm sm:text-base text-left`}
-//               dir="ltr" // Password is usually LTR
+//               dir="ltr"
 //               disabled={isLoading}
 //             />
 //             {passwordError && (
@@ -828,7 +683,7 @@ export default function AuthPage() {
 //             )}
 //           </div>
 
-//           {/* Global Messages */}
+//           {/* Messages */}
 //           {error && (
 //             <p className="text-red-500 text-sm text-center font-medium">
 //               Error: {error}
@@ -840,11 +695,11 @@ export default function AuthPage() {
 //             </p>
 //           )}
 
-//           {/* Final Submission Button */}
+//           {/* Submit Button */}
 //           <button
 //             type="submit"
-//             className="w-full bg-eco-green text-white py-3 sm:py-3.5 rounded-xl font-semibold text-sm sm:text-base hover:bg-eco-green/90 transition-all duration-300 flex items-center justify-center shadow-lg"
 //             disabled={isLoading}
+//             className="w-full bg-eco-green text-white py-3 sm:py-3.5 rounded-xl font-semibold text-sm sm:text-base hover:bg-eco-green/90 transition-all duration-300 flex items-center justify-center shadow-lg"
 //           >
 //             {isLoading ? (
 //               <Loader2 className="w-5 h-5 animate-spin mr-2" />
@@ -860,6 +715,7 @@ export default function AuthPage() {
 //           </button>
 //         </form>
 
+//         {/* Forgot Password */}
 //         {isSignIn && (
 //           <p className="mt-4 text-center text-xs text-gray-500">
 //             <a
@@ -875,6 +731,7 @@ export default function AuthPage() {
 //           </p>
 //         )}
 
+//         {/* Privacy Policy */}
 //         <div className="mt-8 sm:mt-12 text-center text-xs text-gray-500">
 //           By logging in, you agree to our{" "}
 //           <a href="/privacy" className="underline hover:text-eco-green">

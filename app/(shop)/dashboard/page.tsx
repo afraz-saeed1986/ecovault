@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 
 // Import Supabase client
 import { supabase } from "@/lib/supabase/client";
+import { useProfile } from "@/lib/supabase/hooks/useProfile";
 
 // --------------------------------------------------------------------------------
 // --- Helper Functions for Avatar Logic ---
@@ -86,6 +87,7 @@ export default function Dashboard() {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const { profile } = useProfile();
 
   useEffect(() => {
     const checkUser = async () => {
@@ -142,9 +144,7 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-4 py-8 sm:py-12">
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
             <AvatarWithFallback
-              image={
-                user.user_metadata?.avatar_url || user.user_metadata?.picture
-              }
+              image={profile?.avatar_url || "/images/default-avatar.png"}
               name={user.user_metadata?.full_name || user.email}
               size={size}
               scale="small"

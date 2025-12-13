@@ -22,6 +22,7 @@ import { useTheme } from "@/components/ThemeContext";
 import { useWishlist } from "@/components/WishList";
 import { supabase } from "@/lib/supabase/client"; // این تنها چیزیه که اضافه شد
 import type { AvatarProps } from "@/types";
+import { useProfile } from "@/lib/supabase/hooks/useProfile";
 
 // --- تابع کمکی: استخراج حروف اول اسم ---
 const getInitials = (name: string | null | undefined): string => {
@@ -32,12 +33,7 @@ const getInitials = (name: string | null | undefined): string => {
 };
 
 // --- کامپوننت نمایش آواتار ---
-const AvatarWithFallback: React.FC<AvatarProps> = ({
-  image,
-  name,
-  size,
-  scale,
-}) => {
+const AvatarWithFallback: React.FC<AvatarProps> = ({ image, name, scale }) => {
   const initials = getInitials(name);
   const sizeClasses = { small: "w-8 h-8 text-xs", large: "w-12 h-12 text-lg" };
   const currentSizeClass = sizeClasses[scale];
@@ -81,6 +77,7 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const { profile } = useProfile();
 
   const { totalItems } = useCart();
   const { wishlist } = useWishlist();
@@ -244,8 +241,7 @@ export default function Navbar() {
                   <div className="flex items-center gap-3">
                     <AvatarWithFallback
                       image={
-                        user.user_metadata?.avatar_url ||
-                        user.user_metadata?.picture
+                        profile?.avatar_url || "/images/default-avatar.png"
                       }
                       name={user.user_metadata?.full_name || user.email}
                       scale="small"
@@ -313,8 +309,7 @@ export default function Navbar() {
                     <div className="flex items-center gap-3 pb-3 border-b border-white/20">
                       <AvatarWithFallback
                         image={
-                          user.user_metadata?.avatar_url ||
-                          user.user_metadata?.picture
+                          profile?.avatar_url || "/images/default-avatar.png"
                         }
                         name={user.user_metadata?.full_name || user.email}
                         scale="large"
