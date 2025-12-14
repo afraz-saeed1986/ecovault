@@ -8,24 +8,26 @@ import Link from "next/link";
 import { useCart } from "@/components/CartContext";
 import { useWishlist } from "@/components/WishList";
 import type { EnhancedProduct } from "@/types";
+import { useToast } from "./ui/ToastContext";
 
 interface ProductCardProps {
   product: EnhancedProduct;
 }
 
-
-
 export default function ProductCard({ product }: ProductCardProps) {
-  const { addToCart } = useCart();
+  const { addToCart, removeFromCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
   const inWishlist = isInWishlist(product.id!);
+  const { showToast } = useToast();
 
-  const avgRating = product.reviewCount > 0
-    ? product.avgRating.toFixed(1)
-    : "—";
+  const avgRating =
+    product.reviewCount > 0 ? product.avgRating.toFixed(1) : "—";
 
   const categoryNames = product.categories
-    ? (product.categories as Array<{ name: string }>).map(c => c.name).slice(0, 2).join(" • ")
+    ? (product.categories as Array<{ name: string }>)
+        .map((c) => c.name)
+        .slice(0, 2)
+        .join(" • ")
     : "";
 
   return (
@@ -34,7 +36,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       transition={{ duration: 0.3 }}
       className="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer group flex flex-col h-full"
     >
-    <Link href={`/product/${product.id}`} className="block flex-1">
+      <Link href={`/product/${product.id}`} className="block flex-1">
         <div className="relative h-40 sm:h-48 bg-gray-100">
           <Image
             src={product.mainImage || "/images/fallback-product.jpg"}
@@ -59,7 +61,11 @@ export default function ProductCard({ product }: ProductCardProps) {
             `}
             aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
           >
-            <Heart className={`w-4 h-4 sm:w-5 sm:h-5 ${inWishlist ? "fill-current" : ""}`} />
+            <Heart
+              className={`w-4 h-4 sm:w-5 sm:h-5 ${
+                inWishlist ? "fill-current" : ""
+              }`}
+            />
           </button>
 
           {/* Sustainability Score */}
@@ -81,11 +87,15 @@ export default function ProductCard({ product }: ProductCardProps) {
           <div className="flex items-center gap-1.5 sm:gap-2 mt-2">
             <div className="flex items-center">
               <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-eco-accent text-eco-accent" />
-              <span className="text-xs sm:text-sm font-medium ml-0.5 sm:ml-1">{avgRating}</span>
+              <span className="text-xs sm:text-sm font-medium ml-0.5 sm:ml-1">
+                {avgRating}
+              </span>
             </div>
             <div className="flex items-center text-gray-600">
               <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              <span className="text-xs sm:text-sm ml-0.5 sm:ml-1">({product.reviewCount})</span>
+              <span className="text-xs sm:text-sm ml-0.5 sm:ml-1">
+                ({product.reviewCount})
+              </span>
             </div>
           </div>
 
@@ -103,6 +113,13 @@ export default function ProductCard({ product }: ProductCardProps) {
             e.preventDefault();
             e.stopPropagation();
             addToCart(product); // این خط درست شد!
+            showToast({
+              message: "Product added to cart successfully",
+              undo: () => {
+                // اگر removeFromCart داری
+                removeFromCart(product.id!);
+              },
+            });
           }}
           disabled={!product.inStock}
           className={`w-full px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg font-medium text-xs sm:text-sm transition-colors ${

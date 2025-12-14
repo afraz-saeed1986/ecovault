@@ -9,6 +9,7 @@ import { SearchProvider } from "@/components/SearchContext";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeContext";
 import { WishlistProvider } from "@/components/WishList";
+import { ToastProvider } from "@/components/ui/ToastContext";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -31,18 +32,20 @@ export default function RootLayout({
         className={`${GeistSans.variable} ${GeistMono.variable} antialiased overflow-x-hidden dark:bg-eco-darkest`}
       >
         <Providers>
-          <WishlistProvider>
-            <ThemeProvider>
-            <SearchProvider>
-              <CartProvider>
-                {/* <Navbar /> */}
-                {/* <main className="pt-20 dark:bg-eco-darkest">{children}</main> */}
-                {children}
-                {/* <Footer /> */}
-              </CartProvider>
-            </SearchProvider>
-          </ThemeProvider>
-          </WishlistProvider>
+          <ToastProvider>
+            <WishlistProvider>
+              <ThemeProvider>
+                <SearchProvider>
+                  <CartProvider>
+                    {/* <Navbar /> */}
+                    {/* <main className="pt-20 dark:bg-eco-darkest">{children}</main> */}
+                    {children}
+                    {/* <Footer /> */}
+                  </CartProvider>
+                </SearchProvider>
+              </ThemeProvider>
+            </WishlistProvider>
+          </ToastProvider>
         </Providers>
       </body>
     </html>
