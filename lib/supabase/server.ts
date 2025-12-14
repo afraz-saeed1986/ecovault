@@ -1,11 +1,13 @@
 // lib/supabase/server.ts
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import type { CookieOptions } from '@supabase/ssr';
+import type { Database } from '@/types/database.types'; // اگر داری
 
 export const createClient = async () => {
-  const cookieStore = await cookies(); // await اضافه شد!
+  const cookieStore = await cookies();
 
-  return createServerClient(
+  return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
@@ -13,17 +15,17 @@ export const createClient = async () => {
         get(name: string) {
           return cookieStore.get(name)?.value;
         },
-        set(name: string, value: string, options: any) {
+        set(name: string, value: string, options: CookieOptions) {
           try {
             cookieStore.set({ name, value, ...options });
-          } catch (error) {
+          } catch {
             // ignore
           }
         },
-        remove(name: string, options: any) {
+        remove(name: string, options: CookieOptions) {
           try {
             cookieStore.set({ name, value: '', ...options });
-          } catch (error) {
+          } catch {
             // ignore
           }
         },
@@ -31,45 +33,3 @@ export const createClient = async () => {
     }
   );
 };
-
-// // lib/supabase/server.ts
-// import { createServerClient } from '@supabase/ssr';
-// import { cookies } from 'next/headers';
-// import type { Database } from '@/types/database.types';  // اگر types نداری، حذف کن
-
-// export async function createClient() {  // async اضافه شد!
-//   const cookieStore = await cookies();  // await برای resolve Promise
-
-//   return createServerClient<Database>(
-//     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-//     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-//     {
-//       cookies: {
-//         async getAll() {
-//           const store = await cookies();  // هر بار await برای freshness
-//           return store.getAll();
-//         },
-//         async setAll(cookiesToSet) {
-//           const store = await cookies();  // await برای set
-//           try {
-//             cookiesToSet.forEach(({ name, value, options }) => {
-//               store.set(name, value, options);
-//             });
-//           } catch (error) {
-//             // fallback بی‌صدا (در middleware یا edge ممکنه fail کنه)
-//             console.warn('Cookie set failed:', error);
-//           }
-//         },
-//       },
-//     }
-//   );
-// }
-
-
-
-
-
-
-
-
-

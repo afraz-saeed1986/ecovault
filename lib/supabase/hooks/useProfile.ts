@@ -5,7 +5,6 @@ import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabase/client";
 import { Profile } from "@/types";
 
-
 export function useProfile() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -16,7 +15,6 @@ export function useProfile() {
       setLoading(true);
       setError(null);
 
-      // گرفتن کاربر فعلی
       const {
         data: { user },
         error: authError,
@@ -28,7 +26,6 @@ export function useProfile() {
         return;
       }
 
-      // گرفتن پروفایل از جدول profiles
       const { data, error: profileError } = await supabase
         .from("profiles")
         .select("*")
@@ -36,7 +33,6 @@ export function useProfile() {
         .single();
 
       if (profileError) {
-        // اگر رکورد پیدا نشد (اولین بار کاربر وارد شده)
         if (profileError.code === "PGRST116") {
           setProfile(null);
         } else {
@@ -46,9 +42,11 @@ export function useProfile() {
       } else {
         setProfile(data as Profile);
       }
-    } catch (err: any) {
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "An unexpected error occurred";
       console.error("Unexpected error in useProfile:", err);
-      setError("An unexpected error occurred");
+      setError(message);
       setProfile(null);
     } finally {
       setLoading(false);
@@ -58,7 +56,6 @@ export function useProfile() {
   useEffect(() => {
     fetchProfile();
 
-    // هر بار که وضعیت احراز هویت تغییر کرد (لاگین، لاگ‌اوت، آپلود عکس و ...)
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -75,7 +72,6 @@ export function useProfile() {
     };
   }, [fetchProfile]);
 
-  // برای وقتی که بخوای دستی رفرش کنی (مثلاً بعد از آپلود عکس)
   const refetch = useCallback(() => {
     fetchProfile();
   }, [fetchProfile]);
