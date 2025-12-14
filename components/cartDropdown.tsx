@@ -45,7 +45,11 @@ export default function CartDropdown({
                 key={item.id}
                 className="flex gap-2 sm:gap-3 bg-gray-50 p-2 sm:p-3 rounded-lg transform transition-all duration-200 hover:p-3 sm:hover:p-4 hover:shadow-lg"
               >
-                <Link href={`/product/${item.id}`} className="flex gap-2 sm:gap-3 w-full">
+                <Link
+                  href={`/product/${item.id}`}
+                  className="flex gap-2 sm:gap-3 w-full"
+                  onClick={onClose}
+                >
                   <div className="relative w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0">
                     <Image
                       src={item.image}

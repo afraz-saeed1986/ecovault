@@ -1,30 +1,31 @@
 // components/CartContext.tsx
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 import type { EnhancedProduct, CartItem, CartContextType } from "@/types";
-
-// export type CartItem = {
-//   id: number;
-//   name: string;
-//   price: number;
-//   quantity: number;
-//   image: string;
-// };
-
-// interface CartContextType {
-//   cart: CartItem[];
-//   addToCart: (product: EnhancedProduct) => void;
-//   removeFromCart: (id: number) => void;
-//   updateQuantity: (id: number, quantity: number) => void;
-//   clearCart: () => void;
-//   totalItems: number;
-//   totalPrice: number;
-// }
 
 const STORAGE_KEY = "ecovault-cart";
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
+interface CartContextValue {
+  cart: CartItem[];
+  addToCart: (product: EnhancedProduct) => void;
+  removeFromCart: (id: number) => void;
+  updateQuantity: (id: number, quantity: number) => void;
+  clearCart: () => void;
+  totalItems: number;
+  totalPrice: number;
+  isCartOpen: boolean;
+  setIsCartOpen?: (open: boolean) => void;
+  closeCart: () => void; // <--- اضافه شد
+}
+
+const CartContext = createContext<CartContextValue | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>(() => {
@@ -37,6 +38,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   });
 
+  // این state برای کنترل باز/بسته بودن سایدبار سبد خرید
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
@@ -45,17 +49,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [cart]);
 
-  // این تابع فقط id, name, price, image رو از محصول می‌گیره
   const addToCart = (product: EnhancedProduct) => {
-    // 💡 گارد اولیه برای اطمینان از صحت runtime (اگرچه TS در callback آن را نادیده می‌گیرد)
     if (product.id === null) {
-      console.error("Attempted to add a product without a valid ID to the cart. Operation aborted.");
-      return; 
+      console.error(
+        "Attempted to add a product without a valid ID to the cart."
+      );
+      return;
     }
 
     setCart((prev) => {
       const existing = prev.find((item) => item.id === product.id);
-      
+
       if (existing) {
         return prev.map((item) =>
           item.id === product.id
@@ -67,10 +71,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return [
         ...prev,
         {
-          // ✅ اصلاح: استفاده از Non-null Assertion '!' در اینجا.
-          // این تضمین می‌کند که product.id به عنوان یک 'number' (و نه 'number | null')
-          // به شیء CartItem اختصاص داده شود و خطای TypeScript را رفع می‌کند.
-          id: product.id!, 
+          id: product.id!,
           name: product.name ?? "Unknown Product",
           price: product.price ?? 0,
           quantity: 1,
@@ -78,6 +79,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
         },
       ];
     });
+
+    // وقتی محصول اضافه می‌شه، سایدبار باز بشه
+    setIsCartOpen(true);
   };
 
   const removeFromCart = (id: number) => {
@@ -96,8 +100,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const clearCart = () => setCart([]);
 
+  const closeCart = () => setIsCartOpen(false);
+
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const totalPrice = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   return (
     <CartContext.Provider
@@ -109,6 +118,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
         clearCart,
         totalItems,
         totalPrice,
+        closeCart, // <--- اضافه شد
+        isCartOpen, // اختیاری — اگر CartDropdown نیاز داره
+        setIsCartOpen, // اختیاری — اگر نیاز به کنترل خارجی داری
       }}
     >
       {children}
@@ -122,32 +134,17 @@ export const useCart = () => {
   return context;
 };
 
-
-
-
 // // components/CartContext.tsx
 // "use client";
 
-// import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-// import type { EnhancedProduct } from "@/types";
-
-// export type CartItem = {
-//   id: number;
-//   name: string;
-//   price: number;
-//   quantity: number;
-//   image: string;
-// };
-
-// interface CartContextType {
-//   cart: CartItem[];
-//   addToCart: (product: EnhancedProduct) => void;
-//   removeFromCart: (id: number) => void;
-//   updateQuantity: (id: number, quantity: number) => void;
-//   clearCart: () => void;
-//   totalItems: number;
-//   totalPrice: number;
-// }
+// import {
+//   createContext,
+//   useContext,
+//   useState,
+//   useEffect,
+//   ReactNode,
+// } from "react";
+// import type { EnhancedProduct, CartItem, CartContextType } from "@/types";
 
 // const STORAGE_KEY = "ecovault-cart";
 
@@ -174,8 +171,17 @@ export const useCart = () => {
 
 //   // این تابع فقط id, name, price, image رو از محصول می‌گیره
 //   const addToCart = (product: EnhancedProduct) => {
+//     // 💡 گارد اولیه برای اطمینان از صحت runtime (اگرچه TS در callback آن را نادیده می‌گیرد)
+//     if (product.id === null) {
+//       console.error(
+//         "Attempted to add a product without a valid ID to the cart. Operation aborted."
+//       );
+//       return;
+//     }
+
 //     setCart((prev) => {
 //       const existing = prev.find((item) => item.id === product.id);
+
 //       if (existing) {
 //         return prev.map((item) =>
 //           item.id === product.id
@@ -187,7 +193,10 @@ export const useCart = () => {
 //       return [
 //         ...prev,
 //         {
-//           id: product.id,
+//           // ✅ اصلاح: استفاده از Non-null Assertion '!' در اینجا.
+//           // این تضمین می‌کند که product.id به عنوان یک 'number' (و نه 'number | null')
+//           // به شیء CartItem اختصاص داده شود و خطای TypeScript را رفع می‌کند.
+//           id: product.id!,
 //           name: product.name ?? "Unknown Product",
 //           price: product.price ?? 0,
 //           quantity: 1,
@@ -214,7 +223,10 @@ export const useCart = () => {
 //   const clearCart = () => setCart([]);
 
 //   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-//   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+//   const totalPrice = cart.reduce(
+//     (sum, item) => sum + item.price * item.quantity,
+//     0
+//   );
 
 //   return (
 //     <CartContext.Provider

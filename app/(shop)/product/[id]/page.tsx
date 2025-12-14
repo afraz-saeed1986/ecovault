@@ -14,7 +14,8 @@ export async function generateMetadata({ params }: Props) {
     const product = await productService.getById(Number(id));
     return {
       title: `${product.name} | EcoShop`,
-      description: product.short_description || product.description?.slice(0, 160),
+      description:
+        product.short_description || product.description?.slice(0, 160),
     };
   } catch {
     return { title: "Product Not Found" };

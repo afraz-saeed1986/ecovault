@@ -80,23 +80,14 @@ export default function AuthPage() {
           password,
           options: {
             data: { full_name: name },
-            emailRedirectTo: window.location.origin,
+            emailRedirectTo: window.location.origin + "/auth/callback",
           },
         });
 
         if (error) throw error;
 
         if (data.user && data.session) {
-          const { error: profileError } = await supabase
-            .from("profiles")
-            .insert({
-              user_id: data.user.id,
-              name,
-              email,
-            });
-
-          if (profileError) console.error("Profile error:", profileError);
-
+          // تریگر خودش پروفایل رو می‌سازه — نیازی به insert دستی نیست
           window.location.href = "/";
         } else {
           setSuccessMessage(
@@ -122,7 +113,7 @@ export default function AuthPage() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: "http://localhost:3000/auth/callback",
+        redirectTo: window.location.origin + "/auth/callback",
       },
     });
 
