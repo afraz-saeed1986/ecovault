@@ -1,3 +1,5 @@
+// app/components/ProductsPageClient.tsx
+
 "use client";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import Fuse from "fuse.js";

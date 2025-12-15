@@ -11,9 +11,7 @@ export default function ShopLayout({
   return (
     <>
       <Navbar />
-      <main className="pt-20 dark:bg-eco-darkest">
-        {children}
-      </main>
+      <main className="pt-28 dark:bg-eco-darkest">{children}</main>
       <Footer />
     </>
   );

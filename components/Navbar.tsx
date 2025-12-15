@@ -95,7 +95,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="bg-eco-green dark:bg-eco-dark text-white dark:text-eco-light sticky top-0 z-40 shadow-md transition-colors duration-300">
+      <header className="bg-eco-green dark:bg-eco-dark text-white dark:text-eco-light fixed top-0 left-0 right-0 z-40 shadow-md transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 py-3 sm:py-4">
           {/* موبایل و تبلت */}
           <div className="flex items-center justify-between lg:hidden">
@@ -259,7 +259,7 @@ export default function Navbar() {
 
           {/* جستجو موبایل */}
           {showSearch && (
-            <div className="lg:hidden mt-3 px-4">
+            <div className="lg:hidden mt-10 px-4">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                 <input
@@ -275,7 +275,7 @@ export default function Navbar() {
 
           {/* منوی موبایل */}
           {mobileMenuOpen && (
-            <div className="lg:hidden bg-eco-green/95 dark:bg-eco-dark/95 backdrop-blur-sm border-t border-white/20">
+            <div className="lg:hidden mt-3 bg-eco-green/95 dark:bg-eco-dark/95 backdrop-blur-sm border-t border-white/20">
               <div className="px-4 py-4 space-y-3">
                 {profileLoading ? (
                   <div className="h-20 flex items-center justify-center text-white/70">
