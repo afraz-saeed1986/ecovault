@@ -11,7 +11,19 @@ export default function ShopLayout({
   return (
     <>
       <Navbar />
-      <main className="pt-28 dark:bg-eco-darkest">{children}</main>
+      {/* <main className="pt-28 dark:bg-eco-darkest">{children}</main> */}
+
+      <main
+        className="
+          pt-[var(--navbar-height)] 
+          lg:pt-[calc(var(--navbar-height)_+_2.5rem)]  /* 40px اضافه در دسکتاپ */
+          min-h-screen 
+          dark:bg-eco-darkest 
+          transition-padding duration-300
+        "
+      >
+        {children}
+      </main>
       <Footer />
     </>
   );

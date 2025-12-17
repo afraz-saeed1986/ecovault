@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 /* html, body {
@@ -14,7 +14,7 @@
 } */
 
 .animate-slide-in-right {
-    animation: slideInRight 0.3s ease-out;
+  animation: slideInRight 0.3s ease-out;
 }
 
 .scrollbar-custom::-webkit-scrollbar {
@@ -36,10 +36,21 @@
 }
 
 @keyframes slideInRight {
-    from {
-        transform: translateX(100%);
-    }
-    to {
-        transform: translateX(0);
-    }
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+:root {
+  --navbar-height: 64px; /* مقدار اولیه برای موبایل — قبل از اینکه JS اجرا بشه */
+}
+
+@media (min-width: 1024px) {
+  /* lg و بزرگتر */
+  :root {
+    --navbar-height: 100px; /* دسکتاپ اولیه */
+  }
 }
