@@ -1,6 +1,6 @@
 # EcoVault – Sustainable E-Commerce Platform
 
-[![Next.js](https://img.shields.io/badge/Next.js-15-blue?style=for-the-badge&logo=next.js)](https://nextjs.org)
+[![Next.js](https://img.shields.io/badge/Next.js-16-blue?style=for-the-badge&logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.4-green?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com)
 [![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel)](https://vercel.com)
