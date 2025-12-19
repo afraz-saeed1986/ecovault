@@ -5,7 +5,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.4-green?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com)
 [![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel)](https://vercel.com)
 
-> **A full-stack sustainable e-commerce platform built with Next.js 15, TypeScript, Tailwind CSS, and API-driven architecture. Features advanced search, persistent cart, PWA support, and eco-friendly product data.**
+> **A full-stack sustainable e-commerce platform built with Next.js 16, TypeScript, Tailwind CSS, and API-driven architecture. Features advanced search, persistent cart, PWA support, and eco-friendly product data.**
 
 **Live Demo**: [https://ecovault-afraz.vercel.app](https://ecovault-afraz.vercel.app)  
 **GitHub**: [github.com/afraz-saeed1986/ecovault](https://github.com/afraz-saeed1986/ecovault)
