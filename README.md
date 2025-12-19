@@ -30,7 +30,7 @@
 ## Tech Stack
 
 ```text
-Next.js 15 (App Router) • TypeScript • Tailwind CSS • Axios • Fuse.js
+Next.js 16 (App Router) • TypeScript • Tailwind CSS • Axios • Fuse.js
 React Context • localStorage • Framer Motion • Lucide Icons
 Vercel (CI/CD) • PWA • JSON Mock DB
 Turbopack (Blazing Fast Dev Server)
