@@ -4,7 +4,7 @@ self.addEventListener('push', (event) => {
 
   const data = event.data.json();
   const options = {
-    body: data.body || 'پیام جدید!',
+    body: data.body || 'New Message!',
     icon: '/icons/icon-192x192.png',
     badge: '/icons/icon-192x192.png',
     vibrate: [100, 50, 100],
