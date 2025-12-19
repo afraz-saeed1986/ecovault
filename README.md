@@ -32,7 +32,7 @@
 ```text
 Next.js 16 (App Router) • TypeScript • Tailwind CSS • Axios • Fuse.js
 React Context • localStorage • Framer Motion • Lucide Icons
-Vercel (CI/CD) • PWA • JSON Mock DB
+Vercel (CI/CD) • PWA • Supabase - The Postgres development platform
 Turbopack (Blazing Fast Dev Server)
 React Hook Form (Form Management)
 Next/Image (Image Optimization)
